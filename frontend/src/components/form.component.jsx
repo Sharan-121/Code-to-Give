@@ -36,7 +36,7 @@ const FormComponent = () => {
         }}
       >
         <Typography variant="h5" component="h2" align="center" mb={4}>
-          Beneficiary Form
+          Beneficiary Registration
         </Typography>
         <form onSubmit={handleSubmit}>
           <TextField

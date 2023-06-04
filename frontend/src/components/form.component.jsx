@@ -4,9 +4,10 @@ import backgroundImage from '../assets/background.png';
 
 const FormComponent = () => {
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [dob, setDOB] = useState('');
   const [aadharNumber, setAadharNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,7 +36,7 @@ const FormComponent = () => {
         }}
       >
         <Typography variant="h5" component="h2" align="center" mb={4}>
-          Data Form
+          Beneficiary Form
         </Typography>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -45,16 +46,14 @@ const FormComponent = () => {
             onChange={(e) => setName(e.target.value)}
             fullWidth
             margin="normal"
-            required
           />
           <TextField
-            label="Email"
+            label="Date of Birth"
             variant="outlined"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={dob}
+            onChange={(e) => setDOB(e.target.value)}
             fullWidth
             margin="normal"
-            required
           />
           <TextField
             label="Aadhar Number"
@@ -66,15 +65,22 @@ const FormComponent = () => {
             required
           />
           <TextField
-            label="Data"
+            label="Phone Number"
             variant="outlined"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Address"
+            variant="outlined"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             fullWidth
             multiline
             rows={4}
             margin="normal"
-            required
           />
           <Button type="submit" variant="contained" color="primary" fullWidth>
             Submit

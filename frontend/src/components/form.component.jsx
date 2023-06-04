@@ -66,9 +66,9 @@ const FormComponent = () => {
             required
           />
           <TextField
-            label="Message"
+            label="Data"
             variant="outlined"
-            value={Data}
+            value={message}
             onChange={(e) => setMessage(e.target.value)}
             fullWidth
             multiline

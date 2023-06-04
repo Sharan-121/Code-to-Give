@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+:root {
+  --font-family: 'Montserrat', sans-serif;
+}
+
+html, input{
+  font-family: var(--font-family);
+}
+
+body{
+  padding: 0;
+  margin: 0;
+}
+
+#root{
+  margin: 0;
+  padding: 0;
+}
+
+p{
+  margin: 0;
+}
+
+a{
+  text-decoration: none;
+  color: dodgerblue;
+}
+
+.heading{
+  font-size: 50px;
+  font-weight: 700;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+/* Login Component */
+.login-container{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.login-background-image{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0.8;
+}
+
+.login-form{
+  position: fixed;
+  right: 5%;
+  top: 10%;
+  width: 30%;
+  padding: 50px;
+  font-size: 18px;
+  border: 5px solid white;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 2px 3px 5px rgb(180, 180, 180);
+  border-radius: 20px;
+}
+
+.login-form:hover{
+  border-left: 5px solid rgb(76, 165, 255);
+  border-top: 5px solid rgb(70, 163, 255);
+  border-right: 5px solid rgb(88, 213, 255);
+  border-bottom: 5px solid rgb(70, 163, 255);
+}
+
+.login-form:hover .heading{
+  color: rgb(13, 26, 144);
+}
+
+.login-categories{
+  display: flex;
+  padding: 5px;
+}
+
+.login-category{
+  flex: 1;
+  margin: 10px;
+  display: flex;
+  background-color: white;
+  padding: 15px;
+  height: 20px;
+  border-radius: 30px;
+}
+
+.login-category img{
+  flex: 1;
+  object-fit: contain;
+}
+
+.login-category span{
+  flex: 2;
+  text-align: left;
+}
+
+.box{
+  margin: auto;
+  margin-top: 10px;
+  height: 32px;
+  background: white;
+  border-radius: 10px;
+  border: 2px solid rgb(200, 200, 200);
+  padding: 10px;
+  display: flex;
+}
+
+.box img{
+  flex: 1;
+  object-fit: contain;
+}
+
+.box input{
+  flex: 5;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.box input:focus {
+  outline: 0;
+}
+
+.box:focus-within {
+  border-color: dodgerblue;
+  box-shadow: 0px 0px 5px 0px rgb(150, 150, 150);
+  transition: box-shadow 250ms ease-in;
+}
+
+.form-button{
+  margin: auto;
+  margin-top: 10px;
+  font-size: 18px;
+  background: dodgerblue;
+  color: white;
+  border-radius: 10px;
+  border: 2px solid dodgerblue;
+  padding: 10px;
+  font-weight: 600;
+}
+
+.form-button:hover{
+  background-color: royalblue;
+  border-color: royalblue;
+}
+
+
+@media (prefers-color-scheme: light) {
+}

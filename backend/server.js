@@ -7,9 +7,9 @@ const port = process.env.PORT || 5000;
 
 const dbConnect = require("./config/dbConnect");
 
-
 app.use(express.json());
 app.use("/api/v1/login", require("./routes/loginRoute"));
+// app.use("/api/v1/testtoken", require("./routes/testTokenRoute"));
 app.use(errorHandler);
 
 const start = async () => {

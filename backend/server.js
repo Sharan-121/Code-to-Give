@@ -9,7 +9,8 @@ const dbConnect = require("./config/dbConnect");
 
 app.use(express.json());
 app.use("/api/v1/login", require("./routes/loginRoute"));
-// app.use("/api/v1/testtoken", require("./routes/testTokenRoute"));
+app.use("/api/v1/admin", require("./routes/adminRoute"));
+app.use("/api/v1/staff", require("./routes/staffRoute"));
 app.use(errorHandler);
 
 const start = async () => {

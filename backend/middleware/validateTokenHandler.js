@@ -9,7 +9,7 @@ const validateToken = asyncHandler(async (req, res, next) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         res.status(401);
-        throw new Error("Token expired! Login again");
+        throw new Error("Token expired or invalid");
       }
       req.user = decoded.user;
       next();

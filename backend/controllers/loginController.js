@@ -26,7 +26,7 @@ const validateLogin = asyncHandler(async (req, res) => {
           },
         },
         process.env.JWT_SECRET,
-        { expiresIn: "1m" }
+        { expiresIn: process.env.JWT_EXPIRES_IN }
       );
       res.status(200).json({
         _id: user._id,

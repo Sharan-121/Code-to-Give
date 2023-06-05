@@ -17,8 +17,10 @@ const Home = () =>{
             <SideBar />
             <div className='inner-container'>
             <Routes>
+                <Route exact path="/" element={<ViewActivities />} />
                 <Route exact path="/activities/view" element={<ViewActivities />} />
                 <Route exact path="/beneficiary/add" element={<BeneficiaryForm />} />
+                <Route exact path="*" element={<ViewActivities />} />
             </Routes>
             </div>
         </div>

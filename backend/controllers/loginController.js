@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+require("dotenv").config()
 
 const jwt = require("jsonwebtoken");
 

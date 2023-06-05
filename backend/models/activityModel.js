@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
 
 const activitySchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
+  name: { type: String, required: [true, "Please enter the activity name"] },
+  description: {
+    type: String,
+    required: [true, "Please provide a description for the activity"],
+  },
   category: {
     type: String,
     enum: [
@@ -14,8 +17,8 @@ const activitySchema = new mongoose.Schema({
     ],
     required: true,
   },
-  community: { type: String, required: true },
-  limit: { type: Number, required: true },
+  date: { type: Date, required: true },
+  location: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Activity", activitySchema);

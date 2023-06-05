@@ -10,7 +10,7 @@ const SideBar = () => {
             <SideBarOption icon={dashboardIcon} title={"Dashboard"} redirect={"activities/view"} />
             <SideBarOption icon={activityIcon} title={"Activities"} redirect={"activities/view"} />
             <SideBarOption icon={avatarProfileIcon} title={"People"} redirect={"activities/view"} />
-            <SideBarOption icon={community} title={"Community"} redirect={"activities/view"} />
+            <SideBarOption icon={community} title={"Communities"} redirect={"communities/view"} />
         </div>
     )
 }

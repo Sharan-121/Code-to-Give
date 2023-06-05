@@ -7,6 +7,7 @@ import Login from './components/login.component'
 import Home from './components/home.component'
 import FormComponent from './components/form.component'
 
+
 function App() {
   const [count, setCount] = useState(0)
 
@@ -16,6 +17,7 @@ function App() {
 				<Route exact path="/" element={<Login/>} />
 				<Route exact path="/home/*" element={<Home/>} />
 				<Route exact path="/form" element={<FormComponent/>} />
+				
 				<Route path="*" element={<Login/>} />
 			</Routes>
 		</Router>

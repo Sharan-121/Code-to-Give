@@ -11,6 +11,16 @@ const beneficiarySchema = mongoose.Schema({
     required: [true, "Please provide the date of birth"],
   },
 
+  community: {
+    type: String,
+    required: [true, "Please provide the community of the beneficiary"],
+  },
+
+  phoneNumber: {
+    type: Number,
+    unique: [true, "Phone number already in use"],
+  },
+
   aadharNumber: {
     type: Number,
     unique: [true, "Aadhar number already in use"],
@@ -31,12 +41,17 @@ const beneficiarySchema = mongoose.Schema({
 
   address: {
     type: String,
-    required: [true, "Please the address of the beneficiary"],
+    required: [true, "Please provide the address of the beneficiary"],
   },
 
   familyMembersCount: {
     type: Number,
     required: [true, "Please provide the number of family members"],
+  },
+
+  employed :{
+    type: Boolean,
+    required: [true, "Please mention whether the beneficiary is employed or not"],
   },
 
   annualIncome: {
@@ -68,4 +83,4 @@ const beneficiarySchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Community", beneficiarySchema);
+module.exports = mongoose.model("Beneficiary", beneficiarySchema);

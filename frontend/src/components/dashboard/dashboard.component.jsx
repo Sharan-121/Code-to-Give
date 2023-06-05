@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import activityIconWhite from "../../assets/activity_icon_white.png";
 import avatarProfileWhite from "../../assets/avatar_profile_icon_white.png";
@@ -15,10 +15,16 @@ import Select from '@mui/material/Select';
 const Dashboard = () => {
     const navigate = useNavigate();
 
+    const [chartType, setChartType] = useState('mixed');
+
     const [age, setAge] = React.useState('');
 
     const handleChange = (event) => {
         setAge(event.target.value);
+    };
+
+    const handleChartChange = (event) => {
+        setChartType(event.target.value);
     };
 
     return (
@@ -66,13 +72,13 @@ const Dashboard = () => {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={age}
+                                value={chartType}
                                 label="Chart"
-                                onChange={handleChange}
+                                onChange={handleChartChange}
                             >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                <MenuItem value={"mixed"}>Mixed</MenuItem>
+                                <MenuItem value={"line"}>Line</MenuItem>
+                                <MenuItem value={"area"}>Area</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
@@ -147,7 +153,7 @@ const Dashboard = () => {
                     
                 </div>
 
-                <ViewChart />
+                <ViewChart chartType = { chartType } />
             </div>
 
         </div>

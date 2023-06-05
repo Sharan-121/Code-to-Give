@@ -1,11 +1,29 @@
-const express = require('express')
-require('dotenv').config()
-const app = express()
+const express = require("express");
+require("dotenv").config();
+const errorHandler = require("./middleware/errorHandler");
 
-const port = process.env.PORT || 5000
+const app = express();
+const port = process.env.PORT || 5000;
 
-app.use(express.json())
+const dbConnect = require("./config/dbConnect");
 
-app.listen(port,()=>{
-    console.log(`Server is running on port ${port}`)
-})
+app.use(express.json());
+
+app.use("/api/v1/login", require("./routes/loginRoute"));
+app.use("/api/v1/admin", require("./routes/adminRoute"));
+app.use("/api/v1/community", require("./routes/communityRoute"));
+
+app.use(errorHandler);
+
+const start = async () => {
+  try {
+    await dbConnect();
+    app.listen(port, () => {
+      console.log(`Server is listening on port ${port}...`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+start();

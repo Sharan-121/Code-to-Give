@@ -6,6 +6,7 @@
 
 html,
 input,
+select,
 button {
   font-family: var(--font-family);
 }
@@ -29,7 +30,7 @@ a {
   color: dodgerblue;
 }
 
-button {
+button, select {
   border: none;
   outline: none;
 }

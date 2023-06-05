@@ -48,3 +48,26 @@
     font-size: 40px;
     font-weight: 700;
 }
+
+.main-dashboard-filter{
+    font-size: 16px;
+    padding: 10px;
+    display: flex;
+}
+
+.main-dashboard-filter .filter-option{
+    flex: 1;
+    margin: 5px;
+    display: flex;
+}
+
+.main-dashboard-filter .filter-option p{
+    flex: 1;
+}
+
+.main-dashboard-filter .filter-option select{
+    flex: 1;
+    font-size: 18px;
+    background-color: transparent;
+    font-weight: 600;
+}

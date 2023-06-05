@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import backgroundImage from '../assets/background.png'
 import avatarProfileIcon from '../assets/avatar_profile_icon.png'
 import passwordIcon from '../assets/password_icon.png'
+import axios from 'axios';
+import defaultVariables from './variables/variables';
 
 import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
@@ -16,13 +18,26 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 const Login = () =>{
 
 	const navigate = useNavigate();
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [role, setRole] = useState("admin");
 
 	function userLogin(event){
 		event.preventDefault();
 		let username = event.target[0].value;
 		let password = event.target[1].value;
-		const parameters = { username: username, password: password };
-		alert("Welcome");
+		const parameters = { username : username, password : password, role : role };
+
+		axios.post(defaultVariables['backend-url'] + 'api/v1/login', parameters)
+		.then(response => {
+			localStorage.setItem("id", response.data._id);
+			localStorage.setItem("username", response.data.token.username);
+			localStorage.setItem("token", response.data.token);
+			navigate("/home");
+		})
+		.catch(error => {
+			alert(error)
+		});
 	}
 	
     return (
@@ -36,11 +51,15 @@ const Login = () =>{
 				<br />
 
 				<div className='login-categories'>
-					<div className='login-category' style={{ backgroundColor: 'lightblue', fontWeight: 'bold' }}>
+					<div id='category-admin' className='login-category' onClick={() => setRole("admin")}
+					style={{ backgroundColor: role == "admin" ? 'lightblue': 'white', fontWeight: role == "admin" ? 'bold' :'normal' }}
+					>
 						<img src={ avatarProfileIcon } />
 						<span>Admin</span>
 					</div>
-					<div className='login-category'>
+					<div id='category-staff' className='login-category' onClick={() => setRole("staff")}
+					style={{ backgroundColor: role == "staff" ? 'lightblue': 'white', fontWeight: role == "staff" ? 'bold' :'normal' }}
+					>
 						<img src={ avatarProfileIcon } />
 						<span>Staff</span>
 					</div>
@@ -48,15 +67,15 @@ const Login = () =>{
 
 				<div className='box'>
 					<img src={ avatarProfileIcon } />
-					<input type="text" placeholder='Username' />
+					<input type="text" placeholder='Username'  />
 				</div>
 
 				<div className='box'>
 					<img src={ passwordIcon } />
-					<input type="password" placeholder='Password' />
+					<input type="password" placeholder='Password'  />
 				</div>
 
-				<div className='form-button'>Log in</div>
+				<button className='form-button'>Log in</button>
 
 				<br />
                 <div className='form-text'>

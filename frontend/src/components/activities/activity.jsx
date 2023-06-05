@@ -1,23 +1,34 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import './activity.css'
 
 const Activity = (props) => {
 
   return (
-    <div className="activity" style={{ backgroundColor: props.backgroundColor }}>
-      <div className="activity-card">
-        <div className="left-div">
+    <div className="activity" style={{ background: props.background }}>
+        <div className="top-div">
           <img src={props.activityIcon} alt="Activity Icon" />
-        </div>
-        <div className="center-div">
           <p className="activity-title">{props.activityTitle}</p>
-          <p className="activity-description">{props.activityDescription}</p>
         </div>
-        <div className="right-div">
-          <p className="activity-date">{props.activityDate}</p>
+
+        <div className='horizontal-divider'></div>
+
+        <div className='middle-div'>
+            <p className="activity-description">{props.activityDescription}</p>
         </div>
-      </div>
+
+        <div className='horizontal-divider'></div>
+
+        <div className='bottom-div'>
+            <p className="activity-date">
+                Date: <br />
+                <b>{props.activityDate}</b>
+            </p>
+            <p className="activity-location">
+                Location: <br />
+                <b>{props.activityLocation}</b>
+            </p>
+        </div>
+        
     </div>
   );
 }

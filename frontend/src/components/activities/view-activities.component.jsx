@@ -9,79 +9,119 @@ const ViewActivities = () => {
 
   return (
     <div className='view-activities'>
-      <div style={{ display: 'flex' }}>
-        <div className='search-bar'>
-          <img src={searchIcon} />
-          <input type='text' placeholder='Search...' />
+
+        <div style={{ display: 'flex' }}>
+            
+            <div className='search-bar'>
+                <img src={searchIcon} />
+                <input type='text' placeholder='Search...' />
+            </div>
+
+            <button className='button'>Create new activity</button>
+
         </div>
-        <button className='button'>Create new activity</button>
-      </div>
-    <br />
-      <p className='heading-small' style={{ textAlign:'left' }}>Activities</p>
-    <br />
+                
 
-                    
+        <div className='list-activities'>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap',justifyContent:'space-evenly' }}>
-        <Activity
-          backgroundColor="#FF0060"
-          activityIcon={activityIcon}
-          activityTitle={"Activity 1"}
-          activityDescription={"Description 1"}
-          activityDate={"04 June 2023"}
-        />
-        
+            <p className='heading-small' style={{ textAlign:'left' }}>Activities</p>
+            <br />
 
-        <Activity
-          backgroundColor="#159895"
-          activityIcon={activityIcon}
-          activityTitle={"Activity 2"}
-          activityDescription={"Description 2"}
-          activityDate={"04 June 2023"}
-        />
+            <div className='list-activities-container'>
 
-        <Activity
-          backgroundColor="#0079FF"
-          activityIcon={activityIcon}
-          activityTitle={"Activity 3"}
-          activityDescription={"Description 3"}
-          activityDate={"04 June 2023"}
-        />
+                <Activity
+                    background="linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%)"
+                    activityIcon={activityIcon}
+                    activityTitle={"Title of the Sample Activity with 2 lines"}
+                    activityDescription = 
+                    {"Lorem Ipsum is simply dummy text of the printing and typesetting industry. \
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, \
+                    when an unknown printer took a galley of type and scrambled it to make a type \
+                    specimen book. It has survived not only five centuries, but also the leap into \
+                    electronic typesetting, remaining essentially unchanged. It was popularised in \
+                    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,\
+                     and more recently with desktop publishing software like Aldus PageMaker \
+                     including versions of Lorem Ipsum."}
+
+                    activityDate={"04 June 2023"}
+                    activityLocation={"Bangalore"}
+                />
+
+                <Activity
+                    background="linear-gradient( 135deg, #FEC163 10%, #DE4313 100%)"
+                    activityIcon={activityIcon}
+                    activityTitle={"Title of the Sample Activity with 2 lines"}
+                    activityDescription = 
+                    {"Lorem Ipsum is simply dummy text of the printing and typesetting industry. \
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, \
+                    when an unknown printer took a galley of type and scrambled it to make a type \
+                    specimen book. It has survived not only five centuries, but also the leap into \
+                    electronic typesetting, remaining essentially unchanged. It was popularised in \
+                    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,\
+                     and more recently with desktop publishing software like Aldus PageMaker \
+                     including versions of Lorem Ipsum."}
+
+                    activityDate={"04 June 2023"}
+                    activityLocation={"Bangalore"}
+                />
+
+                <Activity
+                    background="linear-gradient(to top, #ff0844 0%, #ffb199 100%)"
+                    activityIcon={activityIcon}
+                    activityTitle={"Activity 3"}
+                    activityDescription={"Description 3"}
+                    activityDate={"04 June 2023"}
+                    activityLocation={"Bangalore"}
+                />
+
+                <Activity
+                    background="linear-gradient(to top, #00c6fb 0%, #005bea 100%)"
+                    activityIcon={activityIcon}
+                    activityTitle={"Activity 3"}
+                    activityDescription={"Description 3"}
+                    activityDate={"04 June 2023"}
+                    activityLocation={"Bangalore"}
+                />
+
+                <Activity
+                    background="linear-gradient( 135deg, #70F570 10%, #49C628 100%)"
+                    activityIcon={activityIcon}
+                    activityTitle={"Activity 3"}
+                    activityDescription={"Description 3"}
+                    activityDate={"04 June 2023"}
+                    activityLocation={"Bangalore"}
+                />
 
 <Activity
-          backgroundColor="#0079FF"
-          activityIcon={activityIcon}
-          activityTitle={"Activity 3"}
-          activityDescription={"Description 3"}
-          activityDate={"04 June 2023"}
-        />
-         <Activity
-          backgroundColor="#0079FF"
-          activityIcon={activityIcon}
-          activityTitle={"Activity 3"}
-          activityDescription={"Description 3"}
-          activityDate={"04 June 2023"}
-        />
+                    background="linear-gradient( 135deg, #70F570 10%, #49C628 100%)"
+                    activityIcon={activityIcon}
+                    activityTitle={"Activity 3"}
+                    activityDescription={"Description 3"}
+                    activityDate={"04 June 2023"}
+                    activityLocation={"Bangalore"}
+                />
 
 <Activity
-          backgroundColor="#159895"
-          activityIcon={activityIcon}
-          activityTitle={"Activity 2"}
-          activityDescription={"Description 2"}
-          activityDate={"04 June 2023"}
-        />
+                    background="linear-gradient( 135deg, #70F570 10%, #49C628 100%)"
+                    activityIcon={activityIcon}
+                    activityTitle={"Activity 3"}
+                    activityDescription={"Description 3"}
+                    activityDate={"04 June 2023"}
+                    activityLocation={"Bangalore"}
+                />
 
 <Activity
-          backgroundColor="#159895"
-          activityIcon={activityIcon}
-          activityTitle={"Activity 2"}
-          activityDescription={"Description 2"}
-          activityDate={"04 June 2023"}
-        />
+                    background="linear-gradient( 135deg, #70F570 10%, #49C628 100%)"
+                    activityIcon={activityIcon}
+                    activityTitle={"Activity 3"}
+                    activityDescription={"Description 3"}
+                    activityDate={"04 June 2023"}
+                    activityLocation={"Bangalore"}
+                />
 
-       
+            </div>
 
-      </div>
+        </div>
     </div>
   );
 };

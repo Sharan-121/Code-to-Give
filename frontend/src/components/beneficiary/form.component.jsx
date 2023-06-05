@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box, Typography } from '@mui/material';
-import backgroundImage from '../assets/background.png';
 
 const FormComponent = () => {
   const [name, setName] = useState('');
@@ -15,30 +14,11 @@ const FormComponent = () => {
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Box
-        sx={{
-          width: '400px',
-          p: 4,
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-          borderRadius: '8px',
-          boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
-        }}
-      >
-        <Typography variant="h5" component="h2" align="center" mb={4}>
-          Beneficiary Registration
-        </Typography>
-        <form onSubmit={handleSubmit}>
+    <div className='form-div'>
+        <br />
+        <p className="heading-medium" style={{ textAlign: "left" }}>Beneficiary Registration</p>
+        <br />
+        <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '50% 50%', gap: '10px'}}>
           <TextField
             label="Name"
             variant="outlined"
@@ -51,6 +31,7 @@ const FormComponent = () => {
             label="Date of Birth"
             variant="outlined"
             value={dob}
+            type='date'
             onChange={(e) => setDOB(e.target.value)}
             fullWidth
             margin="normal"
@@ -59,6 +40,7 @@ const FormComponent = () => {
             label="Aadhar Number"
             variant="outlined"
             value={aadharNumber}
+            type='number'
             onChange={(e) => setAadharNumber(e.target.value)}
             fullWidth
             margin="normal"
@@ -68,6 +50,7 @@ const FormComponent = () => {
             label="Phone Number"
             variant="outlined"
             value={phoneNumber}
+            type='number'
             onChange={(e) => setPhoneNumber(e.target.value)}
             fullWidth
             margin="normal"
@@ -82,11 +65,10 @@ const FormComponent = () => {
             rows={4}
             margin="normal"
           />
-          <Button type="submit" variant="contained" color="primary" fullWidth>
+          <Button type="submit" variant="contained" color="primary" fullWidth style={{ gridColumnStart:'1', gridColumnEnd:'3' }}>
             Submit
           </Button>
         </form>
-      </Box>
     </div>
   );
 };

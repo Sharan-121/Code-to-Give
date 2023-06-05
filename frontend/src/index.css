@@ -90,7 +90,7 @@ button {
 .inner-container {
   height: calc(100vh - 60px);
   flex: 8;
-  background-color: rgb(245, 245, 245);
+  background-color: rgb(235, 235, 235);
   overflow-y: scroll;
 }
 

@@ -8,8 +8,10 @@ const port = process.env.PORT || 5000;
 const dbConnect = require("./config/dbConnect");
 
 app.use(express.json());
+
 app.use("/api/v1/login", require("./routes/loginRoute"));
 app.use("/api/v1/admin", require("./routes/adminRoute"));
+app.use("/api/v1/community", require("./routes/communityRoute"));
 
 app.use(errorHandler);
 

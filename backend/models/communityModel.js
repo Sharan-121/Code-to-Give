@@ -14,33 +14,11 @@ const communitySchema = mongoose.Schema({
 
   totalPopulation: {
     type: Number,
-  },
-
-  registeredPopulation: {
-    type: Number,
-    default: 0,
-  },
-
-  genderRatio: {
-    type: String,
-    default: "Unknown",
-  },
-
-  ageDistribution: {
-    type: Object,
-    default: {
-      "0-8": 0,
-      "9-16": 0,
-      "17-24": 0,
-      "25-40": 0,
-      "40-60": 0,
-      "61+": 0,
-    },
+    required: [true, "Please provide total population"],
   },
 
   challenges: {
-    type: Array,
-    default: [],
+    type: String,
   },
 
   healthcareFacilities: {

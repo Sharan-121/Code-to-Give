@@ -13,6 +13,12 @@ const FormComponent = () => {
   const [challenges, setChallenges] = useState('');
   const [healthcareFacilities, setHealthcareFacilities] = useState('');
   const [educationalInstitutions,setEducationalInstitution]=useState('');
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + localStorage.getItem("token")
+}
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -25,7 +31,9 @@ const FormComponent = () => {
       educationalInstitutions: educationalInstitutions
     };
 
-    axios.post(defaultVariables['backend-url'] + "api/v1/admin/community", community).then((res) => {
+    axios.post(defaultVariables['backend-url'] + "api/v1/admin/community", community,{
+      headers: headers
+    }).then((res) => {
         alert("Community added successfully")
         setName('');
         setLocation('');

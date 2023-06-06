@@ -30,7 +30,7 @@ const FormComponent = () => {
                 headers: headers
             })
             .then((res) => {
-                setCommunities(res.data.communities);
+                setCommunities(res.data);
             }).catch((err) => {
                 console.log(err);
             });
@@ -94,6 +94,7 @@ const FormComponent = () => {
             setLocation('');
 		})
 		.catch(error => {
+            alert(error.response.data.message)
 			alert("Failed to add the data.");
 		});
     };

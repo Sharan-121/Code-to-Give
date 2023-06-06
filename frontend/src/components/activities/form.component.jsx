@@ -9,6 +9,11 @@ const FormComponent = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + localStorage.getItem("token")
+}
   
 
   const handleSubmit = (e) => {
@@ -20,7 +25,9 @@ const FormComponent = () => {
       category: category
     };
 
-    axios.post(defaultVariables['backend-url'] + "api/v1/admin/activity", activity).then((res) => {
+    axios.post(defaultVariables['backend-url'] + "api/v1/admin/activity",  activity,{
+      headers: headers
+    }).then((res) => {
         alert("Activity added successfully")
         setName('');
         setDescription('');

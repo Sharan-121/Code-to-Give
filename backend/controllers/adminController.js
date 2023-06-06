@@ -117,6 +117,7 @@ const addCommunity = asyncHandler(async (req, res) => {
 const getAllCommunities = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
     const communities = await Community.find();
+    
     res.status(200).json(communities);
   } else {
     res.status(403);
@@ -132,7 +133,7 @@ const getCommunity = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error("Community not found");
     }
-    res.status(201).json({ community });
+    res.status(201).json(community);
   } else {
     res.status(403);
     throw new Error("You are not authorized to view this page");

@@ -25,7 +25,7 @@ const ViewCommunities = () => {
                 headers: headers
             })
             .then((res) => {
-                setCommunities(res.data.communities);
+                setCommunities(res.data);
             }).catch((err) => {
                 console.log(err);
             });

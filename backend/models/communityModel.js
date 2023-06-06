@@ -19,6 +19,7 @@ const communitySchema = mongoose.Schema({
 
   challenges: {
     type: String,
+    required: [true, "Please mention the challenges faced by the community"],
   },
 
   healthcareFacilities: {

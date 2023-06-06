@@ -292,6 +292,7 @@ button, select {
 
 .activity .top-div .activity-title {
   flex: 5;
+  margin-left: 10px;
   font-size: 18px;
   font-weight: 700;
   display: -webkit-box;
@@ -365,6 +366,7 @@ button, select {
 
 .community .top-div .community-title {
   flex: 5;
+  margin-left: 10px;
   font-size: 18px;
   font-weight: 700;
   display: -webkit-box;

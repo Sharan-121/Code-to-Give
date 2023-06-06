@@ -11,6 +11,8 @@ const SideBar = () => {
             <SideBarOption icon={activityIcon} title={"Activities"} redirect={"activities/view"} />
             <SideBarOption icon={avatarProfileIcon} title={"People"} redirect={"beneficiary/add"} />
             <SideBarOption icon={communityIcon} title={"Communities"} redirect={"communities/view"} />
+            <SideBarOption icon={communityIcon} title={"Sessions"} redirect={"sessions/add"} />
+            <SideBarOption icon={avatarProfileIcon} title={"Attendance"} redirect={"attendance/add"} />
         </div>
     )
 }

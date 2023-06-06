@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { TextField, Button, Box, Typography} from '@mui/material';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-
+import defaultVariables from '../variables/variables';
 
 const FormComponent = () => {
   const [name, setName] = useState('');
@@ -14,6 +15,27 @@ const FormComponent = () => {
   const [educationalInstitutions,setEducationalInstitution]=useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const community = {
+      name: name,
+      location: location,
+      totalPopulation: totalPopulation,
+      challenges: challenges,
+      healthcareFacilities: healthcareFacilities,
+      educationalInstitutions: educationalInstitutions
+    };
+
+    axios.post(defaultVariables['backend-url'] + "api/v1/admin/community", community).then((res) => {
+        alert("Community added successfully")
+        setName('');
+        setLocation('');
+        setTotalPopulation('');
+        setChallenges('');
+        setHealthcareFacilities('');
+        setEducationalInstitution('');
+    }).catch(err => {
+      alert(err.response.data.message);
+    })
     // Handle form submission logic here
   };
 

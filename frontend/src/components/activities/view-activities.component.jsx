@@ -9,6 +9,9 @@ import defaultVariables from '../variables/variables';
 
 const ViewActivities = () => {
   const navigate = useNavigate();
+  const navigateToActivity = () => {
+    navigate("/home/activities/view/add");
+  }
   const [activities,setActivities] = useState([]);
  
 
@@ -22,7 +25,7 @@ const ViewActivities = () => {
   }, []);
 
   const background = ["linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%)","linear-gradient( 135deg, #FEC163 10%, #DE4313 100%)","linear-gradient(to top, #ff0844 0%, #ffb199 100%)","linear-gradient(to top, #00c6fb 0%, #005bea 100%)","linear-gradient( 135deg, #70F570 10%, #49C628 100%)","linear-gradient(135deg, #00cc99 60%, #ccffff 100%)"
-,"linear-gradient(135deg, #ff6699 10%, #66ffcc 100%)","linear-gradient(to top, #ff0000 0%, #ff6699 100%)"]
+,"linear-gradient(135deg, #ff6699 10%, #66ffcc 100%)","linear-gradient(to top, #ff0000 0%, #ff6699 100%)","linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%)"]
 
   let i = 0;
 
@@ -38,7 +41,7 @@ const ViewActivities = () => {
                 <input type='text' placeholder='Search...' />
             </div>
 
-            <button className='button'>Create new activity</button>
+            <button className='button' onClick = {navigateToActivity}>Create new activity</button>
 
         </div>
                 

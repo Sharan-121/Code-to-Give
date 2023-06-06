@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { TextField,Select,MenuItem, Button, Box, Typography,InputLabel } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
+import defaultVariables from '../variables/variables';
 
 
 const FormComponent = () => {
@@ -12,6 +14,20 @@ const FormComponent = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
+    const activity = {
+      name: name,
+      description: description,
+      category: category
+    };
+
+    axios.post(defaultVariables['backend-url'] + "api/v1/admin/activity", activity).then((res) => {
+        alert("Activity added successfully")
+        setName('');
+        setDescription('');
+        setCategory('');
+    }).catch(err => {
+      alert(err.response.data.message);
+    })
   };
 
   return (

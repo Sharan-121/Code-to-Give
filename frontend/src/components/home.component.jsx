@@ -7,6 +7,8 @@ import ViewActivities from './activities/view-activities.component';
 import ViewCommunities from './community/view-communities.component';
 import BeneficiaryForm from './beneficiary/form.component';
 import Dashboard from './dashboard/dashboard.component';
+import ActivityForm from './activities/form.component'
+import CommunityForm from './community/form.component'
 
 const Home = () =>{
 
@@ -25,6 +27,8 @@ const Home = () =>{
                 <Route exact path="/communities/view" element={<ViewCommunities />} />
                 <Route exact path="/beneficiary/add" element={<BeneficiaryForm />} />
                 <Route exact path="*" element={<Dashboard />} />
+                <Route exact path="/activity/add" element={<ActivityForm />} />
+                <Route exact path="/community/add" element={<CommunityForm />}/>
             </Routes>
             </div>
         </div>

@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Typography } from '@mui/material';
+import { TextField, Button, Box, Typography} from '@mui/material';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
 
 const FormComponent = () => {
   const [name, setName] = useState('');
-  const [dob, setDOB] = useState('');
-  const [aadharNumber, setAadharNumber] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [address, setAddress] = useState('');
-
+  const [location, setLocation] = useState('');
+  const [totalPopulation, setTotalPopulation] = useState('');
+  const [challenges, setChallenges] = useState('');
+  const [healthcareFacilities, setHealthcareFacilities] = useState('');
+  const [educationalInstitutions,setEducationalInstitution]=useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
@@ -16,7 +20,7 @@ const FormComponent = () => {
   return (
     <div className='form-div'>
         <br />
-        <p className="heading-medium" style={{ textAlign: "left" }}>Beneficiary Registration</p>
+        <p className="heading-medium" style={{ textAlign: "left" }}>Community Registration</p>
         <br />
         <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '50% 50%', gap: '10px'}}>
           <TextField
@@ -26,45 +30,70 @@ const FormComponent = () => {
             onChange={(e) => setName(e.target.value)}
             fullWidth
             margin="normal"
+            required
           />
-          <TextField
-            label="Date of Birth"
+
+         <TextField
+            label="Location"
             variant="outlined"
-            value={dob}
-            type='date'
-            onChange={(e) => setDOB(e.target.value)}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Aadhar Number"
-            variant="outlined"
-            value={aadharNumber}
-            type='number'
-            onChange={(e) => setAadharNumber(e.target.value)}
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
             fullWidth
             margin="normal"
             required
           />
           <TextField
-            label="Phone Number"
+            label="Total Population"
             variant="outlined"
-            value={phoneNumber}
             type='number'
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            value={totalPopulation}
+            onChange={(e) => setTotalPopulation(e.target.value)}
             fullWidth
             margin="normal"
+            required
           />
-          <TextField
-            label="Address"
+
+         <TextField
+            label="Challenges"
             variant="outlined"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            fullWidth
-            multiline
-            rows={4}
-            margin="normal"
-          />
+            value={challenges}
+            onChange={(e) => setChallenges(e.target.value)}
+           fullWidth
+          multiline
+          rows={4}
+       margin="normal"
+         />
+
+<div style={{ display: 'flex', alignItems: 'center', marginBottom:'10px' }}>
+<p style={{marginRight: '10px'}}>Is there any Educational Institution?</p>
+<RadioGroup
+row
+aria-labelledby="demo-row-radio-buttons-group-label"
+name="row-radio-buttons-group"
+value={educationalInstitutions ? 'yes' : 'no'}
+onChange={(e) => setEducationalInstitution(e.target.value === 'yes')}
+>
+<FormControlLabel value="yes" control={<Radio />} label="Yes" />
+<FormControlLabel value="no" control={<Radio />} label="No" />
+</RadioGroup>
+</div>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom:'10px' }}>
+<p style={{marginRight: '10px'}}>Is healthcare facility Available?</p>
+<RadioGroup
+row
+aria-labelledby="demo-row-radio-buttons-group-label"
+name="row-radio-buttons-group"
+value={healthcareFacilities ? 'yes' : 'no'}
+onChange={(e) => setHealthcareFacilities(e.target.value === 'yes')}
+>
+<FormControlLabel value="yes" control={<Radio />} label="Yes" />
+<FormControlLabel value="no" control={<Radio />} label="No" />
+</RadioGroup>
+</div>
+
+
+
+         
           <Button type="submit" variant="contained" color="primary" fullWidth style={{ gridColumnStart:'1', gridColumnEnd:'3' }}>
             Submit
           </Button>

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button } from '@mui/material';
+import axios from 'axios';
+import defaultVariables from '../variables/variables';
 
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -13,14 +15,83 @@ const FormComponent = () => {
     const [date, setDate] = useState('');
     const [location, setLocation] = useState('');
 
+    const [communities, setCommunities] = useState([]);
+    const [activities, setActivities] = useState([]);
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem("token")
+    }
+
+    useEffect(() => {
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/community",
+            {
+                headers: headers
+            })
+            .then((res) => {
+                setCommunities(res.data.communities);
+                console.log(res.data.communities);
+            }).catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity",
+            {
+                headers: headers
+            })
+            .then((res) => {
+                setActivities(res.data);
+            }).catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
     const handleChange = (e) => {
         e.preventDefault();
         // Handle form submission logic here
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle form submission logic here
+    const handleActivityChange = (event) => {
+        setActivity(event.target.value);
+    };
+
+    const handleCommunityChange = (event) => {
+        setCommunity(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        let date  = event.target[4].value;
+		let location = event.target[6].value;
+
+		const parameters = {
+            activityName: activity,
+            communityName: community,
+            date: date,
+            location: location
+        };
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token")
+        }
+
+		axios.post(defaultVariables['backend-url'] + 'api/v1/admin/session', parameters,
+        {
+            headers: headers
+        })
+		.then(response => {
+			alert("Added successfully.");
+            setActivity('');
+            setCommunity('');
+            setDate('');
+            setLocation('');
+		})
+		.catch(error => {
+			alert("Failed to add the data.");
+		});
     };
 
     return (
@@ -38,11 +109,16 @@ const FormComponent = () => {
                             id="demo-simple-select"
                             value={activity}
                             label="Activity"
-                            onChange={handleChange}
+                            onChange={handleActivityChange}
                         >
-                            <MenuItem value={"1"}>1</MenuItem>
-                            <MenuItem value={"2"}>2</MenuItem>
-                            <MenuItem value={"3"}>3</MenuItem>
+                            
+                            {
+                                activities.map(activity => (
+                                    <MenuItem value={activity.name}>{activity.name}</MenuItem>
+                                    )
+                                )
+                            }
+
                         </Select>
                     </FormControl>
                 </Box>
@@ -55,11 +131,16 @@ const FormComponent = () => {
                             id="demo-simple-select"
                             value={community}
                             label="Community"
-                            onChange={handleChange}
+                            onChange={(handleCommunityChange)}
                         >
-                            <MenuItem value={"1"}>1</MenuItem>
-                            <MenuItem value={"2"}>2</MenuItem>
-                            <MenuItem value={"3"}>3</MenuItem>
+
+                            {
+                                communities.map(community => (
+                                    <MenuItem value={community.name}>{community.name}</MenuItem>
+                                    )
+                                )
+                            }
+                            
                         </Select>
                     </FormControl>
                 </Box>
@@ -73,7 +154,7 @@ const FormComponent = () => {
                     fullWidth
                     margin="normal"
                 />
-        
+
                 <TextField
                     label="Location"
                     variant="outlined"
@@ -83,7 +164,7 @@ const FormComponent = () => {
                     fullWidth
                     margin="normal"
                 />
-                
+
                 <Button type="submit" variant="contained" color="primary" fullWidth style={{ gridColumnStart: '1', gridColumnEnd: '3' }}>
                     Submit
                 </Button>

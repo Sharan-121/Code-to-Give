@@ -314,12 +314,7 @@ button, select {
   display: flex;
 }
 
-.activity .bottom-div .activity-date{
-  flex: 1;
-  font-size: 14px;
-}
-
-.activity .bottom-div .activity-location{
+.activity .bottom-div .activity-category{
   flex: 1;
   font-size: 14px;
 }

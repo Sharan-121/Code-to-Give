@@ -13,7 +13,7 @@ const Community = (props) => {
         <div className='horizontal-divider'></div>
 
         <div className='middle-div'>
-            <p className="community-description">{props.communityDescription}</p>
+            <p className="community-challenges">{props.communityChallenges}</p>
         </div>
 
         <div className='horizontal-divider'></div>

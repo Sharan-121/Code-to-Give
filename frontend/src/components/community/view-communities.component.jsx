@@ -1,11 +1,28 @@
 import React from 'react';
+import { useEffect,useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import Community  from './community';
 import communityIcon from "../../assets/community_icon.png";
 import searchIcon from "../../assets/search_icon.png";
+import defaultVariables from '../variables/variables';
 
 const ViewCommunities = () => {
   const navigate = useNavigate();
+  const [communities,setCommunities] = useState([]);
+
+  useEffect(() => {
+    axios.get(defaultVariables['backend-url'] + "api/v1/admin/community").then((res) => {
+        setCommunities(res.data);
+    }).catch((err) => {
+        console.log(err);
+    });
+    }, []);
+
+    const background = ["linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%)","linear-gradient( 135deg, #FEC163 10%, #DE4313 100%)","linear-gradient(to top, #ff0844 0%, #ffb199 100%)","linear-gradient(to top, #00c6fb 0%, #005bea 100%)","linear-gradient( 135deg, #70F570 10%, #49C628 100%)","linear-gradient(135deg, #00cc99 60%, #ccffff 100%)"
+    ,"linear-gradient(135deg, #ff6699 10%, #66ffcc 100%)","linear-gradient(to top, #ff0000 0%, #ff6699 100%)"]
+
+    let i = 0;
 
   return (
     <div className='view-communities'>
@@ -29,95 +46,17 @@ const ViewCommunities = () => {
 
             <div className='list-communities-container'>
 
+                {communities.map(community => (
                 <Community
-                    background="linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%)"
+                    background={background[i++]}
                     communityIcon={communityIcon}
-                    communityTitle={"Title of the Sample Community with 2 lines"}
-                    communityDescription = 
-                    {"Lorem Ipsum is simply dummy text of the printing and typesetting industry. \
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, \
-                    when an unknown printer took a galley of type and scrambled it to make a type \
-                    specimen book. It has survived not only five centuries, but also the leap into \
-                    electronic typesetting, remaining essentially unchanged. It was popularised in \
-                    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,\
-                     and more recently with desktop publishing software like Aldus PageMaker \
-                     including versions of Lorem Ipsum."}
-
-                    communityPopulation={"450"}
-                    communityLocation={"Bangalore"}
+                    communityTitle={community.name}
+                    communityChallenges={community.challenges}
+                    communityPopulation={community.totalPopulation}
+                    communityLocation = {community.location}
                 />
 
-                <Community
-                    background="linear-gradient( 135deg, #FEC163 10%, #DE4313 100%)"
-                    communityIcon={communityIcon}
-                    communityTitle={"Title of the Sample Community with 2 lines"}
-                    communityDescription = 
-                    {"Lorem Ipsum is simply dummy text of the printing and typesetting industry. \
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, \
-                    when an unknown printer took a galley of type and scrambled it to make a type \
-                    specimen book. It has survived not only five centuries, but also the leap into \
-                    electronic typesetting, remaining essentially unchanged. It was popularised in \
-                    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,\
-                     and more recently with desktop publishing software like Aldus PageMaker \
-                     including versions of Lorem Ipsum."}
-
-                    communityPopulation={"450"}
-                    communityLocation={"Bangalore"}
-                />
-
-                <Community
-                    background="linear-gradient(to top, #ff0844 0%, #ffb199 100%)"
-                    communityIcon={communityIcon}
-                    communityTitle={"Community 3"}
-                    communityDescription={"Description 3"}
-                    communityPopulation={"450"}
-                    communityLocation={"Bangalore"}
-                />
-
-                <Community
-                    background="linear-gradient(to top, #00c6fb 0%, #005bea 100%)"
-                    communityIcon={communityIcon}
-                    communityTitle={"Community 3"}
-                    communityDescription={"Description 3"}
-                    communityPopulation={"450"}
-                    communityLocation={"Bangalore"}
-                />
-
-                <Community
-                    background="linear-gradient( 135deg, #70F570 10%, #49C628 100%)"
-                    communityIcon={communityIcon}
-                    communityTitle={"Community 3"}
-                    communityDescription={"Description 3"}
-                    communityPopulation={"450"}
-                    communityLocation={"Bangalore"}
-                />
-
-<Community
-                    background="linear-gradient( 135deg, #70F570 10%, #49C628 100%)"
-                    communityIcon={communityIcon}
-                    communityTitle={"Community 3"}
-                    communityDescription={"Description 3"}
-                    communityPopulation={"450"}
-                    communityLocation={"Bangalore"}
-                />
-
-<Community
-                    background="linear-gradient( 135deg, #70F570 10%, #49C628 100%)"
-                    communityIcon={communityIcon}
-                    communityTitle={"Community 3"}
-                    communityDescription={"Description 3"}
-                    communityPopulation={"450"}
-                    communityLocation={"Bangalore"}
-                />
-
-<Community
-                    background="linear-gradient( 135deg, #70F570 10%, #49C628 100%)"
-                    communityIcon={communityIcon}
-                    communityTitle={"Community 3"}
-                    communityDescription={"Description 3"}
-                    communityPopulation={"450"}
-                    communityLocation={"Bangalore"}
-                />
+                ))}
 
             </div>
 

@@ -10,6 +10,9 @@ import defaultVariables from '../variables/variables';
 const ViewCommunities = () => {
     const navigate = useNavigate();
     const [communities, setCommunities] = useState([]);
+    const navigateToCommunity = () => {
+        navigate("/home/communities/view/add");
+      }
 
     const headers = {
         'Content-Type': 'application/json',
@@ -50,7 +53,7 @@ const ViewCommunities = () => {
                     <input type='text' placeholder='Search...' />
                 </div>
 
-                <button className='button'>Create new community</button>
+                <button className='button' onClick = {navigateToCommunity}>Create new community</button>
 
             </div>
 

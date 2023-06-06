@@ -8,8 +8,12 @@ import searchIcon from "../../assets/search_icon.png";
 import defaultVariables from '../variables/variables';
 
 const ViewActivities = () => {
-    const navigate = useNavigate();
-    const [activities, setActivities] = useState([]);
+  const navigate = useNavigate();
+  const navigateToActivity = () => {
+    navigate("/home/activities/view/add");
+  }
+  const [activities,setActivities] = useState([]);
+ 
 
     const headers = {
         'Content-Type': 'application/json',
@@ -52,7 +56,7 @@ const ViewActivities = () => {
                     <input type='text' placeholder='Search...' />
                 </div>
 
-                <button className='button'>Create new activity</button>
+                <button className='button' onClick = {navigateToActivity}>Create new activity</button>
 
             </div>
 

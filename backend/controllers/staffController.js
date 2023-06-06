@@ -89,7 +89,7 @@ const createBeneficiary = asyncHandler(async (req, res) => {
       throw new Error("Invalid Beneficiary data");
     }
   } else {
-    res.status(401);
+    res.status(403);
     throw new Error("You are not authorized to view this page");
   }
 });

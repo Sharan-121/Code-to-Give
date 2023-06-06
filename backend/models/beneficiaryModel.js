@@ -18,7 +18,6 @@ const beneficiarySchema = mongoose.Schema({
 
   phoneNumber: {
     type: Number,
-    unique: [true, "Phone number already in use"],
   },
 
   aadharNumber: {

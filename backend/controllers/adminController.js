@@ -78,6 +78,7 @@ const addCommunity = asyncHandler(async (req, res) => {
       !name ||
       !location ||
       !totalPopulation ||
+      !challenges ||
       ![true, false].includes(healthcareFacilities) ||
       ![true, false].includes(educationalInstitutions)
     ) {
@@ -95,13 +96,10 @@ const addCommunity = asyncHandler(async (req, res) => {
       name: name,
       location: location,
       totalPopulation: totalPopulation,
+      challenges: challenges,
       healthcareFacilities: healthcareFacilities,
       educationalInstitutions: educationalInstitutions,
     };
-
-    if (challenges) {
-      newCommunity.challenges = challenges;
-    }
 
     try {
       await Community.create(newCommunity);

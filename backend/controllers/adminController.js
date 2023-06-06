@@ -141,6 +141,37 @@ const getCommunity = asyncHandler(async (req, res) => {
   }
 });
 
+const isDateValid = (dateString, monthString, yearString) => {
+  if (yearString.length != 4) {
+    return false;
+  }
+  const month = parseInt(monthString);
+  const year = parseInt(yearString);
+  const date = parseInt(dateString);
+
+  if (!(1 <= month && month <= 12)) {
+    return false;
+  }
+
+  if (month === 2 && year % 4 === 0 && !(1 <= date && date <= 29)) {
+    return false;
+  }
+
+  if (month === 2 && year % 4 !== 0 && !(1 <= date && date <= 28)) {
+    return false;
+  }
+
+  if ([1, 3, 5, 7, 8, 10, 12].includes(month) && !(1 <= date && date <= 31)) {
+    return false;
+  }
+
+  if ([4, 6, 9, 11].includes(month) && !(1 <= date && date <= 30)) {
+    return false;
+  }
+
+  return true;
+};
+
 const createSession = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
     const { activityName, communityName, date, location } = req.body;
@@ -162,23 +193,32 @@ const createSession = asyncHandler(async (req, res) => {
       throw new Error("Community not found");
     }
 
-    let correctDate;
+    let sessionDate;
+    let errorReason;
     try {
       const dateParts = date.split("-");
       let formattedDate = new Date();
+      if (!isDateValid(dateParts[0], dateParts[1], dateParts[2])) {
+        errorReason = "Invalid date";
+        throw new Error("Invalid date");
+      }
       formattedDate.setDate(parseInt(dateParts[0]));
-      formattedDate.setMonth(parseInt(dateParts[1]));
+      formattedDate.setMonth(parseInt(dateParts[1]) - 1);
       formattedDate.setFullYear(parseInt(dateParts[2]));
-      correctDate = formattedDate;
+      sessionDate = formattedDate;
     } catch {
       res.status(400);
-      throw new Error("Invalid date format! Accepted date format: dd-mm-yyyy");
+      throw new Error(
+        errorReason
+          ? errorReason
+          : "Invalid date format! Accepted date format: dd-mm-yyyy"
+      );
     }
 
     const session = await Session.create({
       activity_id: activity.id,
       community_id: community.id,
-      date: correctDate,
+      date: sessionDate,
       location: location,
     });
 

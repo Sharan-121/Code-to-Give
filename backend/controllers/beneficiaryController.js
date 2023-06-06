@@ -29,9 +29,9 @@ const getSessions = asyncHandler(async (req, res) => {
             ? session.date.getDate()
             : "0" + session.date.getDate();
         const month =
-          session.date.getMonth() > 9
-            ? session.date.getMonth()
-            : "0" + session.date.getMonth();
+          session.date.getMonth() + 1 > 9
+            ? session.date.getMonth() + 1
+            : "0" + (session.date.getMonth() + 1);
         const year = session.date.getFullYear();
 
         let displaySession = {

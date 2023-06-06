@@ -33,8 +33,8 @@ const getActivityByName = asyncHandler(async (req, res) => {
 
 const createActivity = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    const { name, description, category, community, limit } = req.body;
-    if (!name || !description || !category || !community || !limit) {
+    const { name, description, category } = req.body;
+    if (!name || !description || !category) {
       res.status(400);
       throw new Error("Please fill all the fields");
     } else {
@@ -49,8 +49,6 @@ const createActivity = asyncHandler(async (req, res) => {
         name,
         description,
         category,
-        community,
-        limit,
       });
       if (newActivity) {
         res.status(201).json(newActivity);
@@ -113,8 +111,8 @@ const addCommunity = asyncHandler(async (req, res) => {
       throw new Error("Invalid data format");
     }
   } else {
-    res.status(401);
-    throw new Error("Unauthorized access");
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
   }
 });
 
@@ -123,8 +121,8 @@ const getAllCommunities = asyncHandler(async (req, res) => {
     const communities = await Community.find();
     res.status(201).json({ communities });
   } else {
-    res.status(401);
-    throw new Error("Unauthorized access");
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
   }
 });
 
@@ -138,8 +136,8 @@ const getCommunity = asyncHandler(async (req, res) => {
     }
     res.status(201).json({ community });
   } else {
-    res.status(401);
-    throw new Error("Unauthorized access");
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
   }
 });
 
@@ -191,8 +189,8 @@ const createSession = asyncHandler(async (req, res) => {
       throw new Error("Invalid date format");
     }
   } else {
-    res.status(401);
-    throw new Error("Unauthorized access");
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
   }
 });
 

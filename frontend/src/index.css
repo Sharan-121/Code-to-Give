@@ -6,6 +6,7 @@
 
 html,
 input,
+select,
 button {
   font-family: var(--font-family);
 }
@@ -29,7 +30,7 @@ a {
   color: dodgerblue;
 }
 
-button {
+button, select {
   border: none;
   outline: none;
 }
@@ -90,7 +91,7 @@ button {
 .inner-container {
   height: calc(100vh - 60px);
   flex: 8;
-  background-color: rgb(245, 245, 245);
+  background-color: rgb(235, 235, 235);
   overflow-y: scroll;
 }
 

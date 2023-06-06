@@ -7,7 +7,7 @@ import avatarProfileIcon from '../assets/avatar_profile_icon.png'
 const SideBar = () => {
     return (
         <div className="sidebar">
-            <SideBarOption icon={dashboardIcon} title={"Dashboard"} redirect={"activities/view"} />
+            <SideBarOption icon={dashboardIcon} title={"Dashboard"} redirect={""} />
             <SideBarOption icon={activityIcon} title={"Activities"} redirect={"activities/view"} />
             <SideBarOption icon={avatarProfileIcon} title={"People"} redirect={"beneficiary/add"} />
             <SideBarOption icon={communityIcon} title={"Community"} redirect={"activities/view"} />

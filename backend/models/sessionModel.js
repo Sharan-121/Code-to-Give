@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const sessionSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+
   activity_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Activity",

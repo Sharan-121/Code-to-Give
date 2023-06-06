@@ -143,9 +143,9 @@ const getCommunity = asyncHandler(async (req, res) => {
 
 const createSession = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    const { activityName, communityName, date, location } = req.body;
+    const { name, activityName, communityName, date, location } = req.body;
 
-    if (!activityName || !communityName || !date || !location) {
+    if (!name || !activityName || !communityName || !date || !location) {
       res.status(400);
       throw new Error("Please fill all the fields");
     }
@@ -176,6 +176,7 @@ const createSession = asyncHandler(async (req, res) => {
     }
 
     const session = await Session.create({
+      name: name,
       activity_id: activity.id,
       community_id: community.id,
       date: correctDate,

@@ -10,6 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 const FormComponent = () => {
+    const [sessionName, setSessionName] = useState('');
     const [activity, setActivity] = useState('');
     const [community, setCommunity] = useState('');
     const [date, setDate] = useState('');
@@ -30,7 +31,6 @@ const FormComponent = () => {
             })
             .then((res) => {
                 setCommunities(res.data.communities);
-                console.log(res.data.communities);
             }).catch((err) => {
                 console.log(err);
             });
@@ -55,10 +55,12 @@ const FormComponent = () => {
 
     const handleActivityChange = (event) => {
         setActivity(event.target.value);
+        setSessionName(event.target.value + " - " + community);
     };
 
     const handleCommunityChange = (event) => {
         setCommunity(event.target.value);
+        setSessionName(activity + " - " + event.target.value);
     };
 
     const handleSubmit = (event) => {
@@ -67,6 +69,7 @@ const FormComponent = () => {
 		let location = event.target[6].value;
 
 		const parameters = {
+            name: sessionName,
             activityName: activity,
             communityName: community,
             date: date,
@@ -84,6 +87,7 @@ const FormComponent = () => {
         })
 		.then(response => {
 			alert("Added successfully.");
+            setSessionName('');
             setActivity('');
             setCommunity('');
             setDate('');
@@ -161,6 +165,16 @@ const FormComponent = () => {
                     value={location}
                     type='text'
                     onChange={(e) => setLocation(e.target.value)}
+                    fullWidth
+                    margin="normal"
+                />
+
+                <TextField
+                    label="Name"
+                    variant="outlined"
+                    value={sessionName}
+                    type='text'
+                    onChange={(e) => setSessionName(e.target.value)}
                     fullWidth
                     margin="normal"
                 />

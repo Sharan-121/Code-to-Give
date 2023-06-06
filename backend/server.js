@@ -4,7 +4,7 @@ const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 
-var cors = require('cors');
+var cors = require("cors");
 app.use(cors());
 
 const port = process.env.PORT || 5000;
@@ -16,6 +16,7 @@ app.use(express.json());
 app.use("/api/v1/login", require("./routes/loginRoute"));
 app.use("/api/v1/admin", require("./routes/adminRoute"));
 app.use("/api/v1/staff", require("./routes/staffRoute"));
+app.use("/api/v1/beneficiary", require("./routes/beneficiaryRoute"));
 
 app.use(errorHandler);
 

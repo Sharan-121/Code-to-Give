@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const activity = require("../models/activityModel");
+const Community = require("../models/communityModel");
 
 const getActivities = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
@@ -69,7 +70,6 @@ const addCommunity = asyncHandler(async (req, res) => {
       name,
       location,
       totalPopulation,
-      genderRatio,
       challenges,
       healthcareFacilities,
       educationalInstitutions,
@@ -78,6 +78,7 @@ const addCommunity = asyncHandler(async (req, res) => {
     if (
       !name ||
       !location ||
+      !totalPopulation ||
       ![true, false].includes(healthcareFacilities) ||
       ![true, false].includes(educationalInstitutions)
     ) {
@@ -96,18 +97,13 @@ const addCommunity = asyncHandler(async (req, res) => {
     let newCommunity = {
       name: name,
       location: location,
+      totalPopulation: totalPopulation,
       healthcareFacilities: healthcareFacilities,
       educationalInstitutions: educationalInstitutions,
     };
 
     if (challenges) {
       newCommunity.challenges = challenges;
-    }
-    if (genderRatio) {
-      newCommunity.genderRatio = genderRatio;
-    }
-    if (totalPopulation) {
-      newCommunity.totalPopulation = totalPopulation;
     }
 
     try {

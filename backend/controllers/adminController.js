@@ -197,13 +197,13 @@ const createSession = asyncHandler(async (req, res) => {
     try {
       const dateParts = date.split("-");
       let formattedDate = new Date();
-      if (!isDateValid(dateParts[0], dateParts[1], dateParts[2])) {
+      if (!isDateValid(dateParts[2], dateParts[1], dateParts[0])) {
         errorReason = "Invalid date";
         throw new Error("Invalid date");
       }
-      formattedDate.setDate(parseInt(dateParts[0]));
+      formattedDate.setDate(parseInt(dateParts[2]));
       formattedDate.setMonth(parseInt(dateParts[1]) - 1);
-      formattedDate.setFullYear(parseInt(dateParts[2]));
+      formattedDate.setFullYear(parseInt(dateParts[0]));
       sessionDate = formattedDate;
     } catch {
       res.status(400);

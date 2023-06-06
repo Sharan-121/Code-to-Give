@@ -28,14 +28,14 @@ const createBeneficiary = asyncHandler(async (req, res) => {
       !aadharNumber ||
       !phoneNumber ||
       !panNumber ||
-      !aadharPanLink ||
+      ![true, false].includes(aadharPanLink) ||
       !address ||
-      !familyMembersCount ||
-      !annualIncome ||
-      !employed ||
-      !bankAccount ||
+      !(familyMembersCount || familyMembersCount === 0) ||
+      !(annualIncome || annualIncome === 0) ||
+      ![true, false].includes(employed) ||
+      ![true, false].includes(bankAccount) ||
       !previousDoctorVisit ||
-      !childStudying ||
+      ![true, false].includes(childStudying) ||
       !medicalHistory
     ) {
       res.status(400);
@@ -53,9 +53,21 @@ const createBeneficiary = asyncHandler(async (req, res) => {
       throw new Error("Beneficiary already exists");
     }
 
+    const datePartsDob = dob.split("-");
+    let formattedDob = new Date();
+    formattedDob.setDate(parseInt(datePartsDob[0]));
+    formattedDob.setMonth(parseInt(datePartsDob[1]) - 1);
+    formattedDob.setFullYear(parseInt(datePartsDob[2]));
+
+    const datePartsDoctorVisit = previousDoctorVisit.split("-");
+    let formattedDoctorVisit = new Date();
+    formattedDoctorVisit.setDate(parseInt(datePartsDoctorVisit[0]));
+    formattedDoctorVisit.setMonth(parseInt(datePartsDoctorVisit[1]) - 1);
+    formattedDoctorVisit.setFullYear(parseInt(datePartsDoctorVisit[2]));
+
     const newBeneficiary = await beneficiary.create({
       name,
-      dob,
+      dob: formattedDob,
       community,
       phoneNumber,
       aadharNumber,
@@ -67,7 +79,7 @@ const createBeneficiary = asyncHandler(async (req, res) => {
       employed,
       bankAccount,
       medicalHistory,
-      previousDoctorVisit,
+      previousDoctorVisit: formattedDoctorVisit,
       childStudying,
     });
     if (newBeneficiary) {

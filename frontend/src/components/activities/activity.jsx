@@ -19,13 +19,9 @@ const Activity = (props) => {
         <div className='horizontal-divider'></div>
 
         <div className='bottom-div'>
-            <p className="activity-date">
-                Date: <br />
-                <b>{props.activityDate}</b>
-            </p>
-            <p className="activity-location">
-                Location: <br />
-                <b>{props.activityLocation}</b>
+            <p className="activity-category">
+                Category: <br />
+                <b>{props.activityCategory}</b>
             </p>
         </div>
         

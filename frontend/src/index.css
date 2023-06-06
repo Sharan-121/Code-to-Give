@@ -292,6 +292,7 @@ button, select {
 
 .activity .top-div .activity-title {
   flex: 5;
+  margin-left: 10px;
   font-size: 18px;
   font-weight: 700;
   display: -webkit-box;
@@ -314,15 +315,90 @@ button, select {
   display: flex;
 }
 
-.activity .bottom-div .activity-date{
+.activity .bottom-div .activity-category{
   flex: 1;
   font-size: 14px;
 }
 
-.activity .bottom-div .activity-location{
+/* View Community Component */
+
+.view-communities {
+  padding: 20px;
+}
+
+.view-communities::-webkit-scrollbar {
+  display: none;
+}
+
+.view-communities .list-communities {
+  width: calc(100% - 60px);
+  padding: 20px;
+  margin: 10px;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.view-communities .list-communities .list-communities-container {
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+}
+
+.community {
+  margin: 5px;
+  color: white;
+  border: 1px solid rgb(225, 225, 225);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.community .top-div {
+  display: flex;
+}
+
+.community .top-div img {
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  height: 30px;
+  width: 30px;
+  object-fit: contain;
+}
+
+.community .top-div .community-title {
+  flex: 5;
+  margin-left: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
+
+.community .middle-div .community-challenges {
+  font-size: 14px;
+  text-align: justify;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
+
+.community .bottom-div{
+  margin-top: 10px;
+  display: flex;
+}
+
+.community .bottom-div .community-population{
   flex: 1;
   font-size: 14px;
 }
+
+.community .bottom-div .community-location{
+  flex: 1;
+  font-size: 14px;
+}
+
 
 /* Search Bar */
 .search-bar {

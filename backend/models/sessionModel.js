@@ -14,9 +14,10 @@ const sessionSchema = new mongoose.Schema({
   },
 
   date: {
-    type: date,
+    type: Date,
     required: true,
   },
+
   location: {
     type: String,
     required: true,

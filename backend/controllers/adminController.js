@@ -1,10 +1,11 @@
 const asyncHandler = require("express-async-handler");
-const activity = require("../models/activityModel");
+const Activity = require("../models/activityModel");
 const Community = require("../models/communityModel");
+const Session = require("../models/sessionModel");
 
 const getActivities = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    const allActivity = await activity.find({});
+    const allActivity = await Activity.find({});
     res.status(200).json(allActivity);
   } else {
     res.status(403);
@@ -16,7 +17,7 @@ const getActivityByName = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
     const name = req.params.name;
 
-    const document = await activity.findOne({ name: name });
+    const document = await Activity.findOne({ name: name });
 
     if (document) {
       res.status(200).json(document);
@@ -37,14 +38,14 @@ const createActivity = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error("Please fill all the fields");
     } else {
-      const activityExists = await activity.findOne({
+      const activityExists = await Activity.findOne({
         name: name,
       });
       if (activityExists) {
         res.status(400);
         throw new Error("Activity already exists");
       }
-      const newActivity = await activity.create({
+      const newActivity = await Activity.create({
         name,
         description,
         category,
@@ -83,9 +84,7 @@ const addCommunity = asyncHandler(async (req, res) => {
       ![true, false].includes(educationalInstitutions)
     ) {
       res.status(400);
-      throw new Error(
-        "Mandatory field(s) (name, location, healthcare facilities and educational institutions) is/are missing"
-      );
+      throw new Error("Mandatory field(s) is/are missing");
     }
 
     let community = await Community.findOne({ name });
@@ -144,6 +143,59 @@ const getCommunity = asyncHandler(async (req, res) => {
   }
 });
 
+const createSession = asyncHandler(async (req, res) => {
+  if (req.user.role === "admin") {
+    const { activityName, communityName, date, location } = req.body;
+
+    if (!activityName || !communityName || !date || !location) {
+      res.status(400);
+      throw new Error("Please fill all the fields");
+    }
+    const activity = await Activity.findOne({ name: activityName });
+    const community = await Community.findOne({ name: communityName });
+
+    if (!activity) {
+      res.status(400);
+      throw new Error("Activity not found");
+    }
+
+    if (!community) {
+      res.status(400);
+      throw new Error("Community not found");
+    }
+
+    let correctDate;
+    try {
+      const dateParts = date.split("-");
+      let formattedDate = new Date();
+      formattedDate.setDate(parseInt(dateParts[0]));
+      formattedDate.setMonth(parseInt(dateParts[1]));
+      formattedDate.setFullYear(parseInt(dateParts[2]));
+      correctDate = formattedDate;
+    } catch {
+      res.status(400);
+      throw new Error("Invalid date format! Accepted date format: dd-mm-yyyy");
+    }
+
+    const session = await Session.create({
+      activity_id: activity.id,
+      community_id: community.id,
+      date: correctDate,
+      location: location,
+    });
+
+    if (session) {
+      res.status(201).json({ success: true });
+    } else {
+      res.status(400);
+      throw new Error("Invalid date format");
+    }
+  } else {
+    res.status(401);
+    throw new Error("Unauthorized access");
+  }
+});
+
 module.exports = {
   getActivities,
   getActivityByName,
@@ -151,4 +203,5 @@ module.exports = {
   addCommunity,
   getAllCommunities,
   getCommunity,
+  createSession,
 };

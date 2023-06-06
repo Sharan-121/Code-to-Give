@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Typography } from '@mui/material';
+import { TextField,Select,MenuItem, Button, Box, Typography,InputLabel } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+
 
 const FormComponent = () => {
   const [name, setName] = useState('');
-  const [dob, setDOB] = useState('');
-  const [aadharNumber, setAadharNumber] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [address, setAddress] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,7 +17,7 @@ const FormComponent = () => {
   return (
     <div className='form-div'>
         <br />
-        <p className="heading-medium" style={{ textAlign: "left" }}>Beneficiary Registration</p>
+        <p className="heading-medium" style={{ textAlign: "left" }}>New Activity</p>
         <br />
         <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '50% 50%', gap: '10px'}}>
           <TextField
@@ -26,44 +27,37 @@ const FormComponent = () => {
             onChange={(e) => setName(e.target.value)}
             fullWidth
             margin="normal"
-          />
-          <TextField
-            label="Date of Birth"
-            variant="outlined"
-            value={dob}
-            type='date'
-            onChange={(e) => setDOB(e.target.value)}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Aadhar Number"
-            variant="outlined"
-            value={aadharNumber}
-            type='number'
-            onChange={(e) => setAadharNumber(e.target.value)}
-            fullWidth
-            margin="normal"
             required
           />
-          <TextField
-            label="Phone Number"
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+        <InputLabel>Category</InputLabel>
+        <Select
+          value={category}
+          onChange={(e)=>setCategory(e.target.value)}
+         required
+        >
+          {/* <MenuItem value="">
+            <em>None</em>
+          </MenuItem> */}
+          <MenuItem value={'Health'}>Health</MenuItem>
+          <MenuItem value={'Education'}>Education</MenuItem>
+          <MenuItem value={'Social Awareness'}>Social Awareness</MenuItem>
+          <MenuItem value={'Skills Training'}>Skills Training</MenuItem>
+          <MenuItem value={'Celebration'}>Celebration</MenuItem>
+        </Select>
+      </FormControl>
+
+
+      <TextField
+            label="Description"
             variant="outlined"
-            value={phoneNumber}
-            type='number'
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Address"
-            variant="outlined"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             fullWidth
             multiline
             rows={4}
             margin="normal"
+            required
           />
           <Button type="submit" variant="contained" color="primary" fullWidth style={{ gridColumnStart:'1', gridColumnEnd:'3' }}>
             Submit

@@ -9,6 +9,8 @@ import BeneficiaryForm from './beneficiary/form.component';
 import SessionForm from './sessions/form.component';
 import AttendanceForm from './attendance/form.component';
 import Dashboard from './dashboard/dashboard.component';
+import ActivityForm from './activities/form.component'
+import CommunityForm from './community/form.component'
 
 const Home = () =>{
 
@@ -29,6 +31,8 @@ const Home = () =>{
                 <Route exact path="/sessions/add" element={<SessionForm />} />
                 <Route exact path="/attendance/add" element={<AttendanceForm />} />
                 <Route exact path="*" element={<Dashboard />} />
+                <Route exact path="/activity/add" element={<ActivityForm />} />
+                <Route exact path="/community/add" element={<CommunityForm />}/>
             </Routes>
             </div>
         </div>

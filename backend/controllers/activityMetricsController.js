@@ -84,6 +84,49 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
     let communityWiseGender = {};
 
     for (const session of totalSessions) {
+      const currentCommunity = await Community.findById(session.community_id);
+      const communityName = currentCommunity.name;
+      const allBeneficiariesOfCommunity = await Beneficiary.find({
+        community: communityName,
+      });
+      for (const beneficiary of allBeneficiariesOfCommunity) {
+        const age = getAge(beneficiary.dob);
+        if (session.minAge <= age && age <= session.maxAge) {
+          let ageGroup = "";
+          if (age <= 8) {
+            ageGroup = "0-8";
+          } else if (9 <= age && age <= 16) {
+            ageGroup = "9-16";
+          } else if (17 <= age && age <= 27) {
+            ageGroup = "17-27";
+          } else if (28 <= age && age <= 40) {
+            ageGroup = "28-40";
+          } else if (41 <= age && age <= 60) {
+            ageGroup = "41-60";
+          } else {
+            ageGroup = "61+";
+          }
+
+          if (communityWiseAgeGroup[communityName] === undefined) {
+            communityWiseAgeGroup[communityName] = ageGroupAttendance;
+            communityWiseAgeGroup[communityName][ageGroup][1]++;
+          } else {
+            communityWiseAgeGroup[communityName][ageGroup][1]++;
+          }
+
+          if (communityWiseGender[communityName] === undefined) {
+            communityWiseGender[communityName] = {};
+            communityWiseGender[communityName].male = [0, 0];
+            communityWiseGender[communityName].female = [0, 0];
+          }
+
+          if (beneficiary.gender === "male") {
+            communityWiseGender[communityName].male[1]++;
+          } else {
+            communityWiseGender[communityName].female[1]++;
+          }
+        }
+      }
       const attendances = await Attendance.find({ session_id: session._id });
 
       for (const attendance of attendances) {
@@ -140,7 +183,6 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
       communityWiseGender: communityWiseGender,
     });
   } catch (error) {
-    console.log(error);
     res.status(500);
     throw new Error("Server Error");
   }

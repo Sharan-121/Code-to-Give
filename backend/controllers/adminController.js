@@ -217,7 +217,7 @@ const createSession = asyncHandler(async (req, res) => {
       throw new Error(
         errorReason
           ? errorReason
-          : "Invalid date format! Accepted date format: dd-mm-yyyy"
+          : "Invalid date format! Accepted date format: yyyy-mm-dd"
       );
     }
 

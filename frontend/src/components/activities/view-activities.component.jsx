@@ -8,12 +8,12 @@ import searchIcon from "../../assets/search_icon.png";
 import defaultVariables from '../variables/variables';
 
 const ViewActivities = () => {
-  const navigate = useNavigate();
-  const navigateToActivity = () => {
-    navigate("/home/activities/view/add");
-  }
-  const [activities,setActivities] = useState([]);
- 
+    const navigate = useNavigate();
+    const navigateToActivity = () => {
+        navigate("/home/activities/view/add");
+    }
+    const [activities, setActivities] = useState([]);
+
 
     const headers = {
         'Content-Type': 'application/json',
@@ -28,6 +28,7 @@ const ViewActivities = () => {
             })
             .then((res) => {
                 setActivities(res.data);
+                document.getElementsByClassName('loading')[0].style.display = "none";
             })
             .catch((err) => {
                 console.log(err);
@@ -56,7 +57,7 @@ const ViewActivities = () => {
                     <input type='text' placeholder='Search...' />
                 </div>
 
-                <button className='button' onClick = {navigateToActivity}>Create new activity</button>
+                <button className='button' onClick={navigateToActivity}>Create new activity</button>
 
             </div>
 
@@ -66,7 +67,10 @@ const ViewActivities = () => {
                 <p className='heading-small' style={{ textAlign: 'left' }}>Activities</p>
                 <br />
 
+                <p className='loading'>Loading...</p>
+                
                 <div className='list-activities-container'>
+                    
                     {activities.map(activity => (
                         <Activity
                             background={background[backgroundCounter++ % background.length]}

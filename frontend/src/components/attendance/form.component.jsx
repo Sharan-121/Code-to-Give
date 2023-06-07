@@ -82,6 +82,9 @@ const FormComponent = () => {
                     variant="outlined"
                     value={phone}
                     type='number'
+                    onInput = {(e) =>{
+                        e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)
+                    }}
                     onChange={(e) => setPhone(e.target.value)}
                     fullWidth
                     margin="normal"
@@ -92,12 +95,15 @@ const FormComponent = () => {
                     variant="outlined"
                     value={aadhaar}
                     type='number'
+                    onInput = {(e) =>{
+                        e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,12)
+                    }}
                     onChange={(e) => setAadhaar(e.target.value)}
                     fullWidth
                     margin="normal"
                 />
 
-                <Box sx={{ minWidth: 120 }}>
+                <Box sx={{ minWidth: 120, marginTop: "15.5px" }}>
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">Session</InputLabel>
                         <Select

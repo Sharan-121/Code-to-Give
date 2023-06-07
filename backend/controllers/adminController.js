@@ -247,7 +247,14 @@ const getAllSessions = asyncHandler(async (req, res) => {
 
 const getSessionNumber = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    const { name } = req.params;
+    let { name } = req.params;
+    name = name.trim();
+
+    if (name[name.length - 1] === "-" || !name || !name.includes("-")) {
+      res.status(200).json({ sessionNumber: 1 });
+      return;
+    }
+
     const sessions = await Session.find();
 
     let sessionNumber = 0;

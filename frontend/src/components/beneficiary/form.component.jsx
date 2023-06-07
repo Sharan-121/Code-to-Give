@@ -6,25 +6,23 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import defaultVariables from '../variables/variables';
 
-
-
 const FormComponent = () => {
   const [name, setName] = useState('');
   const [dob, setDOB] = useState('');
   const [aadharNumber, setAadharNumber] = useState('');
   const [panNumber, setPanNumber] = useState('');
-  const [aadharPanLink, setAadharPanLink] = useState('');
+  const [aadharPanLink, setAadharPanLink] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [community, setCommunity] = useState('');
   const [address, setAddress] = useState('');
   const [familyMembersCount, setFamilyMembersCount] = useState('');
-  const [employed, setEmployed] = useState('');
+  const [employed, setEmployed] = useState(false);
   const [annualIncome, setAnnualIncome] = useState('');
-  const [bankAccount, setBankAccount] = useState('');
+  const [bankAccount, setBankAccount] = useState(false);
   const [previousDoctorVisit, setPreviousDoctorVisit] = useState('');
   const [medicalHistory, setMedicalHistory] = useState('');
-  const [childStudying, setChildStudying] = useState('');
-  const [gender, setGender] = useState('');
+  const [childStudying, setChildStudying] = useState(false);
+  const [gender, setGender] = useState('male');
 
   const headers = {
     'Content-Type': 'application/json',
@@ -80,11 +78,8 @@ const FormComponent = () => {
     })
   };
 
-
-
-
   return (
-    <div className='form-div'>
+    <div className='form-div' style={{ marginBottom: "50px" }}>
       <br />
       <p className="heading-medium" style={{ textAlign: "left" }}>Beneficiary Registration</p>
       <br />
@@ -113,7 +108,7 @@ const FormComponent = () => {
         />
 
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <p style={{ marginRight: '10px' }}>Gender</p>
+          <p style={{ marginRight: '10px' }}>Gender: </p>
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
@@ -123,6 +118,7 @@ const FormComponent = () => {
           >
             <FormControlLabel value="male" control={<Radio />} label="Male" />
             <FormControlLabel value="female" control={<Radio />} label="Female" />
+            <FormControlLabel value="other" control={<Radio />} label="Other" />
           </RadioGroup>
         </div>
 

@@ -63,6 +63,15 @@ select {
   margin-bottom: 10px;
 }
 
+.loading{
+  width: 100%;
+  text-align: center;
+  margin: auto;
+  color: dodgerblue;
+  font-size: 20px;
+  font-weight: 600;
+}
+
 /* Header */
 .header {
   height: 60px;

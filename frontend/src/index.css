@@ -124,6 +124,7 @@ select {
 
 .sidebar .sidebar-option:hover {
   background-color: rgb(239, 195, 85);
+  box-shadow: 3px 5px 10px rgb(200, 200, 200);
 }
 
 .sidebar .sidebar-option img {

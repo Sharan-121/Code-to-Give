@@ -12,9 +12,9 @@ const SideBarOption = (props) => {
     }
 
     return (
-        <div onClick={navigatePage} className="sidebar-option" >
+        <div onClick={navigatePage} className="sidebar-option"  style={{ fontSize: '16px', fontFamily: 'Montserrat'}}>
             <img src={props.icon} />
-            <span>{props.title}</span>
+            <span style={{ lineHeight:'18px' }}>{props.title}</span>
         </div>
     )
 }

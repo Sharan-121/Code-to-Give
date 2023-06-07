@@ -17,10 +17,12 @@ const ViewLocations = () => {
             })
             .then((res) => {
 
+                // console.log(res.data);
+
                 var queries = [];
 
-                for (var data in res.data){
-                    console.log(data.location);
+                for (var data of res.data){
+                    // console.log(data.location);
                     queries.push(data.location);
                 }
 
@@ -52,11 +54,11 @@ const ViewLocations = () => {
                     fetch('https://nominatim.openstreetmap.org/search?format=json&polygon=1&addressdetails=1&q=' + query)
                         .then(result => result.json())
                         .then(parsedResult => {
-                            setResultList(parsedResult);
+                            setResultList(parsedResult, query);
                         });
                 }
 
-                function setResultList(parsedResult) {
+                function setResultList(parsedResult, query) {
                     map.flyTo(new L.LatLng(20.13847, 1.40625), 2);
                     for (const result of parsedResult) {
                         const li = document.createElement('li');

@@ -125,7 +125,7 @@ const addAttendance = asyncHandler(async (req, res) => {
 
     const attendanceData = await attendance.findOne({
       session_id: sessionData._id,
-      benefeciary_id: beneficiaryData._id,
+      beneficiary_id: beneficiaryData._id,
     });
 
     if (attendanceData) {
@@ -134,7 +134,7 @@ const addAttendance = asyncHandler(async (req, res) => {
     } else {
       const newAttendance = await attendance.create({
         session_id: sessionData._id,
-        benefeciary_id: beneficiaryData._id,
+        beneficiary_id: beneficiaryData._id,
       });
       if (newAttendance) {
         res.status(201).json(newAttendance);

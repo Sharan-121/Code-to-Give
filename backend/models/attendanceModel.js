@@ -6,7 +6,7 @@ const Attendance = new mongoose.Schema({
         ref : 'Session',
         required : true
     },
-    benefeciary_id : {
+    beneficiary_id : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Beneficiary',
         required : true

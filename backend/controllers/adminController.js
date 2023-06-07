@@ -173,9 +173,16 @@ const isDateValid = (dateString, monthString, yearString) => {
 
 const createSession = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    const { name, activityName, communityName, date, location } = req.body;
+    const { name, activityName, communityName, date, location, age } = req.body;
 
-    if (!name || !activityName || !communityName || !date || !location) {
+    if (
+      !name ||
+      !activityName ||
+      !communityName ||
+      !date ||
+      !location ||
+      !age
+    ) {
       res.status(400);
       throw new Error("Please fill all the fields");
     }
@@ -220,6 +227,8 @@ const createSession = asyncHandler(async (req, res) => {
       community_id: community.id,
       date: sessionDate,
       location: location,
+      minAge: age[0],
+      maxAge: age[1],
     });
 
     if (session) {

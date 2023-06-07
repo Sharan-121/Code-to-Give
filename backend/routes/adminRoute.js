@@ -10,6 +10,7 @@ const {
   getAllCommunities,
   getCommunity,
   createSession,
+  getAllSessions,
 } = require("../controllers/adminController");
 
 router.get("/activity", validateToken, getActivities);
@@ -18,6 +19,7 @@ router.post("/activity", validateToken, createActivity);
 router.get("/community/:name", validateToken, getCommunity);
 router.get("/community", validateToken, getAllCommunities);
 router.post("/community", validateToken, addCommunity);
+router.get("/session", validateToken, getAllSessions);
 router.post("/session", validateToken, createSession);
 
 module.exports = router;

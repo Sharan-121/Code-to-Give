@@ -117,7 +117,7 @@ const addCommunity = asyncHandler(async (req, res) => {
 const getAllCommunities = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
     const communities = await Community.find();
-    
+
     res.status(200).json(communities);
   } else {
     res.status(403);
@@ -234,6 +234,17 @@ const createSession = asyncHandler(async (req, res) => {
   }
 });
 
+const getAllSessions = asyncHandler(async (req, res) => {
+  if (req.user.role === "admin") {
+    const sessions = await Session.find();
+
+    res.status(200).json(sessions);
+  } else {
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }
+});
+
 module.exports = {
   getActivities,
   getActivityByName,
@@ -242,4 +253,5 @@ module.exports = {
   getAllCommunities,
   getCommunity,
   createSession,
+  getAllSessions,
 };

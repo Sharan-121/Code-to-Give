@@ -108,7 +108,7 @@ select {
 /* SideBar */
 .sidebar {
   height: calc(100vh - 60px);
-  border-right: 1px solid rgb(200, 200, 200);
+  border-right: 2px solid rgb(255, 232, 173);
   background-color: antiquewhite;
   flex: 2;
 }
@@ -123,7 +123,7 @@ select {
 }
 
 .sidebar .sidebar-option:hover {
-  background-color: dodgerblue;
+  background-color: rgb(239, 195, 85);
 }
 
 .sidebar .sidebar-option img {

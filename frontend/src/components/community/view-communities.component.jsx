@@ -12,7 +12,7 @@ const ViewCommunities = () => {
     const [communities, setCommunities] = useState([]);
     const navigateToCommunity = () => {
         navigate("/home/communities/view/add");
-      }
+    }
 
     const headers = {
         'Content-Type': 'application/json',
@@ -26,6 +26,7 @@ const ViewCommunities = () => {
             })
             .then((res) => {
                 setCommunities(res.data);
+                document.getElementsByClassName('loading')[0].style.display = "none";
             }).catch((err) => {
                 console.log(err);
             });
@@ -53,7 +54,7 @@ const ViewCommunities = () => {
                     <input type='text' placeholder='Search...' />
                 </div>
 
-                <button className='button' onClick = {navigateToCommunity}>Create new community</button>
+                <button className='button' onClick={navigateToCommunity}>Create new community</button>
 
             </div>
 
@@ -63,6 +64,8 @@ const ViewCommunities = () => {
                 <p className='heading-small' style={{ textAlign: 'left' }}>Communities</p>
                 <br />
 
+                <p className='loading'>Loading...</p>
+                
                 <div className='list-communities-container'>
 
                     {

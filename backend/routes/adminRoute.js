@@ -11,6 +11,7 @@ const {
   getCommunity,
   createSession,
   getAllSessions,
+  getSessionNumber,
 } = require("../controllers/adminController");
 
 router.get("/activity", validateToken, getActivities);
@@ -21,5 +22,6 @@ router.get("/community", validateToken, getAllCommunities);
 router.post("/community", validateToken, addCommunity);
 router.get("/session", validateToken, getAllSessions);
 router.post("/session", validateToken, createSession);
+router.get("/session/number/:name", validateToken, getSessionNumber);
 
 module.exports = router;

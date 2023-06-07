@@ -245,6 +245,28 @@ const getAllSessions = asyncHandler(async (req, res) => {
   }
 });
 
+const getSessionNumber = asyncHandler(async (req, res) => {
+  if (req.user.role === "admin") {
+    const { name } = req.params;
+    const sessions = await Session.find({ name: name });
+
+    if (sessions.length === 0) {
+      res.status(200).json({ sessionNumber: 1 });
+    }
+
+    let sessionNumber = 0;
+
+    for (const session of sessions) {
+      sessionNumber = Math.max(sessionNumber, session.sessionNumber);
+    }
+
+    res.status(200).json({ sessionNumber: sessionNumber });
+  } else {
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }
+});
+
 module.exports = {
   getActivities,
   getActivityByName,
@@ -254,4 +276,5 @@ module.exports = {
   getCommunity,
   createSession,
   getAllSessions,
+  getSessionNumber,
 };

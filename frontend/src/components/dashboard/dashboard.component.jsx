@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import activityIconWhite from "../../assets/activity_icon_white.png";
 import avatarProfileWhite from "../../assets/avatar_profile_icon_white.png";
@@ -10,6 +10,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import PieChart from "./charts/comm-cat";
+import BarPlot from "./charts/comm-sess";
 
 
 const Dashboard = () => {
@@ -34,34 +36,34 @@ const Dashboard = () => {
 
                 <TopInfo
                     background="linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%)"
-                    icon = { activityIconWhite }
-                    title = "Total Activities"
-                    value = "100"
+                    icon={activityIconWhite}
+                    title="Total Activities"
+                    value="100"
                 />
 
                 <TopInfo
                     background="linear-gradient( 135deg, #FEC163 10%, #DE4313 100%)"
-                    icon = { activityIconWhite }
-                    title = "Total Activities"
-                    value = "100"
+                    icon={activityIconWhite}
+                    title="Total Activities"
+                    value="100"
                 />
 
                 <TopInfo
                     background="linear-gradient(to top, #ff0844 0%, #ffb199 100%)"
-                    icon = { activityIconWhite }
-                    title = "Total Activities"
-                    value = "100"
+                    icon={activityIconWhite}
+                    title="Total Activities"
+                    value="100"
                 />
 
                 <TopInfo
                     background="linear-gradient(to top, #00c6fb 0%, #005bea 100%)"
-                    icon = { activityIconWhite }
-                    title = "Total Activities"
-                    value = "100"
+                    icon={activityIconWhite}
+                    title="Total Activities"
+                    value="100"
                 />
 
             </div>
-            
+
             <div className='main-dashboard'>
 
                 <div className='main-dashboard-filter'>
@@ -150,10 +152,24 @@ const Dashboard = () => {
                             </Select>
                         </FormControl>
                     </Box>
-                    
+
                 </div>
 
-                <ViewChart chartType = { chartType } />
+                <ViewChart chartType={chartType} />
+
+            </div>
+
+            <div className='charts-display' style={{ display: 'flex', marginTop: '20px' }}  >
+                <div style={{
+                    flex: 1, backgroundColor: 'white', borderRadius: '20px', marginRight: '20px', display: 'inline-block',
+                    height: 'fit-content'
+                }}>
+                    <PieChart />
+                </div>
+                <div style={{ flex: 1, backgroundColor: 'white', padding: '20px', borderRadius: '20px' }}>
+                    <BarPlot />
+                </div>
+
             </div>
 
         </div>

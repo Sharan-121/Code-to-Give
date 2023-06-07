@@ -8,6 +8,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Slider from '@mui/material/Slider';
 
 const FormComponent = () => {
     const [sessionName, setSessionName] = useState('');
@@ -16,6 +17,7 @@ const FormComponent = () => {
     const [community, setCommunity] = useState('');
     const [date, setDate] = useState('');
     const [location, setLocation] = useState('');
+    const [age, setAge] = useState([20, 37]);
 
     const [communities, setCommunities] = useState([]);
     const [activities, setActivities] = useState([]);
@@ -80,6 +82,14 @@ const FormComponent = () => {
         getSessionNumber(activity + " - " + event.target.value);
     };
 
+    const handleAgeChange = (event, newValue) => {
+        setAge(newValue);
+    };
+
+    function ageValueText(value) {
+        return `${value}`;
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
         let date = event.target[4].value;
@@ -90,7 +100,8 @@ const FormComponent = () => {
             activityName: activity,
             communityName: community,
             date: date,
-            location: location
+            location: location,
+            age: age
         };
 
         const headers = {
@@ -172,6 +183,9 @@ const FormComponent = () => {
                     variant="outlined"
                     value={date}
                     type='date'
+                    InputLabelProps={{
+                        shrink: true,
+                          }}
                     onChange={(e) => setDate(e.target.value)}
                     fullWidth
                     margin="normal"
@@ -206,6 +220,19 @@ const FormComponent = () => {
                     fullWidth
                     margin="normal"
                 />
+
+                <Box sx={{ marginTop: "10px", width: 300 }}>
+                    <p style={{ fontSize: "16px" }}>Target Age: <b>{age[0] + " - " + age[1]}</b></p>
+                    <Slider
+                        getAriaLabel={() => 'Target Age'}
+                        value={age}
+                        onChange={handleAgeChange}
+                        valueLabelDisplay="auto"
+                        getAriaValueText={ageValueText}
+                        min={0}
+                        max={130}
+                    />
+                </Box>
 
                 <Button type="submit" variant="contained" color="primary" fullWidth style={{ gridColumnStart: '1', gridColumnEnd: '3' }}>
                     Submit

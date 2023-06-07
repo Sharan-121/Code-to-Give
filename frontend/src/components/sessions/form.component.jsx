@@ -185,7 +185,7 @@ const FormComponent = () => {
                     type='date'
                     InputLabelProps={{
                         shrink: true,
-                          }}
+                    }}
                     onChange={(e) => setDate(e.target.value)}
                     fullWidth
                     margin="normal"

@@ -20,6 +20,13 @@ const Dashboard = () => {
     const [chartType, setChartType] = useState('mixed');
 
     const [month, setMonth] = useState(0);
+    const [year, setYear] = useState(new Date().getFullYear());
+
+    let yearArray = [];
+
+    for (let i = 2000; i <= new Date().getFullYear(); i++) {
+        yearArray.push(i)
+    }
 
     const [age, setAge] = React.useState('');
 
@@ -29,6 +36,10 @@ const Dashboard = () => {
 
     const handleMonthChange = (event) => {
         setMonth(event.target.value);
+    };
+
+    const handleYearChange = (event) => {
+        setYear(event.target.value);
     };
 
     const handleChartChange = (event) => {
@@ -97,13 +108,15 @@ const Dashboard = () => {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={age}
-                                label="Month"
-                                onChange={handleChange}
+                                value={year}
+                                label="Year"
+                                onChange={handleYearChange}
                             >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                
+                                {yearArray.map(eachYear => (
+                                    <MenuItem value={eachYear}>{eachYear}</MenuItem>
+                                ))}
+
                             </Select>
                         </FormControl>
                     </Box>
@@ -115,7 +128,7 @@ const Dashboard = () => {
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={month}
-                                label="Year"
+                                label="Month"
                                 onChange={handleMonthChange}
                             >
                                 <MenuItem value={0}>None</MenuItem>

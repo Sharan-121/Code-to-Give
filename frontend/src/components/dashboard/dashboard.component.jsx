@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import defaultVariables from '../variables/variables';
 import { useNavigate } from "react-router-dom";
 import activityIconWhite from "../../assets/activity_icon_white.png";
 import avatarProfileWhite from "../../assets/avatar_profile_icon_white.png";
@@ -30,6 +32,26 @@ const Dashboard = () => {
 
     const [age, setAge] = React.useState('');
 
+    const [activities, setActivities] = useState([]);
+    const [activity, setActivity] = useState('');
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem("token")
+    }
+
+    useEffect(() => {
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity",
+            {
+                headers: headers
+            })
+            .then((res) => {
+                setActivities(res.data);
+            }).catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
     const handleChange = (event) => {
         setAge(event.target.value);
     };
@@ -44,6 +66,10 @@ const Dashboard = () => {
 
     const handleChartChange = (event) => {
         setChartType(event.target.value);
+    };
+
+    const handleActivityChange = (event) => {
+        setActivity(event.target.value);
     };
 
     return (
@@ -112,7 +138,7 @@ const Dashboard = () => {
                                 label="Year"
                                 onChange={handleYearChange}
                             >
-                                
+
                                 {yearArray.map(eachYear => (
                                     <MenuItem value={eachYear}>{eachYear}</MenuItem>
                                 ))}
@@ -154,13 +180,18 @@ const Dashboard = () => {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={age}
+                                value={activity}
                                 label="Activity"
-                                onChange={handleChange}
+                                onChange={handleActivityChange}
                             >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+
+                                {
+                                    activities.map(activity => (
+                                        <MenuItem value={activity.name}>{activity.name}</MenuItem>
+                                    )
+                                    )
+                                }
+
                             </Select>
                         </FormControl>
                     </Box>

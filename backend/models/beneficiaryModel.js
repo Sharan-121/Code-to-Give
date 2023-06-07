@@ -13,7 +13,7 @@ const beneficiarySchema = mongoose.Schema({
 
   gender: {
     type: String,
-    enum: ["Male", "Female"],
+    enum: ["male", "female"],
     required: [true, "Please provide the gender of the beneficiary"],
   },
 

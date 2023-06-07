@@ -8,6 +8,6 @@ const {
 const validateToken = require("../middleware/validateTokenHandler");
 
 router.post("/beneficiary", validateToken, createBeneficiary);
-router.post("/attendance/", validateToken, addAttendance);
+router.post("/attendance", validateToken, addAttendance);
 
 module.exports = router;

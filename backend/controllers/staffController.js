@@ -8,6 +8,7 @@ const createBeneficiary = asyncHandler(async (req, res) => {
     const {
       name,
       dob,
+      gender,
       community,
       phoneNumber,
       aadharNumber,
@@ -26,6 +27,7 @@ const createBeneficiary = asyncHandler(async (req, res) => {
     if (
       !name ||
       !dob ||
+      !gender||
       !community ||
       !aadharNumber ||
       !phoneNumber ||
@@ -70,6 +72,7 @@ const createBeneficiary = asyncHandler(async (req, res) => {
     const newBeneficiary = await beneficiary.create({
       name,
       dob: formattedDob,
+      gender,
       community,
       phoneNumber,
       aadharNumber,

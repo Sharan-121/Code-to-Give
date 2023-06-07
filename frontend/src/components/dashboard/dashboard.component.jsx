@@ -35,10 +35,25 @@ const Dashboard = () => {
     const [activities, setActivities] = useState([]);
     const [activity, setActivity] = useState('');
 
+    const [communities, setCommunities] = useState([]);
+    const [community, setCommunity] = useState('');
+
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem("token")
     }
+
+    useEffect(() => {
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/community",
+            {
+                headers: headers
+            })
+            .then((res) => {
+                setCommunities(res.data);
+            }).catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
     useEffect(() => {
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity",
@@ -70,6 +85,10 @@ const Dashboard = () => {
 
     const handleActivityChange = (event) => {
         setActivity(event.target.value);
+    };
+
+    const handleCommunityChange = (event) => {
+        setCommunity(event.target.value);
     };
 
     return (
@@ -198,17 +217,22 @@ const Dashboard = () => {
 
                     <Box className="filter-option" sx={{ minWidth: 120 }}>
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Beneficiary</InputLabel>
+                            <InputLabel id="demo-simple-select-label">Community</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={age}
-                                label="Beneficiary"
-                                onChange={handleChange}
+                                value={community}
+                                label="Community"
+                                onChange={(handleCommunityChange)}
                             >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+
+                                {
+                                    communities.map(community => (
+                                        <MenuItem value={community.name}>{community.name}</MenuItem>
+                                    )
+                                    )
+                                }
+
                             </Select>
                         </FormControl>
                     </Box>

@@ -248,19 +248,24 @@ const getAllSessions = asyncHandler(async (req, res) => {
 const getSessionNumber = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
     const { name } = req.params;
-    const sessions = await Session.find({ name: name });
-
-    if (sessions.length === 0) {
-      res.status(200).json({ sessionNumber: 1 });
-    }
+    const sessions = await Session.find();
 
     let sessionNumber = 0;
 
     for (const session of sessions) {
-      sessionNumber = Math.max(sessionNumber, session.sessionNumber);
+      let sessionName = session.name;
+      if (sessionName.startsWith(name)) {
+        let sessionParts = sessionName.split("-");
+        let currentSessionNumber = parseInt(
+          sessionParts[sessionParts.length - 1]
+        );
+        sessionNumber = Math.max(sessionNumber, currentSessionNumber);
+      }
     }
 
-    res.status(200).json({ sessionNumber: sessionNumber });
+    res
+      .status(200)
+      .json({ sessionNumber: sessionNumber != 0 ? sessionNumber : 1 });
   } else {
     res.status(403);
     throw new Error("You are not authorized to view this page");

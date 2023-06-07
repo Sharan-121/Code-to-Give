@@ -27,6 +27,16 @@ const sessionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  minAge: {
+    type: Number,
+    required: true,
+  },
+
+  maxAge: {
+    type: Number,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Session", sessionSchema);

@@ -11,6 +11,7 @@ import Select from '@mui/material/Select';
 
 const FormComponent = () => {
     const [sessionName, setSessionName] = useState('');
+    const [sessionNumber, setSessionNumber] = useState('');
     const [activity, setActivity] = useState('');
     const [community, setCommunity] = useState('');
     const [date, setDate] = useState('');
@@ -65,10 +66,10 @@ const FormComponent = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        let date  = event.target[4].value;
-		let location = event.target[6].value;
+        let date = event.target[4].value;
+        let location = event.target[6].value;
 
-		const parameters = {
+        const parameters = {
             name: sessionName,
             activityName: activity,
             communityName: community,
@@ -81,22 +82,22 @@ const FormComponent = () => {
             'Authorization': 'Bearer ' + localStorage.getItem("token")
         }
 
-		axios.post(defaultVariables['backend-url'] + 'api/v1/admin/session', parameters,
-        {
-            headers: headers
-        })
-		.then(response => {
-			alert("Added successfully.");
-            setSessionName('');
-            setActivity('');
-            setCommunity('');
-            setDate('');
-            setLocation('');
-		})
-		.catch(error => {
-            alert(error.response.data.message)
-			alert("Failed to add the data.");
-		});
+        axios.post(defaultVariables['backend-url'] + 'api/v1/admin/session', parameters,
+            {
+                headers: headers
+            })
+            .then(response => {
+                alert("Added successfully.");
+                setSessionName('');
+                setActivity('');
+                setCommunity('');
+                setDate('');
+                setLocation('');
+            })
+            .catch(error => {
+                alert(error.response.data.message)
+                alert("Failed to add the data.");
+            });
     };
 
     return (
@@ -116,11 +117,11 @@ const FormComponent = () => {
                             label="Activity"
                             onChange={handleActivityChange}
                         >
-                            
+
                             {
                                 activities.map(activity => (
                                     <MenuItem value={activity.name}>{activity.name}</MenuItem>
-                                    )
+                                )
                                 )
                             }
 
@@ -142,10 +143,10 @@ const FormComponent = () => {
                             {
                                 communities.map(community => (
                                     <MenuItem value={community.name}>{community.name}</MenuItem>
-                                    )
+                                )
                                 )
                             }
-                            
+
                         </Select>
                     </FormControl>
                 </Box>
@@ -171,11 +172,21 @@ const FormComponent = () => {
                 />
 
                 <TextField
-                    label="Name"
+                    label="Session Name"
                     variant="outlined"
                     value={sessionName}
                     type='text'
                     onChange={(e) => setSessionName(e.target.value)}
+                    fullWidth
+                    margin="normal"
+                />
+
+                <TextField
+                    label="Session Number"
+                    variant="outlined"
+                    value={sessionNumber}
+                    type='number'
+                    onChange={(e) => setSessionNumber(e.target.value)}
                     fullWidth
                     margin="normal"
                 />

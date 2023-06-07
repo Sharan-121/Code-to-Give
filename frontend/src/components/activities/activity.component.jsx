@@ -49,21 +49,21 @@ const ActivityDetails = () => {
                 <TopInfo
                     background="linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%)"
                     icon={activityIconWhite}
-                    title="Total Activities"
+                    title="Total Communities Impacted"
                     value="100"
                 />
 
                 <TopInfo
                     background="linear-gradient( 135deg, #FEC163 10%, #DE4313 100%)"
                     icon={activityIconWhite}
-                    title="Total Activities"
+                    title="Total Sessions Conducted"
                     value="100"
                 />
 
                 <TopInfo
                     background="linear-gradient(to top, #ff0844 0%, #ffb199 100%)"
                     icon={activityIconWhite}
-                    title="Total Activities"
+                    title="Total Beneficiaries"
                     value="100"
                 />
 

@@ -6,6 +6,7 @@ import Activity from './activity';
 import activityIcon from "../../assets/activity_icon.png";
 import searchIcon from "../../assets/search_icon.png";
 import defaultVariables from '../variables/variables';
+import "./activity.css";
 
 const ActivityDetails = () => {
   const navigate = useNavigate();
@@ -38,10 +39,27 @@ const ActivityDetails = () => {
     return (
         <div className='activity-details'>
 
-            <div className='details-div'>
-                <p className='details-field'>Name: </p>
-                <p className='details-value'>{ activity.name }</p>
+            <p className='heading-medium' style= {{ color: 'dodgerblue' }}>{ activity.name }</p>
+
+            <div className='all-details-div'>
+
+                <div className='details-div'>
+                    <p className='details-field'>Name: </p>
+                    <p className='details-value'>{ activity.name }</p>
+                </div>
+
+                <div className='details-div'>
+                    <p className='details-field'>Description: </p>
+                    <p className='details-value'>{ activity.description }</p>
+                </div>
+
+                <div className='details-div'>
+                    <p className='details-field'>Category: </p>
+                    <p className='details-value'>{ activity.category }</p>
+                </div>
+
             </div>
+
 
         </div>
     );

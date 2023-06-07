@@ -3,8 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 const Activity = (props) => {
 
+  const navigate = useNavigate();
+
+  const navigateToActivity = () => {
+    navigate("/home/activities/view/" + props.activityTitle);
+  }
+
   return (
-    <div className="activity" style={{ background: props.background }}>
+    <div onClick={ navigateToActivity } className="activity" style={{ background: props.background }}>
         <div className="top-div">
           <img src={props.activityIcon} alt="Activity Icon" />
           <p className="activity-title">{props.activityTitle}</p>

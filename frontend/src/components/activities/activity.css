@@ -1,0 +1,36 @@
+.activity-details {
+    background-color: white;
+    border-radius: 20px;
+    margin: 20px;
+    padding: 20px;
+}
+
+.all-details-div{
+    margin-top: 30px;
+}
+
+.details-div {
+    display: flex;
+    margin-top: 10px;
+    font-size: 18px;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.details-div:hover{
+    color: royalblue;
+    border-color: rgb(230, 230, 230);
+    box-shadow: 1px 2px 3px rgb(230, 230, 230);
+}
+
+.details-div .details-field {
+    flex: 1;
+    text-align: left;
+}
+
+.details-div .details-value {
+    font-weight: 700;
+    flex: 2;
+    text-align: left;
+}

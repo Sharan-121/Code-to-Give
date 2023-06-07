@@ -32,7 +32,7 @@ const Home = () =>{
                 <Route exact path="/attendance/add" element={<AttendanceForm />} />
                 <Route exact path="/activities/view/add" element={<ActivityForm />} />
                 <Route exact path="/activities/view" element={<ViewActivities />} />
-                <Route exact path="/activities/view/:name" element={<ViewActivities />} />
+                <Route exact path="/activities/view/:name" element={<ActivityDetails />} />
                 <Route exact path="/communities/view/add" element={<CommunityForm />}/>
                 <Route exact path="/communities/view" element={<ViewCommunities />} />
                 <Route exact path="/locations/view" element={<ViewLocations />} />

@@ -17,8 +17,11 @@ const ActivityDetails = () => {
     }
 
     let { name } = useParams();
-    const [activity, setActivity] = useState([]);
 
+    const [activity, setActivity] = useState([]);
+    const [totalCommunities, setTotalCommunities] = useState(0);
+    const [totalSessions, setTotalSessions] = useState(0);
+    const [totalBeneficiaries, setTotalBeneficiaries] = useState(0);
 
     const headers = {
         'Content-Type': 'application/json',
@@ -32,6 +35,19 @@ const ActivityDetails = () => {
             })
             .then((res) => {
                 setActivity(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity/metrics/" + name,
+            {
+                headers: headers
+            })
+            .then((res) => {
+                setTotalCommunities(res.data.totalCommunities);
+                setTotalSessions(res.data.totalSessions);
+                setTotalBeneficiaries(res.data.totalBeneficiaries);
             })
             .catch((err) => {
                 console.log(err);
@@ -50,21 +66,21 @@ const ActivityDetails = () => {
                     background="linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%)"
                     icon={activityIconWhite}
                     title="Total Communities Impacted"
-                    value="100"
+                    value={totalCommunities}
                 />
 
                 <TopInfo
                     background="linear-gradient( 135deg, #FEC163 10%, #DE4313 100%)"
                     icon={activityIconWhite}
                     title="Total Sessions Conducted"
-                    value="100"
+                    value={totalSessions}
                 />
 
                 <TopInfo
                     background="linear-gradient(to top, #ff0844 0%, #ffb199 100%)"
                     icon={activityIconWhite}
                     title="Total Beneficiaries"
-                    value="100"
+                    value={totalBeneficiaries}
                 />
 
                 <TopInfo

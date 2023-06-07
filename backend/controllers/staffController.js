@@ -4,7 +4,7 @@ const attendance = require("../models/attendanceModel");
 const session = require("../models/sessionModel");
 
 const createBeneficiary = asyncHandler(async (req, res) => {
-  if (req.user.role == "staff") {
+  if (req.user.role === "admin" || req.user.role === "staff") {
     const {
       name,
       dob,
@@ -100,7 +100,7 @@ const createBeneficiary = asyncHandler(async (req, res) => {
 });
 
 const addAttendance = asyncHandler(async (req, res) => {
-  if (req.user.role === "staff") {
+  if (req.user.role === "admin" || req.user.role === "staff") {
     const { name, aadharNumber, phoneNumber, sessionName } = req.body;
     if (!name || !aadharNumber || !phoneNumber || !sessionName) {
       res.status(400);

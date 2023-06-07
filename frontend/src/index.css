@@ -30,7 +30,8 @@ a {
   color: dodgerblue;
 }
 
-button, select {
+button,
+select {
   border: none;
   outline: none;
 }
@@ -82,7 +83,7 @@ button, select {
 }
 
 /* Container */
-.container {
+.outer-container {
   width: 100vw;
   margin-top: 60px;
   display: flex;
@@ -297,7 +298,7 @@ button, select {
   font-weight: 700;
   display: -webkit-box;
   -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;  
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
@@ -306,16 +307,16 @@ button, select {
   text-align: justify;
   display: -webkit-box;
   -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;  
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.activity .bottom-div{
+.activity .bottom-div {
   margin-top: 10px;
   display: flex;
 }
 
-.activity .bottom-div .activity-category{
+.activity .bottom-div .activity-category {
   flex: 1;
   font-size: 14px;
 }
@@ -371,7 +372,7 @@ button, select {
   font-weight: 700;
   display: -webkit-box;
   -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;  
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
@@ -380,21 +381,21 @@ button, select {
   text-align: justify;
   display: -webkit-box;
   -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;  
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.community .bottom-div{
+.community .bottom-div {
   margin-top: 10px;
   display: flex;
 }
 
-.community .bottom-div .community-population{
+.community .bottom-div .community-population {
   flex: 1;
   font-size: 14px;
 }
 
-.community .bottom-div .community-location{
+.community .bottom-div .community-location {
   flex: 1;
   font-size: 14px;
 }
@@ -436,14 +437,14 @@ button, select {
   border-radius: 30px;
 }
 
-.button:hover{
+.button:hover {
   background-color: royalblue;
   transform: scale(0.95);
   transition: all 0.3s ease;
 }
 
 /* Form */
-.form-div{
+.form-div {
   width: 60%;
   margin: auto;
 }

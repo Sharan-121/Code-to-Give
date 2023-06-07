@@ -119,6 +119,7 @@ select {
   border-radius: 50px;
   margin: 5px;
   display: flex;
+  color: black;
 }
 
 .sidebar .sidebar-option:hover {

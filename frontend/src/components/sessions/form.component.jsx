@@ -55,11 +55,13 @@ const FormComponent = () => {
     };
 
     const getSessionNumber = (name) => {
+        console.log(name);
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/session/number/" + name,
             {
                 headers: headers
             })
             .then((res) => {
+                console.log(res.data.sessionNumber);
                 setSessionNumber(res.data.sessionNumber);
             }).catch((err) => {
                 console.log(err);
@@ -84,7 +86,7 @@ const FormComponent = () => {
         let location = event.target[6].value;
 
         const parameters = {
-            name: sessionName,
+            name: sessionName + " - " + sessionNumber,
             activityName: activity,
             communityName: community,
             date: date,

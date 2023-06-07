@@ -259,7 +259,7 @@ const getSessionNumber = asyncHandler(async (req, res) => {
         let currentSessionNumber = parseInt(
           sessionParts[sessionParts.length - 1]
         );
-        sessionNumber = Math.max(sessionNumber, currentSessionNumber);
+        sessionNumber = Math.max(sessionNumber, currentSessionNumber + 1);
       }
     }
 

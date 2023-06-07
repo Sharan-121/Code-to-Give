@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { TextField, Button } from '@mui/material';
+import axios from 'axios';
+import defaultVariables from '../variables/variables';
 
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -8,19 +10,57 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 const FormComponent = () => {
+    const [name, setName] = useState('');
     const [session, setSession] = useState('');
     const [aadhaar, setAadhaar] = useState('');
     const [phone, setPhone] = useState('');
 
-    const handleChange = (e) => {
-        e.preventDefault();
-        // Handle form submission logic here
+    const [sessions, setSessions] = useState([]);
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem("token")
+    }
+
+    useEffect(() => {
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/session",{
+            headers: headers
+        }).then((res) => {
+            setSessions(res.data);
+        }).catch((err) => {
+            console.log(err);
+        })
+    })
+
+    const handleSessionChange = (e) => {
+        setSession(e.target.value);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-    };
+        
+        const parameters = {
+            name : name,
+            sessionName: session,
+            aadharNumber: aadhaar,
+            phoneNumber: phone
+        }
+
+        axios.post(defaultVariables['backend-url'] + "api/v1/staff/attendance", parameters, 
+        {
+            headers : headers
+        }).then((res) => {
+            
+            alert("Attendance marked successfully");
+            setName('');
+            setSession('');
+            setAadhaar('');
+            setPhone('');
+        }).catch((err) => {
+            alert(err.response.data.message);
+        })
+    }
+    
 
     return (
         <div className='form-div'>
@@ -28,11 +68,19 @@ const FormComponent = () => {
             <p className="heading-medium" style={{ textAlign: "left" }}>Attendance Form</p>
             <br />
             <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '50% 50%', gap: '10px' }}>
+            <TextField
+                    label="Name"
+                    variant="outlined"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    fullWidth
+                    margin="normal"
+                />
 
                 <TextField
                     label="Phone"
                     variant="outlined"
-                    value={location}
+                    value={phone}
                     type='number'
                     onChange={(e) => setPhone(e.target.value)}
                     fullWidth
@@ -42,7 +90,7 @@ const FormComponent = () => {
                 <TextField
                     label="Aadhaar"
                     variant="outlined"
-                    value={location}
+                    value={aadhaar}
                     type='number'
                     onChange={(e) => setAadhaar(e.target.value)}
                     fullWidth
@@ -56,12 +104,18 @@ const FormComponent = () => {
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={session}
-                            label="Activity"
-                            onChange={handleChange}
+                            label="Session"
+                            onChange={handleSessionChange}
+                            
                         >
-                            <MenuItem value={"1"}>1</MenuItem>
-                            <MenuItem value={"2"}>2</MenuItem>
-                            <MenuItem value={"3"}>3</MenuItem>
+                        {
+                            sessions.map(
+                                session => (
+                                    <MenuItem
+                                     value={session.name}>{session.name}</MenuItem>
+                                )
+                            )
+                        }
                         </Select>
                     </FormControl>
                 </Box>
@@ -72,6 +126,6 @@ const FormComponent = () => {
             </form>
         </div>
     );
-};
+};                   
 
 export default FormComponent;

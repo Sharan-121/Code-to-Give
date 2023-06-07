@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { TextField,InputLabel, Button, Box, Typography } from '@mui/material';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import defaultVariables from '../variables/variables';
 
 
 
@@ -24,14 +26,61 @@ const FormComponent = () => {
   const[childStudying,setChildStudying]=useState('');
   const[gender,setGender]=useState('');
 
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + localStorage.getItem("token")
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
+    
+    const beneficiary = {
+      name: name,
+      dob: dob,
+      gender : gender,
+      aadharNumber: aadharNumber,
+      panNumber: panNumber,
+      aadharPanLink: aadharPanLink,
+      phoneNumber: phoneNumber,
+      community: community,
+      address: address,
+      familyMembersCount: familyMembersCount,
+      employed: employed,
+      annualIncome: annualIncome,
+      bankAccount: bankAccount,
+      previousDoctorVisit: previousDoctorVisit,
+      medicalHistory: medicalHistory,
+      childStudying: childStudying,
+
+    }
+
+    axios.post(defaultVariables['backend-url'] + "api/v1/staff/beneficiary", beneficiary,{
+      headers : headers
+    }).then((res) => {
+      alert("Beneficiary added successfully")
+      setName('');
+      setDOB('');
+      setAadharNumber('');
+      setPanNumber('');
+      setAadharPanLink('');
+      setPhoneNumber('');
+      setCommunity('');
+      setAddress('');
+      setFamilyMembersCount('');
+      setEmployed('');
+      setAnnualIncome('');
+      setBankAccount('');
+      setPreviousDoctorVisit('');
+      setMedicalHistory('');
+      setChildStudying('');
+      setGender('');
+      
+    }).catch(err => {
+      alert(err.response.data.message);
+    })
   };
 
-  // const handleAadharPanLinkChange = (event) => {
-  //   setAadharPanLink(event.target.value === 'linked');
-  // };
+  
 
 
   return (

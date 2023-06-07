@@ -11,6 +11,12 @@ const beneficiarySchema = mongoose.Schema({
     required: [true, "Please provide the date of birth"],
   },
 
+  gender: {
+    type: String,
+    enum: ["male", "female"],
+    required: [true, "Please provide the gender of the beneficiary"],
+  },
+
   community: {
     type: String,
     required: [true, "Please provide the community of the beneficiary"],
@@ -48,9 +54,12 @@ const beneficiarySchema = mongoose.Schema({
     required: [true, "Please provide the number of family members"],
   },
 
-  employed :{
+  employed: {
     type: Boolean,
-    required: [true, "Please mention whether the beneficiary is employed or not"],
+    required: [
+      true,
+      "Please mention whether the beneficiary is employed or not",
+    ],
   },
 
   annualIncome: {

@@ -1,11 +1,14 @@
 const asyncHandler = require("express-async-handler");
 const beneficiary = require("../models/beneficiaryModel");
+const attendance = require("../models/attendanceModel");
+const session = require("../models/sessionModel");
 
 const createBeneficiary = asyncHandler(async (req, res) => {
   if (req.user.role == "staff") {
     const {
       name,
       dob,
+      gender,
       community,
       phoneNumber,
       aadharNumber,
@@ -24,6 +27,7 @@ const createBeneficiary = asyncHandler(async (req, res) => {
     if (
       !name ||
       !dob ||
+      !gender||
       !community ||
       !aadharNumber ||
       !phoneNumber ||
@@ -68,6 +72,7 @@ const createBeneficiary = asyncHandler(async (req, res) => {
     const newBeneficiary = await beneficiary.create({
       name,
       dob: formattedDob,
+      gender,
       community,
       phoneNumber,
       aadharNumber,
@@ -94,4 +99,54 @@ const createBeneficiary = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createBeneficiary };
+const addAttendance = asyncHandler(async (req, res) => {
+  if (req.user.role === "staff") {
+    const { name, aadharNumber, phoneNumber, sessionName } = req.body;
+    if (!name || !aadharNumber || !phoneNumber || !sessionName) {
+      res.status(400);
+      throw new Error("Please fill all the fields");
+    }
+
+    const beneficiaryData = await beneficiary.findOne({
+      name: name,
+      aadharNumber: aadharNumber,
+      phoneNumber: phoneNumber,
+    });
+    const sessionData = await session.findOne({ name: sessionName });
+
+    if (!beneficiaryData) {
+      res.status(400);
+      throw new Error("Beneficiary does not exist");
+    }
+    if (!sessionData) {
+      res.status(400);
+      throw new Error("Session does not exist");
+    }
+
+    const attendanceData = await attendance.findOne({
+      session_id: sessionData._id,
+      beneficiary_id: beneficiaryData._id,
+    });
+
+    if (attendanceData) {
+      res.status(400);
+      throw new Error("Attendance already marked");
+    } else {
+      const newAttendance = await attendance.create({
+        session_id: sessionData._id,
+        beneficiary_id: beneficiaryData._id,
+      });
+      if (newAttendance) {
+        res.status(201).json(newAttendance);
+      } else {
+        res.status(400);
+        throw new Error("Invalid Attendance data");
+      }
+    }
+  } else {
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }
+});
+
+module.exports = { createBeneficiary, addAttendance };

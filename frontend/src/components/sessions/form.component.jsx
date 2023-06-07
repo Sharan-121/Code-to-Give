@@ -54,14 +54,28 @@ const FormComponent = () => {
         // Handle form submission logic here
     };
 
+    const getSessionNumber = (name) => {
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/session/number/" + name,
+            {
+                headers: headers
+            })
+            .then((res) => {
+                setSessionNumber(res.data.sessionNumber);
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+
     const handleActivityChange = (event) => {
         setActivity(event.target.value);
         setSessionName(event.target.value + " - " + community);
+        getSessionNumber(event.target.value + " - " + community);
     };
 
     const handleCommunityChange = (event) => {
         setCommunity(event.target.value);
         setSessionName(activity + " - " + event.target.value);
+        getSessionNumber(activity + " - " + event.target.value);
     };
 
     const handleSubmit = (event) => {

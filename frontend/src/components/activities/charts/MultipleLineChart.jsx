@@ -5,8 +5,14 @@ const MultipleLineChart = (props) => {
 
     let series = [];
     let data_xaxis = [];
+
+    if (props.data.length > 0) {
+        for (let i = 0; i < props.data[0].length; i++) {
+            data_xaxis.push(i + 1);
+        }
+    }
+
     for (let i = 0; i < props.label.length; i++) {
-        data_xaxis.push(i + 1);
         series.push({
             name: props.label[i],
             type: "line",

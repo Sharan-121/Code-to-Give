@@ -31,6 +31,7 @@ const ActivityDetails = () => {
     const [loadCWB, setLoadCWB] = useState(false);
     const [loadCWA, setLoadCWA] = useState(false);
     const [loadGCWE, setLoadGCWE] = useState(false);
+    const [loadACWE, setLoadACWE] = useState(false);
 
     const [genderCWA, setGenderCWA] = useState('All');
     const [genderCWALabel, setGenderCWALabel] = useState([]);
@@ -39,6 +40,17 @@ const ActivityDetails = () => {
     const [genderCWADataFemale, setGenderCWADataFemale] = useState([]);
     const [genderCWADataOther, setGenderCWADataOther] = useState([]);
     const [genderCWADataAll, setGenderCWADataAll] = useState([]);
+
+    const [ageCWE, setAgeCWE] = useState('All');
+    const [ageCWELabel, setAgeCWELabel] = useState([]);
+    const [ageCWEData, setAgeCWEData] = useState([]);
+    const [ageCWEData1, setAgeCWEData1] = useState([]);
+    const [ageCWEData2, setAgeCWEData2] = useState([]);
+    const [ageCWEData3, setAgeCWEData3] = useState([]);
+    const [ageCWEData4, setAgeCWEData4] = useState([]);
+    const [ageCWEData5, setAgeCWEData5] = useState([]);
+    const [ageCWEData6, setAgeCWEData6] = useState([]);
+    const [ageCWEDataAll, setAgeCWEDataAll] = useState([]);
 
     const [communityWiseBeneficiaries, setCommunityWiseBeneficiaries] = useState({});
     const [communityWiseAttendance, setCommunityWiseAttendance] = useState({});
@@ -77,6 +89,52 @@ const ActivityDetails = () => {
             json_data["label"] = genderCWALabel;
             json_data["data"] = genderCWADataOther;
             setCommunityWiseAttendance(json_data);
+        }
+    };
+
+    const changeAgeCWE = (event) => {
+        setAgeCWE(event.target.value);
+        if (event.target.value === "All") {
+            let json_data = {}
+            json_data["label"] = ageCWELabel;
+            json_data["data"] = ageCWEDataAll;
+            setAgeCWEData(json_data);
+        }
+        if (event.target.value === "0-8") {
+            let json_data = {}
+            json_data["label"] = ageCWELabel;
+            json_data["data"] = ageCWEData1;
+            setAgeCWEData(json_data);
+        }
+        if (event.target.value === "9-16") {
+            let json_data = {}
+            json_data["label"] = ageCWELabel;
+            json_data["data"] = ageCWEData2;
+            setAgeCWEData(json_data);
+        }
+        if (event.target.value === "17-27") {
+            let json_data = {}
+            json_data["label"] = ageCWELabel;
+            json_data["data"] = ageCWEData3;
+            setAgeCWEData(json_data);
+        }
+        if (event.target.value === "28-40") {
+            let json_data = {}
+            json_data["label"] = ageCWELabel;
+            json_data["data"] = ageCWEData4;
+            setAgeCWEData(json_data);
+        }
+        if (event.target.value === "41-60") {
+            let json_data = {}
+            json_data["label"] = ageCWELabel;
+            json_data["data"] = ageCWEData5;
+            setAgeCWEData(json_data);
+        }
+        if (event.target.value === "61+") {
+            let json_data = {}
+            json_data["label"] = ageCWELabel;
+            json_data["data"] = ageCWEData6;
+            setAgeCWEData(json_data);
         }
     };
 
@@ -203,6 +261,64 @@ const ActivityDetails = () => {
                 console.log(err);
                 setLoadGCWE(true);
             });
+
+        // Age and Community Wise Engagement
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity/metrics/acwe/" + name,
+            {
+                headers: headers
+            })
+            .then((res) => {
+
+                let json = res.data;
+                // Iterate over the JSON object
+                for (let key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const value = json[key];
+                        ageCWELabel.push(key);
+                        let res1 = [];
+                        let res2 = [];
+                        let res3 = [];
+                        let res4 = [];
+                        let res5 = [];
+                        let res6 = [];
+                        let resAll = [];
+                        for (let i = 0; i < value["0-8"].length; i++) {
+                            res1.push(value["0-8"][i]);
+                            res2.push(value["9-16"][i]);
+                            res3.push(value["17-27"][i]);
+                            res4.push(value["28-40"][i]);
+                            res5.push(value["41-60"][i]);
+                            res6.push(value["61+"][i]);
+                            resAll.push(
+                                value["0-8"][i] +
+                                value["9-16"][i] +
+                                value["17-27"][i] +
+                                value["28-40"][i] +
+                                value["41-60"][i] +
+                                value["61+"][i]
+                            );
+                        }
+                        ageCWEDataAll.push(resAll);
+                        ageCWEData1.push(res1);
+                        ageCWEData2.push(res2);
+                        ageCWEData3.push(res3);
+                        ageCWEData4.push(res4);
+                        ageCWEData5.push(res5);
+                        ageCWEData6.push(res6);
+                    }
+                }
+                let json_data = {}
+                json_data["label"] = ageCWELabel;
+                json_data["data"] = ageCWEDataAll;
+                setAgeCWEData(json_data);
+
+                setLoadACWE(true);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoadACWE(true);
+            });
+
     }, []);
 
 
@@ -278,7 +394,7 @@ const ActivityDetails = () => {
 
                 {loadCWA &&
                     <div className='chart'>
-                        <h4>Community Wise Attendance</h4>
+                        <h4>Community and Gender Wise Attendance</h4>
                         <FormControl style={{ marginTop: "20px", width: "80%" }}>
                             <InputLabel>Gender</InputLabel>
                             <Select
@@ -303,6 +419,40 @@ const ActivityDetails = () => {
                             ylabel={"Total Beneficiaries"} />
                     </div>
                 }
+
+                {loadACWE &&
+                    <div className='chart'>
+                        <h4>Community and Age Wise Attendance</h4>
+                        <FormControl style={{ marginTop: "20px", width: "80%" }}>
+                            <InputLabel>Age</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={ageCWE}
+                                label="Session"
+                                onChange={(e) => changeAgeCWE(e)}
+                                required
+                            >
+                                <MenuItem value={'All'}>All</MenuItem>
+                                <MenuItem value={'0-8'}>0-8</MenuItem>
+                                <MenuItem value={'9-16'}>9-16</MenuItem>
+                                <MenuItem value={'17-27'}>17-27</MenuItem>
+                                <MenuItem value={'28-40'}>28-40</MenuItem>
+                                <MenuItem value={'41-60'}>41-60</MenuItem>
+                                <MenuItem value={'61+'}>61+</MenuItem>
+                                
+                            </Select>
+                        </FormControl>
+
+                        <MultipleLineChart
+                            options={{ horizontal: true }}
+                            label={ageCWEData.label}
+                            data={ageCWEData.data}
+                            ylabel={"Total Beneficiaries"} />
+                    </div>
+                }
+
+
             </div>
 
         </div>

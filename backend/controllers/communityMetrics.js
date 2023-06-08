@@ -62,7 +62,7 @@ const ageDistributionCommunity = asyncHandler(async (req, res) => {
 
 const genderDistributionCommunity = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    const communityName = req.params.communityName;
+    const communityName = req.params.name;
     const beneficiaries = await Beneficiary.find({ community: communityName });
 
     let genderDistribution = {
@@ -84,7 +84,7 @@ const genderDistributionCommunity = asyncHandler(async (req, res) => {
 
 const activeBeneficiariesCommunity = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    const communityName = req.params.communityName;
+    const communityName = req.params.name;
     const beneficiaries = await Beneficiary.find({ community: communityName });
 
     let participationDetails = {
@@ -110,8 +110,47 @@ const activeBeneficiariesCommunity = asyncHandler(async (req, res) => {
   }
 });
 
+const activityAttendanceCountCommunity = asyncHandler(async (req, res) => {
+  if (req.user.role === "admin") {
+    const communityName = req.params.name;
+    const community = await Community.findOne({ name: communityName });
+    const sessions = await Session.find({ community_id: community._id });
+
+    let activityParticipation = {};
+    let attendedSet = new Set();
+
+    for (const session of sessions) {
+      const attendances = await Attendance.find({
+        session_id: session._id,
+      });
+
+      const activity = await Activity.findById(session.activity_id);
+
+      for (const attendance of attendances) {
+        const beneficiary = await Beneficiary.findById(
+          attendance.beneficiary_id
+        );
+
+        if (!attendedSet.has(beneficiary._id.toString())) {
+          attendedSet.add(beneficiary._id.toString());
+          if (activityParticipation[activity.name] === undefined) {
+            activityParticipation[activity.name] = 0;
+          }
+          activityParticipation[activity.name]++;
+        }
+      }
+    }
+
+    res.status(200).json(activityParticipation);
+  } else {
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }
+});
+
 module.exports = {
   ageDistributionCommunity,
   genderDistributionCommunity,
   activeBeneficiariesCommunity,
+  activityAttendanceCountCommunity,
 };

@@ -38,9 +38,9 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
       session_id: { $in: sessionIdArray },
     });
 
-    //2. additional attendance based metrics
+    // //2. additional attendance based metrics
 
-    //2.1 Community wise attendance for the activity across multiple sessions
+    // //2.1 Community wise attendance for the activity across multiple sessions
 
     const communitySession = {};
 
@@ -68,8 +68,8 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
       }
     }
 
-    //2.2 Community wise attendance for age group
-    //2.3 Community wise attendance for gender
+    // //2.2 Community wise attendance for age group
+    // //2.3 Community wise attendance for gender
 
     let ageGroupAttendance = {
       "0-8": [0, 0],
@@ -175,22 +175,41 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
     //2.4 Total Number of beneficiaries across all communities for this activity
 
     communityWiseBeneficiaries = {};
-    for (const sessionId of sessionIdArray) {
-        const attendances = await Attendance.find({ session_id: sessionId });
-        const community = await Community.findById(session.community_id);
-        const communityName = community.name;
-        if(communityWiseBeneficiaries[communityName] === undefined){
-            communityWiseBeneficiaries[communityName] = attendances.length;
-
-        }
-        else{
-            communityWiseBeneficiaries[communityName] += attendances.length;
-        }
-
+    for (const session of totalSessions) {
+      const attendances = await Attendance.find({ session_id: session._id });
+      const community = await Community.findById(session.community_id);
+      const communityName = community.name;
+      if (communityWiseBeneficiaries[communityName] === undefined) {
+        communityWiseBeneficiaries[communityName] = attendances.length;
+      } else {
+        communityWiseBeneficiaries[communityName] += attendances.length;
+      }
     }
 
-
-
+    // 2.5 Number of eligible vs Number of people attended atleast one session.
+    numberOfEligible = {};
+    numberOfAttended = {};
+    for (const session of totalSessions) {
+      const community = await Community.findById(session.community_id);
+      const communityName = community.name;
+      const attendances = await Attendance.find({ session_id: session._id });
+      const beneficiaries = await Beneficiary.find({
+        community: communityName,
+        // gender: session.gender,
+        // dob: { $gte: session.minAge, $lte: session.maxAge },
+      });
+      if (numberOfEligible[communityName] === undefined) {
+        numberOfEligible[communityName] = beneficiaries.length;
+      }
+      if (numberOfAttended[communityName] === undefined) {
+        numberOfAttended[communityName] = attendances.length;
+      } else {
+        numberOfAttended[communityName] = Math.max(
+          numberOfAttended[communityName],
+          attendances.length
+        );
+      }
+    }
 
     // response
 
@@ -202,11 +221,11 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
       communityWiseAgeGroup: communityWiseAgeGroup,
       communityWiseGender: communityWiseGender,
       communityWiseBeneficiaries: communityWiseBeneficiaries,
-
+      numberOfEligible: numberOfEligible,
+      numberOfAttended: numberOfAttended,
     });
-  } catch (error) {
-    res.status(500);
-    throw new Error("Server Error");
+  }catch(err){
+    res.status(500).json({ message: err.message });
   }
 });
 

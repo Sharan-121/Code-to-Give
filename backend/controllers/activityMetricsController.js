@@ -68,8 +68,10 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
       }
     }
 
-    // //2.2 Community wise attendance for age group
-    // //2.3 Community wise attendance for gender
+    // 2.2 Community wise attendance for age group
+    // 2.3 Community wise attendance for gender
+    // 2.4(impact) total no. of beneficiaries attended the activity
+    // 2.5 no. of attended vs no. of eligible community wise
 
     let ageGroupAttendance = {
       "0-8": [0, 0],
@@ -82,6 +84,8 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
 
     let communityWiseAgeGroup = {};
     let communityWiseGender = {};
+    let attendedBeneficiaries = 0;
+    let numberOfAttendedVsEligibleCommunityWise = {};
 
     for (const session of totalSessions) {
       const currentCommunity = await Community.findById(session.community_id);
@@ -91,7 +95,19 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
       });
       for (const beneficiary of allBeneficiariesOfCommunity) {
         const age = getAge(beneficiary.dob);
-        if (session.minAge <= age && age <= session.maxAge) {
+        if (
+          session.minAge <= age &&
+          age <= session.maxAge &&
+          session.gender.includes(beneficiary.gender)
+        ) {
+          if (
+            numberOfAttendedVsEligibleCommunityWise.communityName === undefined
+          ) {
+            numberOfAttendedVsEligibleCommunityWise.communityName = [0, 1];
+          } else {
+            numberOfAttendedVsEligibleCommunityWise.communityName[1]++;
+          }
+
           let ageGroup = "";
           if (age <= 8) {
             ageGroup = "0-8";
@@ -127,12 +143,25 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
           }
         }
       }
+
       const attendances = await Attendance.find({ session_id: session._id });
 
       for (const attendance of attendances) {
+        attendedBeneficiaries++;
         const beneficiary = await Beneficiary.findById(
           attendance.beneficiary_id
         );
+
+        if (
+          numberOfAttendedVsEligibleCommunityWise[beneficiary.community] ===
+          undefined
+        ) {
+          numberOfAttendedVsEligibleCommunityWise[beneficiary.community] = [
+            1, 0,
+          ];
+        } else {
+          numberOfAttendedVsEligibleCommunityWise[beneficiary.community][0]++;
+        }
 
         if (communityWiseGender[beneficiary.community] === undefined) {
           communityWiseGender[beneficiary.community] = {};
@@ -172,44 +201,42 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
       }
     }
 
-    //2.4 Total Number of beneficiaries across all communities for this activity
+    // //2.4 Total Number of beneficiaries across all communities for this activity
 
-    communityWiseBeneficiaries = {};
-    for (const session of totalSessions) {
-      const attendances = await Attendance.find({ session_id: session._id });
-      const community = await Community.findById(session.community_id);
-      const communityName = community.name;
-      if (communityWiseBeneficiaries[communityName] === undefined) {
-        communityWiseBeneficiaries[communityName] = attendances.length;
-      } else {
-        communityWiseBeneficiaries[communityName] += attendances.length;
-      }
-    }
+    // communityWiseBeneficiaries = {};
+    // for (const session of totalSessions) {
+    //   const attendances = await Attendance.find({ session_id: session._id });
+    //   const community = await Community.findById(session.community_id);
+    //   const communityName = community.name;
+    //   if (communityWiseBeneficiaries[communityName] === undefined) {
+    //     communityWiseBeneficiaries[communityName] = attendances.length;
+    //   } else {
+    //     communityWiseBeneficiaries[communityName] += attendances.length;
+    //   }
+    // }
 
-    // 2.5 Number of eligible vs Number of people attended atleast one session.
-    numberOfEligible = {};
-    numberOfAttended = {};
-    for (const session of totalSessions) {
-      const community = await Community.findById(session.community_id);
-      const communityName = community.name;
-      const attendances = await Attendance.find({ session_id: session._id });
-      const beneficiaries = await Beneficiary.find({
-        community: communityName,
-        // gender: session.gender,
-        // dob: { $gte: session.minAge, $lte: session.maxAge },
-      });
-      if (numberOfEligible[communityName] === undefined) {
-        numberOfEligible[communityName] = beneficiaries.length;
-      }
-      if (numberOfAttended[communityName] === undefined) {
-        numberOfAttended[communityName] = attendances.length;
-      } else {
-        numberOfAttended[communityName] = Math.max(
-          numberOfAttended[communityName],
-          attendances.length
-        );
-      }
-    }
+    // // 2.5 Number of eligible vs Number of people attended atleast one session.
+    // numberOfEligible = {};
+    // numberOfAttended = {};
+    // for (const session of totalSessions) {
+    //   const community = await Community.findById(session.community_id);
+    //   const communityName = community.name;
+    //   const attendances = await Attendance.find({ session_id: session._id });
+    //   const beneficiaries = await Beneficiary.find({
+    //     community: communityName,
+    //   });
+    //   if (numberOfEligible[communityName] === undefined) {
+    //     numberOfEligible[communityName] = beneficiaries.length;
+    //   }
+    //   if (numberOfAttended[communityName] === undefined) {
+    //     numberOfAttended[communityName] = attendances.length;
+    //   } else {
+    //     numberOfAttended[communityName] = Math.max(
+    //       numberOfAttended[communityName],
+    //       attendances.length
+    //     );
+    //   }
+    // }
 
     // response
 
@@ -220,11 +247,13 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
       communitySession: communitySession,
       communityWiseAgeGroup: communityWiseAgeGroup,
       communityWiseGender: communityWiseGender,
-      communityWiseBeneficiaries: communityWiseBeneficiaries,
-      numberOfEligible: numberOfEligible,
-      numberOfAttended: numberOfAttended,
+      // communityWiseBeneficiaries: communityWiseBeneficiaries,
+      attendedBeneficiaries: attendedBeneficiaries,
+      // numberOfEligible: numberOfEligible,
+      // numberOfAttended: numberOfAttended,
+      attendedVsEligible: numberOfAttendedVsEligibleCommunityWise,
     });
-  }catch(err){
+  } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });

@@ -36,15 +36,12 @@ const BarPlot = (props) => {
 
   return (
     <div>
-      <h4>{ props.title }</h4>
-      <div>
-        <ReactApexChart
-          options={options}
-          series={series}
-          type="bar"
-          height={400}
-        />
-      </div>
+      <ReactApexChart
+        options={options}
+        series={series}
+        type="bar"
+        height={400}
+      />
     </div>
   );
 };

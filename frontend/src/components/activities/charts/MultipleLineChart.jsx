@@ -59,14 +59,11 @@ const MultipleLineChart = (props) => {
 
     return (
         <div>
-            <h4>{props.title}</h4>
-            <div>
-                <ReactApexChart
-                    type="line"
-                    series={series}
-                    options={options}
-                    height={400} />
-            </div>
+            <ReactApexChart
+                type="line"
+                series={series}
+                options={options}
+                height={400} />
         </div>
     );
 

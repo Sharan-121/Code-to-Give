@@ -55,7 +55,6 @@ const FormComponent = () => {
     e.preventDefault();
 
     let dobDate = getDate(dob);
-    console.log(dobDate)
 
     if (getAge(dobDate) < 0) {
       alert("Invalid DOB");

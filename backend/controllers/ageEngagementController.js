@@ -58,7 +58,9 @@ const ageAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
         eligibleSet.add(beneficiary._id.toString());
 
         if (metrics[communityName] === undefined) {
-          metrics[communityName] = ageGroupAttendance;
+          metrics[communityName] = JSON.parse(
+            JSON.stringify(ageGroupAttendance)
+          );
         }
 
         let ageGroup = "";
@@ -75,7 +77,7 @@ const ageAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
         } else {
           ageGroup = "61+";
         }
-
+        
         metrics[communityName][ageGroup][1]++;
       }
     }

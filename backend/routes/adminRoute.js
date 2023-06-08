@@ -15,6 +15,7 @@ const {
 } = require("../controllers/adminController");
 
 const {getActivityMetrics} = require("../controllers/activityMetricsController");
+const {getCommunityMetrics} = require("../controllers/communityMetricsController");
 const {genderAndCommunityWiseEngagement} = require("../controllers/genderEngagementController")
 const {ageAndCommunityWiseEngagement} = require("../controllers/ageEngagementController")
 const {communityWiseBeneficiary} = require("../controllers/communityBeneficiaryController");
@@ -32,6 +33,7 @@ router.get("/activity/metrics/cwb/:name",validateToken, communityWiseBeneficiary
 router.get("/activity/metrics/acwe/:activityName", validateToken, ageAndCommunityWiseEngagement);
 router.get("/activity/metrics/gcwe/:activityName", validateToken, genderAndCommunityWiseEngagement);
 router.post("/activity", validateToken, createActivity);
+router.get("/community/metrics/:name", validateToken, getCommunityMetrics);
 router.get("/community/metrics/getGender/:name", validateToken, genderDistribution);
 router.get("/community/metrics/getEmployed/:name", validateToken, employedDistribution);
 router.get("/community/metrics/getAadharPan/:name", validateToken, aadharPanLink);

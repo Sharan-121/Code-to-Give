@@ -9,6 +9,7 @@ import activityIcon from "../../assets/activity_icon.png";
 import searchIcon from "../../assets/search_icon.png";
 import defaultVariables from '../variables/variables';
 import "./activity.css";
+import BarPlot from './charts/BarPlot';
 
 const ActivityDetails = () => {
     const navigate = useNavigate();
@@ -22,6 +23,9 @@ const ActivityDetails = () => {
     const [totalCommunities, setTotalCommunities] = useState(0);
     const [totalSessions, setTotalSessions] = useState(0);
     const [totalBeneficiaries, setTotalBeneficiaries] = useState(0);
+
+
+    const [communityWiseBeneficiaries, setCommunityWiseBeneficiaries] = useState({});
 
     const headers = {
         'Content-Type': 'application/json',
@@ -48,6 +52,32 @@ const ActivityDetails = () => {
                 setTotalCommunities(res.data.totalCommunities);
                 setTotalSessions(res.data.totalSessions);
                 setTotalBeneficiaries(res.data.totalBeneficiaries);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity/metrics/ce/" + name,
+            {
+                headers: headers
+            })
+            .then((res) => {
+                let json = res.data;
+                let label = [];
+                let data = [];
+                // Iterate over the JSON object
+                for (let key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const value = json[key];
+                        label.push(key);
+                        data.push(value);
+                        // Perform other operations with key and value
+                    }
+                }
+                let json_data = {}
+                json_data["label"] = label;
+                json_data["data"] = data;
+                setCommunityWiseBeneficiaries(json_data);
             })
             .catch((err) => {
                 console.log(err);
@@ -109,6 +139,11 @@ const ActivityDetails = () => {
                     <p className='details-value'>{activity.category}</p>
                 </div>
 
+            </div>
+
+            <div className='charts' style= {{ marginTop: "50px" }}>
+                {/* Community Wise Beneficiaries Chart */}
+                <BarPlot title= { "Community Wise Beneficiaries" } label = {communityWiseBeneficiaries.label} data = {communityWiseBeneficiaries.data} ylabel ={"Total Beneficiaries"} />
             </div>
 
 

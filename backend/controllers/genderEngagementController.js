@@ -18,7 +18,7 @@ const getAge = (birthDate) => {
   return age;
 };
 
-const ageAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
+const genderAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
   const activityName = req.params.activityName;
   const activity = await Activity.findOne({ name: activityName });
   const sessions = await Session.find({ activity_id: activity._id });
@@ -27,15 +27,6 @@ const ageAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
   let attendedSet = new Set();
 
   let metrics = {};
-
-  let ageGroupAttendance = {
-    "0-8": [0, 0],
-    "9-16": [0, 0],
-    "17-27": [0, 0],
-    "28-40": [0, 0],
-    "41-60": [0, 0],
-    "61+": [0, 0],
-  };
 
   for (const session of sessions) {
     const community = await Community.findById(session.community_id);
@@ -46,7 +37,6 @@ const ageAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
 
     for (const beneficiary of beneficiaries) {
       const age = getAge(beneficiary.dob);
-
       if (
         !eligibleSet.has(beneficiary._id.toString()) &&
         age >= session.minAge &&
@@ -56,27 +46,14 @@ const ageAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
         eligibleSet.add(beneficiary._id.toString());
 
         if (metrics[communityName] === undefined) {
-          metrics[communityName] = JSON.parse(
-            JSON.stringify(ageGroupAttendance)
-          );
+          metrics[communityName] = {
+            male: [0, 0],
+            female: [0, 0],
+            other: [0, 0],
+          };
         }
 
-        let ageGroup = "";
-        if (age <= 8) {
-          ageGroup = "0-8";
-        } else if (9 <= age && age <= 16) {
-          ageGroup = "9-16";
-        } else if (17 <= age && age <= 27) {
-          ageGroup = "17-27";
-        } else if (28 <= age && age <= 40) {
-          ageGroup = "28-40";
-        } else if (41 <= age && age <= 60) {
-          ageGroup = "41-60";
-        } else {
-          ageGroup = "61+";
-        }
-
-        metrics[communityName][ageGroup][1]++;
+        metrics[communityName][beneficiary.gender][1]++;
       }
     }
 
@@ -85,23 +62,7 @@ const ageAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
       const beneficiary = await Beneficiary.findById(attendance.beneficiary_id);
       if (!attendedSet.has(beneficiary._id.toString())) {
         attendedSet.add(beneficiary._id.toString());
-        const age = getAge(beneficiary.dob);
-        let ageGroup = "";
-        if (age <= 8) {
-          ageGroup = "0-8";
-        } else if (9 <= age && age <= 16) {
-          ageGroup = "9-16";
-        } else if (17 <= age && age <= 27) {
-          ageGroup = "17-27";
-        } else if (28 <= age && age <= 40) {
-          ageGroup = "28-40";
-        } else if (41 <= age && age <= 60) {
-          ageGroup = "41-60";
-        } else {
-          ageGroup = "61+";
-        }
-
-        metrics[communityName][ageGroup][0]++;
+        metrics[communityName][beneficiary.gender][0]++;
       }
     }
   }
@@ -109,4 +70,4 @@ const ageAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
   res.status(200).json(metrics);
 });
 
-module.exports = { ageAndCommunityWiseEngagement };
+module.exports = { genderAndCommunityWiseEngagement };

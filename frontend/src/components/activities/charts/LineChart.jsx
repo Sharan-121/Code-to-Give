@@ -3,6 +3,9 @@ import ReactApexChart from "react-apexcharts";
 
 const LineChart = (props) => {
 
+  console.log(props.label);
+  console.log(props.data);
+
     const series = [
         {
           name: props.ytitle,

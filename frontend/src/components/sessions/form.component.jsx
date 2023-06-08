@@ -100,18 +100,18 @@ const FormComponent = () => {
         let location = event.target[6].value;
 
         const gender = [];
-        
 
-        if(male){
+
+        if (male) {
             gender.push("male");
         }
-        if(female){
+        if (female) {
             gender.push("female");
         }
-        if(other){
+        if (other) {
             gender.push("other");
         }
-        
+
 
         const parameters = {
             name: sessionName + " - " + sessionNumber,
@@ -120,7 +120,7 @@ const FormComponent = () => {
             date: date,
             location: location,
             age: age,
-            gender : gender,
+            gender: gender,
         };
 
         const headers = {
@@ -141,7 +141,7 @@ const FormComponent = () => {
                 setLocation('');
                 setMale('');
                 setFemale('');
-                setOther('');   
+                setOther('');
             })
             .catch(error => {
                 alert(error.response.data.message)
@@ -257,12 +257,12 @@ const FormComponent = () => {
                 </Box>
 
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-          <p style={{ marginRight: '10px' }}>Gender: </p>
-             <input type = "checkbox"  checked = {male} onChange={(e) => setMale(e.target.checked)} /> Male 
-             <input type = "checkbox" checked = {female} onChange= {(e) => setFemale(e.target.checked)}/> Female 
-             <input type = "checkbox" checked = {other} onChange = {(e) => setOther(e.target.checked )} /> Other 
-          
-        </div>
+                    <p style={{ marginRight: '10px' }}>Gender: </p>
+                    <input type="checkbox" checked={male} onChange={(e) => setMale(e.target.checked)} /> Male
+                    <input type="checkbox" checked={female} onChange={(e) => setFemale(e.target.checked)} /> Female
+                    <input type="checkbox" checked={other} onChange={(e) => setOther(e.target.checked)} /> Other
+
+                </div>
 
                 <Button type="submit" variant="contained" color="primary" fullWidth style={{ gridColumnStart: '1', gridColumnEnd: '3' }}>
                     Submit

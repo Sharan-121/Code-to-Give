@@ -14,6 +14,7 @@ import ViewLocations from './locations/viewLocations';
 import Dashboard from './dashboard/dashboard.component';
 import ActivityForm from './activities/form.component'
 import CommunityForm from './community/form.component'
+import ImageToText from './image-to-text/ImageToText';
 
 const Home = () =>{
 
@@ -38,6 +39,7 @@ const Home = () =>{
                 <Route exact path="/communities/view" element={<ViewCommunities />} />
                 <Route exact path="/communities/view/:name" element={<CommunityDetails />} />
                 <Route exact path="/locations/view" element={<ViewLocations />} />
+                <Route exact path="/image-to-text" element={<ImageToText />} />
                 <Route exact path="*" element={<Dashboard />} />
             </Routes>
             </div>

@@ -11,6 +11,7 @@ import defaultVariables from '../variables/variables';
 import "./activity.css";
 import BarPlot from './charts/BarPlot';
 import LineChart from './charts/LineChart';
+import MultipleLineChart from './charts/MultipleLineChart';
 
 const ActivityDetails = () => {
     const navigate = useNavigate();
@@ -25,11 +26,18 @@ const ActivityDetails = () => {
     const [totalSessions, setTotalSessions] = useState(0);
     const [totalBeneficiaries, setTotalBeneficiaries] = useState(0);
 
+    const [loaded, setLoaded] = useState(0);
+
     const [communityWiseBeneficiaries, setCommunityWiseBeneficiaries] = useState({});
+    const [communityWiseAttendance, setCommunityWiseAttendance] = useState({});
 
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem("token")
+    }
+
+    const onclickfn = () => {
+        console.log(communityWiseAttendance);
     }
 
     useEffect(() => {
@@ -57,7 +65,8 @@ const ActivityDetails = () => {
                 console.log(err);
             });
 
-        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity/metrics/ce/" + name,
+        // Community Wise Beneficiaries
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity/metrics/cwb/" + name,
             {
                 headers: headers
             })
@@ -78,6 +87,35 @@ const ActivityDetails = () => {
                 json_data["label"] = label;
                 json_data["data"] = data;
                 setCommunityWiseBeneficiaries(json_data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+        // Community Wise Attendance
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity/metrics/cwa/" + name,
+            {
+                headers: headers
+            })
+            .then((res) => {
+                let json = res.data;
+                let label = [];
+                let data = [];
+                // Iterate over the JSON object
+                for (let key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const value = json[key];
+                        label.push(key);
+                        // Remove the first value as it is the null value.
+                        value.shift();
+                        data.push(value);
+                    }
+                }
+                let json_data = {}
+                json_data["label"] = label;
+                json_data["data"] = data;
+                setCommunityWiseAttendance(json_data);
+                setLoaded(1);
             })
             .catch((err) => {
                 console.log(err);
@@ -124,7 +162,7 @@ const ActivityDetails = () => {
 
             <div className='all-details-div'>
 
-                <div className='details-div'>
+                <div onClick={ onclickfn } className='details-div'>
                     <p className='details-field'>Name: </p>
                     <p className='details-value'>{activity.name}</p>
                 </div>
@@ -142,7 +180,7 @@ const ActivityDetails = () => {
             </div>
 
             <div className='charts'>
-                {/* Community Wise Beneficiaries Chart */}
+
                 <BarPlot className="chart"
                     options={{ horizontal: true }}
                     title={"Community Wise Beneficiaries"}
@@ -150,13 +188,12 @@ const ActivityDetails = () => {
                     data={communityWiseBeneficiaries.data}
                     ylabel={"Total Beneficiaries"} />
 
-                    {/* Community Wise Beneficiaries Chart */}
-                <LineChart className="chart"
+                {loaded && <MultipleLineChart className="chart"
                     options={{ horizontal: true }}
-                    title={"Community Wise Beneficiaries"}
-                    label={communityWiseBeneficiaries.label}
-                    data={communityWiseBeneficiaries.data}
-                    ylabel={"Total Beneficiaries"} />
+                    title={"Community Wise Attendance"}
+                    label={communityWiseAttendance.label}
+                    data={communityWiseAttendance.data}
+                    ylabel={"Total Beneficiaries"} />}
             </div>
 
         </div>

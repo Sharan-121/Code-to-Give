@@ -14,24 +14,12 @@ const {
   getSessionNumber,
 } = require("../controllers/adminController");
 
-const {getActivityMetrics} = require("../controllers/activityMetricsController");
-const {getCommunityMetrics} = require("../controllers/communityMetricsController");
-const {genderAndCommunityWiseEngagement} = require("../controllers/genderEngagementController")
-const {ageAndCommunityWiseEngagement} = require("../controllers/ageEngagementController")
-const {communityWiseBeneficiary} = require("../controllers/communityBeneficiaryController");
-const {communityWiseAttendance} = require("../controllers/communityAttendanceController");
-const {genderDistribution} = require("../controllers/genderInfoController");
-const {employedDistribution} = require("../controllers/employedInfoController");
-const {aadharPanLink} = require("../controllers/aadharPanController");
-const {bankAccount} = require("../controllers/bankAccountController");
-const {
-  genderDistributionCommunity,
-  activeBeneficiariesCommunity,
-} = require("../controllers/communityMetrics");
-
 const {
   getActivityMetrics,
 } = require("../controllers/activityMetricsController");
+const {
+  getCommunityMetrics,
+} = require("../controllers/communityMetricsController");
 const {
   genderAndCommunityWiseEngagement,
 } = require("../controllers/genderEngagementController");
@@ -50,6 +38,11 @@ const {
 } = require("../controllers/employedInfoController");
 const { aadharPanLink } = require("../controllers/aadharPanController");
 const { bankAccount } = require("../controllers/bankAccountController");
+const {
+  genderDistributionCommunity,
+  activeBeneficiariesCommunity,
+} = require("../controllers/communityMetrics");
+
 
 router.get("/activity", validateToken, getActivities);
 router.get("/activity/:name", validateToken, getActivityByName);
@@ -76,10 +69,6 @@ router.get(
 );
 router.post("/activity", validateToken, createActivity);
 router.get("/community/metrics/:name", validateToken, getCommunityMetrics);
-router.get("/community/metrics/getGender/:name", validateToken, genderDistribution);
-router.get("/community/metrics/getEmployed/:name", validateToken, employedDistribution);
-router.get("/community/metrics/getAadharPan/:name", validateToken, aadharPanLink);
-router.get("/community/metrics/getBankAccount/:name", validateToken, bankAccount)
 router.get(
   "/community/metrics/getGender/:name",
   validateToken,
@@ -106,7 +95,15 @@ router.post("/community", validateToken, addCommunity);
 router.get("/session", validateToken, getAllSessions);
 router.post("/session", validateToken, createSession);
 router.get("/session/number/:name", validateToken, getSessionNumber);
-router.get("/community/metrics/gender/:name", validateToken, genderDistributionCommunity);
-router.get("/community/metrics/participation/:name", validateToken, activeBeneficiariesCommunity);
+router.get(
+  "/community/metrics/gender/:name",
+  validateToken,
+  genderDistributionCommunity
+);
+router.get(
+  "/community/metrics/participation/:name",
+  validateToken,
+  activeBeneficiariesCommunity
+);
 
 module.exports = router;

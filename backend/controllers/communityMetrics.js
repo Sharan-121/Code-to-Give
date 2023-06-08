@@ -62,7 +62,7 @@ const ageDistributionCommunity = asyncHandler(async (req, res) => {
 
 const genderDistributionCommunity = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    const communityName = req.params.communityName;
+    const communityName = req.params.name;
     const beneficiaries = await Beneficiary.find({ community: communityName });
 
     let genderDistribution = {
@@ -84,7 +84,7 @@ const genderDistributionCommunity = asyncHandler(async (req, res) => {
 
 const activeBeneficiariesCommunity = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    const communityName = req.params.communityName;
+    const communityName = req.params.name;
     const beneficiaries = await Beneficiary.find({ community: communityName });
 
     let participationDetails = {
@@ -112,7 +112,7 @@ const activeBeneficiariesCommunity = asyncHandler(async (req, res) => {
 
 const activityAttendanceCountCommunity = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    const communityName = req.params.communityName;
+    const communityName = req.params.name;
     const community = await Community.findOne({ name: communityName });
     const sessions = await Session.find({ community_id: community._id });
 
@@ -131,8 +131,11 @@ const activityAttendanceCountCommunity = asyncHandler(async (req, res) => {
           attendance.beneficiary_id
         );
 
-        if (!attendedSet.has(beneficiary._id.toSting())) {
-          attendedSet.add(beneficiary._id.toSting());
+        if (!attendedSet.has(beneficiary._id.toString())) {
+          attendedSet.add(beneficiary._id.toString());
+          if (activityParticipation[activity.name] === undefined) {
+            activityParticipation[activity.name] = 0;
+          }
           activityParticipation[activity.name]++;
         }
       }

@@ -155,7 +155,7 @@ const addAttendance = asyncHandler(async (req, res) => {
       );
     }
 
-    const gender = beneficiary.gender;
+    const gender = beneficiaryData.gender;
     if (!sessionData.gender.includes(gender)) {
       res.status(400);
       throw new Error(`The session is only for ${sessionData.gender} genders`);

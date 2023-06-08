@@ -41,7 +41,6 @@ const sessionSchema = new mongoose.Schema({
   gender: {
     type: Array,
     required: true,
-    enum: [["male", "female"], ["female", "male"], ["male"], ["female"]],
   },
 });
 

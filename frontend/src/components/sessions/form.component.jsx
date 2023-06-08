@@ -18,6 +18,9 @@ const FormComponent = () => {
     const [date, setDate] = useState('');
     const [location, setLocation] = useState('');
     const [age, setAge] = useState([20, 37]);
+    const [male, setMale] = useState('');
+    const [female, setFemale] = useState('');
+    const [other, setOther] = useState('');
 
     const [communities, setCommunities] = useState([]);
     const [activities, setActivities] = useState([]);
@@ -86,6 +89,7 @@ const FormComponent = () => {
         setAge(newValue);
     };
 
+
     function ageValueText(value) {
         return `${value}`;
     }
@@ -95,13 +99,28 @@ const FormComponent = () => {
         let date = event.target[4].value;
         let location = event.target[6].value;
 
+        const gender = [];
+        
+
+        if(male){
+            gender.push("male");
+        }
+        if(female){
+            gender.push("female");
+        }
+        if(other){
+            gender.push("other");
+        }
+        
+
         const parameters = {
             name: sessionName + " - " + sessionNumber,
             activityName: activity,
             communityName: community,
             date: date,
             location: location,
-            age: age
+            age: age,
+            gender : gender,
         };
 
         const headers = {
@@ -120,6 +139,9 @@ const FormComponent = () => {
                 setCommunity('');
                 setDate('');
                 setLocation('');
+                setMale('');
+                setFemale('');
+                setOther('');   
             })
             .catch(error => {
                 alert(error.response.data.message)
@@ -233,6 +255,14 @@ const FormComponent = () => {
                         max={130}
                     />
                 </Box>
+
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+          <p style={{ marginRight: '10px' }}>Gender: </p>
+             <input type = "checkbox"  checked = {male} onChange={(e) => setMale(e.target.checked)} /> Male 
+             <input type = "checkbox" checked = {female} onChange= {(e) => setFemale(e.target.checked)}/> Female 
+             <input type = "checkbox" checked = {other} onChange = {(e) => setOther(e.target.checked )} /> Other 
+          
+        </div>
 
                 <Button type="submit" variant="contained" color="primary" fullWidth style={{ gridColumnStart: '1', gridColumnEnd: '3' }}>
                     Submit

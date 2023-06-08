@@ -29,11 +29,15 @@ const CommunityDetails = () => {
     const [loadGetEmployed, setLoadGetEmployed] = useState(false);
     const [loadGetAadhaarPan, setLoadGetAadhaarPan] = useState(false);
     const [loadGetBankAccount, setLoadGetBankAccount] = useState(false);
+    const [loadGetParticipation, setLoadGetParticipation] = useState(false);
+    const [loadGetAAC, setLoadGetAAC] = useState(false);
 
     const [getGender, setGetGender] = useState({});
     const [getEmployed, setGetEmployed] = useState({});
     const [getAadhaarPan, setGetAadhaarPan] = useState({});
     const [getBankAccount, setGetBankAccount] = useState({});
+    const [getParticipation, setGetParticipation] = useState({});
+    const [getAAC, setGetAAC] = useState({});
 
     const headers = {
         'Content-Type': 'application/json',
@@ -53,17 +57,17 @@ const CommunityDetails = () => {
             });
 
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/community/metrics/" + name,
-        {
-            headers: headers
-        })
-        .then((res) => {
-            setTotalActivities(res.data.totalActivity);
-            setTotalSessions(res.data.totalSessions);
-            setTotalBeneficiaries(res.data.totalBeneficiaries);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+            {
+                headers: headers
+            })
+            .then((res) => {
+                setTotalActivities(res.data.totalActivity);
+                setTotalSessions(res.data.totalSessions);
+                setTotalBeneficiaries(res.data.totalBeneficiaries);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
 
         // Get Gender
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/community/metrics/getGender/" + name,
@@ -187,6 +191,66 @@ const CommunityDetails = () => {
                 setLoadGetBankAccount(true);
             });
 
+        // Participation
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/community/metrics/participation/" + name,
+            {
+                headers: headers
+            })
+            .then((res) => {
+                let json = res.data;
+                let label = [];
+                let data = [];
+
+                // Iterate over the JSON object
+                for (let key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const value = json[key];
+                        label.push(key);
+                        data.push(value);
+                    }
+                }
+
+                let json_data = {}
+                json_data["label"] = label;
+                json_data["data"] = data;
+                setGetParticipation(json_data);
+                setLoadGetParticipation(true);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoadGetParticipation(true);
+            });
+
+        // AAC
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/community/metrics/aac/" + name,
+            {
+                headers: headers
+            })
+            .then((res) => {
+                let json = res.data;
+                let label = [];
+                let data = [];
+
+                // Iterate over the JSON object
+                for (let key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const value = json[key];
+                        label.push(key);
+                        data.push(value);
+                    }
+                }
+
+                let json_data = {}
+                json_data["label"] = label;
+                json_data["data"] = data;
+                setGetAAC(json_data);
+                setLoadGetAAC(true);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoadGetAAC(true);
+            });
+
     }, []);
 
     return (
@@ -287,6 +351,28 @@ const CommunityDetails = () => {
                             label={getBankAccount.label}
                             data={getBankAccount.data}
                             ylabel={"Having Bank Account"} />
+                    </div>
+                }
+
+                {loadGetParticipation &&
+                    <div className='chart'>
+                        <h4>Participations</h4>
+                        <BarPlot className="chart"
+                            options={{ horizontal: false }}
+                            label={getParticipation.label}
+                            data={getParticipation.data}
+                            ylabel={"Participations"} />
+                    </div>
+                }
+
+                {loadGetAAC &&
+                    <div className='chart'>
+                        <h4>Activity Attendance Count</h4>
+                        <BarPlot className="chart"
+                            options={{ horizontal: false }}
+                            label={getAAC.label}
+                            data={getAAC.data}
+                            ylabel={"Activity Attendance Count"} />
                     </div>
                 }
 

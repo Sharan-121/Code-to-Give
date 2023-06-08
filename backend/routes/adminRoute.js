@@ -28,7 +28,7 @@ router.get("/activity/:name", validateToken, getActivityByName);
 router.get("/activity/metrics/cwa/:name",validateToken, communityWiseAttendance);
 router.get("/activity/metrics/cwb/:name",validateToken, communityWiseBeneficiary);
 router.get("activity/metrics/acwe/:activityName", validateToken, ageAndCommunityWiseEngagement);
-router.get("activity/metrics/acwe/:activityName", validateToken, ageAndCommunityWiseEngagement);
+router.get("activity/metrics/gcwe/:activityName", validateToken, genderAndCommunityWiseEngagement);
 router.post("/activity", validateToken, createActivity);
 router.get("/community/metrics/getGender/:name", validateToken, genderDistribution);
 router.get("/community/metrics/getEmployed/:name", validateToken, employedDistribution);

@@ -23,8 +23,6 @@ const ageAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
   const activity = await Activity.findOne({ name: activityName });
   const sessions = await Session.find({ activity_id: activity._id });
 
-  console.log(sessions);
-
   let eligibleSet = new Set();
   let attendedSet = new Set();
 
@@ -45,6 +43,8 @@ const ageAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
     const beneficiaries = await Beneficiary.find({
       community: communityName,
     });
+
+    console.log(beneficiaries.length);
 
     for (const beneficiary of beneficiaries) {
       const age = getAge(beneficiary.dob);

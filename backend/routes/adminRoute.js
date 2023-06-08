@@ -13,6 +13,7 @@ const {
   getAllSessions,
   getSessionNumber,
 } = require("../controllers/adminController");
+const {ageAndCommunityWiseEngagement} = require("../controllers/ageEngagementController")
 
 const {communityWiseBeneficiary} = require("../controllers/communityBeneficiaryController");
 const {communityWiseAttendance} = require("../controllers/communityAttendanceController");
@@ -28,5 +29,6 @@ router.post("/community", validateToken, addCommunity);
 router.get("/session", validateToken, getAllSessions);
 router.post("/session", validateToken, createSession);
 router.get("/session/number/:name", validateToken, getSessionNumber);
+router.get("/metrics/agecommunity/:activityName", validateToken, ageAndCommunityWiseEngagement);
 
 module.exports = router;

@@ -25,7 +25,7 @@ const getCommunityMetrics = asyncHandler(async (req, res) => {
     });
 
     res.status(200).json({
-      totalSessions: totalSessions.length,
+      totalSessions: totalSessionID.length,
       totalActivity: totalActivity.length,
       totalBeneficiaries: totalBeneficiaries.length,
     });

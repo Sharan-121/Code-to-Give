@@ -10,6 +10,7 @@ import searchIcon from "../../assets/search_icon.png";
 import defaultVariables from '../variables/variables';
 import "./activity.css";
 import BarPlot from './charts/BarPlot';
+import LineChart from './charts/LineChart';
 
 const ActivityDetails = () => {
     const navigate = useNavigate();
@@ -23,7 +24,6 @@ const ActivityDetails = () => {
     const [totalCommunities, setTotalCommunities] = useState(0);
     const [totalSessions, setTotalSessions] = useState(0);
     const [totalBeneficiaries, setTotalBeneficiaries] = useState(0);
-
 
     const [communityWiseBeneficiaries, setCommunityWiseBeneficiaries] = useState({});
 
@@ -143,14 +143,21 @@ const ActivityDetails = () => {
 
             <div className='charts'>
                 {/* Community Wise Beneficiaries Chart */}
-                <BarPlot className= "chart"
-                options = {{ horizontal: true }}
-                title= { "Community Wise Beneficiaries" }
-                label = {communityWiseBeneficiaries.label}
-                data = {communityWiseBeneficiaries.data}
-                ylabel ={"Total Beneficiaries"} />
-            </div>
+                <BarPlot className="chart"
+                    options={{ horizontal: true }}
+                    title={"Community Wise Beneficiaries"}
+                    label={communityWiseBeneficiaries.label}
+                    data={communityWiseBeneficiaries.data}
+                    ylabel={"Total Beneficiaries"} />
 
+                    {/* Community Wise Beneficiaries Chart */}
+                <LineChart className="chart"
+                    options={{ horizontal: true }}
+                    title={"Community Wise Beneficiaries"}
+                    label={communityWiseBeneficiaries.label}
+                    data={communityWiseBeneficiaries.data}
+                    ylabel={"Total Beneficiaries"} />
+            </div>
 
         </div>
     );

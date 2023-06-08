@@ -3,8 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 const Community = (props) => {
 
+  const navigate = useNavigate();
+
+  const navigateToCommunity = () => {
+    navigate("/home/communities/view/" + props.communityTitle);
+  }
+
   return (
-    <div className="community" style={{ background: props.background }}>
+    <div onClick = {navigateToCommunity}className="community" style={{ background: props.background }}>
         <div className="top-div">
           <img src={props.communityIcon} alt="Community Icon" />
           <p className="community-title">{props.communityTitle}</p>

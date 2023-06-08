@@ -6,6 +6,7 @@ import SideBar from './sidebar';
 import ViewActivities from './activities/view-activities.component';
 import ViewCommunities from './community/view-communities.component';
 import ActivityDetails from './activities/activity.component';
+import CommunityDetails from './community/community.component';
 import BeneficiaryForm from './beneficiary/form.component';
 import SessionForm from './sessions/form.component';
 import AttendanceForm from './attendance/form.component';
@@ -35,6 +36,7 @@ const Home = () =>{
                 <Route exact path="/activities/view/:name" element={<ActivityDetails />} />
                 <Route exact path="/communities/view/add" element={<CommunityForm />}/>
                 <Route exact path="/communities/view" element={<ViewCommunities />} />
+                <Route exact path="/communities/view/:name" element={<CommunityDetails />} />
                 <Route exact path="/locations/view" element={<ViewLocations />} />
                 <Route exact path="*" element={<Dashboard />} />
             </Routes>

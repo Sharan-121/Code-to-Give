@@ -11,9 +11,9 @@ import defaultVariables from '../variables/variables';
 import "./activity.css";
 import { TextField, Select, MenuItem, Button, Box, Typography, InputLabel } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
-import BarPlot from './charts/BarPlot';
-import LineChart from './charts/LineChart';
-import MultipleLineChart from './charts/MultipleLineChart';
+import BarPlot from '../charts/BarPlot';
+import LineChart from '../charts/LineChart';
+import MultipleLineChart from '../charts/MultipleLineChart';
 
 const ActivityDetails = () => {
     const navigate = useNavigate();
@@ -178,7 +178,6 @@ const ActivityDetails = () => {
                         const value = json[key];
                         label.push(key);
                         data.push(value);
-                        // Perform other operations with key and value
                     }
                 }
                 let json_data = {}

@@ -27,9 +27,11 @@ const CommunityDetails = () => {
 
     const [loadGetGender, setLoadGetGender] = useState(false);
     const [loadGetEmployed, setLoadGetEmployed] = useState(false);
+    const [loadGetAadhaarPan, setLoadGetAadhaarPan] = useState(false);
 
     const [getGender, setGetGender] = useState({});
     const [getEmployed, setGetEmployed] = useState({});
+    const [getAadhaarPan, setGetAadhaarPan] = useState({});
 
     const headers = {
         'Content-Type': 'application/json',
@@ -123,6 +125,35 @@ const CommunityDetails = () => {
                 setLoadGetEmployed(true);
             });
 
+        // Get Aadhaar Pan
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/community/metrics/getAadharPan/" + name,
+            {
+                headers: headers
+            })
+            .then((res) => {
+                let json = res.data;
+                let label = [];
+                let data = [];
+
+                // Iterate over the JSON object
+                for (let key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const value = json[key];
+                        label.push(key);
+                        data.push(value);
+                    }
+                }
+
+                let json_data = {}
+                json_data["label"] = label;
+                json_data["data"] = data;
+                setGetAadhaarPan(json_data);
+                setLoadGetAadhaarPan(true);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoadGetAadhaarPan(true);
+            });
 
     }, []);
 
@@ -197,6 +228,17 @@ const CommunityDetails = () => {
                             label={getEmployed.label}
                             data={getEmployed.data}
                             ylabel={"Employment Count"} />
+                    </div>
+                }
+
+                {loadGetAadhaarPan &&
+                    <div className='chart'>
+                        <h4>Having Aadhaar / PAN</h4>
+                        <BarPlot className="chart"
+                            options={{ horizontal: false }}
+                            label={getAadhaarPan.label}
+                            data={getAadhaarPan.data}
+                            ylabel={"Having Aadhaar / PAN"} />
                     </div>
                 }
 

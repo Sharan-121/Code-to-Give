@@ -2,6 +2,20 @@ const asyncHandler = require("express-async-handler");
 const beneficiary = require("../models/beneficiaryModel");
 const attendance = require("../models/attendanceModel");
 const session = require("../models/sessionModel");
+const Community = require("../models/communityModel");
+
+const getAge = (birthDate) => {
+  const currentDate = new Date();
+  let age = currentDate.getFullYear() - birthDate.getFullYear();
+  if (
+    currentDate.getMonth() < birthDate.getMonth() ||
+    (currentDate.getMonth() === birthDate.getMonth() &&
+      currentDate.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+  return age;
+};
 
 const createBeneficiary = asyncHandler(async (req, res) => {
   if (req.user.role === "admin" || req.user.role === "staff") {
@@ -27,7 +41,7 @@ const createBeneficiary = asyncHandler(async (req, res) => {
     if (
       !name ||
       !dob ||
-      !gender||
+      !gender ||
       !community ||
       !aadharNumber ||
       !phoneNumber ||
@@ -59,15 +73,15 @@ const createBeneficiary = asyncHandler(async (req, res) => {
 
     const datePartsDob = dob.split("-");
     let formattedDob = new Date();
-    formattedDob.setDate(parseInt(datePartsDob[0]));
+    formattedDob.setDate(parseInt(datePartsDob[2]));
     formattedDob.setMonth(parseInt(datePartsDob[1]) - 1);
-    formattedDob.setFullYear(parseInt(datePartsDob[2]));
+    formattedDob.setFullYear(parseInt(datePartsDob[0]));
 
     const datePartsDoctorVisit = previousDoctorVisit.split("-");
     let formattedDoctorVisit = new Date();
-    formattedDoctorVisit.setDate(parseInt(datePartsDoctorVisit[0]));
+    formattedDoctorVisit.setDate(parseInt(datePartsDoctorVisit[2]));
     formattedDoctorVisit.setMonth(parseInt(datePartsDoctorVisit[1]) - 1);
-    formattedDoctorVisit.setFullYear(parseInt(datePartsDoctorVisit[2]));
+    formattedDoctorVisit.setFullYear(parseInt(datePartsDoctorVisit[0]));
 
     const newBeneficiary = await beneficiary.create({
       name,
@@ -121,6 +135,30 @@ const addAttendance = asyncHandler(async (req, res) => {
     if (!sessionData) {
       res.status(400);
       throw new Error("Session does not exist");
+    }
+
+    const beneficiaryCommunity = beneficiaryData.community;
+    const communityData = await Community.findById(sessionData.community_id);
+    const communityName = communityData.name;
+    if (beneficiaryCommunity !== communityName) {
+      res.status(400);
+      throw new Error(
+        `Beneficiary is belongs to ${beneficiaryCommunity} community and the session is for ${communityName} community`
+      );
+    }
+
+    const age = getAge(beneficiaryData.dob);
+    if (sessionData.minAge > age || sessionData.maxAge < age) {
+      res.status(400);
+      throw new Error(
+        `Beneficiary age is ${age} and the session is for ${sessionData.minAge} - ${sessionData.maxAge} age category`
+      );
+    }
+
+    const gender = beneficiaryData.gender;
+    if (!sessionData.gender.includes(gender)) {
+      res.status(400);
+      throw new Error(`The session is only for ${sessionData.gender} genders`);
     }
 
     const attendanceData = await attendance.findOne({

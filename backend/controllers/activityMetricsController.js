@@ -172,6 +172,26 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
       }
     }
 
+    //2.4 Total Number of beneficiaries across all communities for this activity
+
+    communityWiseBeneficiaries = {};
+    for (const sessionId of sessionIdArray) {
+        const attendances = await Attendance.find({ session_id: sessionId });
+        const community = await Community.findById(session.community_id);
+        const communityName = community.name;
+        if(communityWiseBeneficiaries[communityName] === undefined){
+            communityWiseBeneficiaries[communityName] = attendances.length;
+
+        }
+        else{
+            communityWiseBeneficiaries[communityName] += attendances.length;
+        }
+
+    }
+
+
+
+
     // response
 
     res.status(200).json({
@@ -181,6 +201,8 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
       communitySession: communitySession,
       communityWiseAgeGroup: communityWiseAgeGroup,
       communityWiseGender: communityWiseGender,
+      communityWiseBeneficiaries: communityWiseBeneficiaries,
+
     });
   } catch (error) {
     res.status(500);

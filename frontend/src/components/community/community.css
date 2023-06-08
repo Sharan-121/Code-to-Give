@@ -34,3 +34,16 @@
     flex: 2;
     text-align: left;
 }
+
+.charts {
+    margin-top: 50px;
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: 50% 50%;
+}
+
+.charts .chart{
+    border: 2px solid rgb(235, 235, 235);
+    border-radius: 20px;
+    box-shadow: 2px 3px 10px rgb(220, 220, 220);
+}

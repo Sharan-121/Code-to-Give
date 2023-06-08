@@ -26,8 +26,10 @@ const CommunityDetails = () => {
     const [totalActivities, setTotalActivities] = useState(0);
 
     const [loadGetGender, setLoadGetGender] = useState(false);
+    const [loadGetEmployed, setLoadGetEmployed] = useState(false);
 
     const [getGender, setGetGender] = useState({});
+    const [getEmployed, setGetEmployed] = useState({});
 
     const headers = {
         'Content-Type': 'application/json',
@@ -88,6 +90,37 @@ const CommunityDetails = () => {
             .catch((err) => {
                 console.log(err);
                 setLoadGetGender(true);
+            });
+
+
+        // Get Employed
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/community/metrics/getEmployed/" + name,
+            {
+                headers: headers
+            })
+            .then((res) => {
+                let json = res.data;
+                let label = [];
+                let data = [];
+
+                // Iterate over the JSON object
+                for (let key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const value = json[key];
+                        label.push(key);
+                        data.push(value);
+                    }
+                }
+
+                let json_data = {}
+                json_data["label"] = label;
+                json_data["data"] = data;
+                setGetEmployed(json_data);
+                setLoadGetEmployed(true);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoadGetEmployed(true);
             });
 
 
@@ -153,6 +186,17 @@ const CommunityDetails = () => {
                             label={getGender.label}
                             data={getGender.data}
                             ylabel={"Gender Count"} />
+                    </div>
+                }
+
+                {loadGetEmployed &&
+                    <div className='chart'>
+                        <h4>Employment Count</h4>
+                        <BarPlot className="chart"
+                            options={{ horizontal: false }}
+                            label={getEmployed.label}
+                            data={getEmployed.data}
+                            ylabel={"Employment Count"} />
                     </div>
                 }
 

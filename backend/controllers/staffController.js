@@ -4,6 +4,19 @@ const attendance = require("../models/attendanceModel");
 const session = require("../models/sessionModel");
 const Community = require("../models/communityModel");
 
+const getAge = (birthDate) => {
+  const currentDate = new Date();
+  let age = currentDate.getFullYear() - birthDate.getFullYear();
+  if (
+    currentDate.getMonth() < birthDate.getMonth() ||
+    (currentDate.getMonth() === birthDate.getMonth() &&
+      currentDate.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+  return age;
+};
+
 const createBeneficiary = asyncHandler(async (req, res) => {
   if (req.user.role === "admin" || req.user.role === "staff") {
     const {
@@ -132,6 +145,20 @@ const addAttendance = asyncHandler(async (req, res) => {
       throw new Error(
         `Beneficiary is belongs to ${beneficiaryCommunity} community and the session is for ${communityName} community`
       );
+    }
+
+    const age = getAge(beneficiaryData.dob);
+    if (sessionData.minAge > age || sessionData.maxAge < age) {
+      res.status(400);
+      throw new Error(
+        `Beneficiary age is ${age} and the session is for ${sessionData.minAge} - ${sessionData.maxAge} age category`
+      );
+    }
+
+    const gender = beneficiary.gender;
+    if (!sessionData.gender.includes(gender)) {
+      res.status(400);
+      throw new Error(`The session is only for ${sessionData.gender} genders`);
     }
 
     const attendanceData = await attendance.findOne({

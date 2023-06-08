@@ -14,6 +14,7 @@ const {
   getSessionNumber,
 } = require("../controllers/adminController");
 
+const {getActivityMetrics} = require("../controllers/activityMetricsController");
 const {genderAndCommunityWiseEngagement} = require("../controllers/genderEngagementController")
 const {ageAndCommunityWiseEngagement} = require("../controllers/ageEngagementController")
 const {communityWiseBeneficiary} = require("../controllers/communityBeneficiaryController");
@@ -25,6 +26,7 @@ const {bankAccount} = require("../controllers/bankAccountController");
 
 router.get("/activity", validateToken, getActivities);
 router.get("/activity/:name", validateToken, getActivityByName);
+router.get("/activity/metrics/:name", validateToken, getActivityMetrics);
 router.get("/activity/metrics/cwa/:name",validateToken, communityWiseAttendance);
 router.get("/activity/metrics/cwb/:name",validateToken, communityWiseBeneficiary);
 router.post("/activity", validateToken, createActivity);

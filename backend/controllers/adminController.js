@@ -225,10 +225,14 @@ const createSession = asyncHandler(async (req, res) => {
 
     console.log(gender);
 
-   if(!gender.includes("male") && !gender.includes("female") && !gender.includes(other)) {
+    if (
+      !gender.includes("male") &&
+      !gender.includes("female") &&
+      !gender.includes(other)
+    ) {
       res.status(400);
       throw new Error(
-        `Invalid gender format! Correct format: [["male", "female"], ["female", "male"], ["male"], ["female"]] (anyone)`
+        `Invalid gender format! Gender should be an non-empty array with elements as "male", "female" and/or "other"`
       );
     }
 
@@ -244,7 +248,7 @@ const createSession = asyncHandler(async (req, res) => {
     });
 
     if (session) {
-      res.status(201).json({ message : "Session created successfully" });
+      res.status(201).json({ message: "Session created successfully" });
     } else {
       res.status(400);
       throw new Error("Invalid date format");

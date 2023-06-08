@@ -28,10 +28,12 @@ const CommunityDetails = () => {
     const [loadGetGender, setLoadGetGender] = useState(false);
     const [loadGetEmployed, setLoadGetEmployed] = useState(false);
     const [loadGetAadhaarPan, setLoadGetAadhaarPan] = useState(false);
+    const [loadGetBankAccount, setLoadGetBankAccount] = useState(false);
 
     const [getGender, setGetGender] = useState({});
     const [getEmployed, setGetEmployed] = useState({});
     const [getAadhaarPan, setGetAadhaarPan] = useState({});
+    const [getBankAccount, setGetBankAccount] = useState({});
 
     const headers = {
         'Content-Type': 'application/json',
@@ -155,6 +157,37 @@ const CommunityDetails = () => {
                 setLoadGetAadhaarPan(true);
             });
 
+
+        // Get Bank Account
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/community/metrics/getBankAccount/" + name,
+            {
+                headers: headers
+            })
+            .then((res) => {
+                let json = res.data;
+                let label = [];
+                let data = [];
+
+                // Iterate over the JSON object
+                for (let key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const value = json[key];
+                        label.push(key);
+                        data.push(value);
+                    }
+                }
+
+                let json_data = {}
+                json_data["label"] = label;
+                json_data["data"] = data;
+                setGetBankAccount(json_data);
+                setLoadGetBankAccount(true);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoadGetBankAccount(true);
+            });
+
     }, []);
 
     return (
@@ -239,6 +272,17 @@ const CommunityDetails = () => {
                             label={getAadhaarPan.label}
                             data={getAadhaarPan.data}
                             ylabel={"Having Aadhaar / PAN"} />
+                    </div>
+                }
+
+                {loadGetBankAccount &&
+                    <div className='chart'>
+                        <h4>Having Bank Account</h4>
+                        <BarPlot className="chart"
+                            options={{ horizontal: false }}
+                            label={getBankAccount.label}
+                            data={getBankAccount.data}
+                            ylabel={"Having Bank Account"} />
                     </div>
                 }
 

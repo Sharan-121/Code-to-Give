@@ -120,7 +120,20 @@ const ActivityDetails = () => {
             .catch((err) => {
                 console.log(err);
             });
+
+        // Gender and Community Wise Engagement
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity/metrics/gcwe/" + name,
+            {
+                headers: headers
+            })
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }, []);
+
 
     return (
         <div className='activity-details'>
@@ -162,7 +175,7 @@ const ActivityDetails = () => {
 
             <div className='all-details-div'>
 
-                <div onClick={ onclickfn } className='details-div'>
+                <div onClick={onclickfn} className='details-div'>
                     <p className='details-field'>Name: </p>
                     <p className='details-value'>{activity.name}</p>
                 </div>

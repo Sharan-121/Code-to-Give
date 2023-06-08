@@ -14,11 +14,13 @@ const {
   getSessionNumber,
 } = require("../controllers/adminController");
 
-const {communityWiseBeneficiaries} = require("../controllers/communityEngagementController");
+const {communityWiseBeneficiary} = require("../controllers/communityBeneficiaryController");
+const {communityWiseAttendance} = require("../controllers/communityAttendanceController");
 
 router.get("/activity", validateToken, getActivities);
 router.get("/activity/:name", validateToken, getActivityByName);
-router.get("/activity/metrics/ce/:name", validateToken, communityWiseBeneficiaries);
+router.get("/activity/metrics/cwa/:name",validateToken, communityWiseAttendance);
+router.get("/activity/metrics/cwb/:name",validateToken, communityWiseBeneficiary);
 router.post("/activity", validateToken, createActivity);
 router.get("/community/:name", validateToken, getCommunity);
 router.get("/community", validateToken, getAllCommunities);

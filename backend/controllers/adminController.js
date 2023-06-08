@@ -222,13 +222,11 @@ const createSession = asyncHandler(async (req, res) => {
           : "Invalid date format! Accepted date format: yyyy-mm-dd"
       );
     }
-
-    console.log(gender);
-
+    
     if (
       !gender.includes("male") &&
       !gender.includes("female") &&
-      !gender.includes(other)
+      !gender.includes("other")
     ) {
       res.status(400);
       throw new Error(

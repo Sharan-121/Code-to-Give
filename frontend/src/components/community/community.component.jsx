@@ -52,19 +52,18 @@ const CommunityDetails = () => {
                 console.log(err);
             });
 
-        // axios.get(defaultVariables['backend-url'] + "api/v1/admin/community/metrics/" + name,
-        // {
-        //     headers: headers
-        // })
-        // .then((res) => {
-        //     console.log(res.data);
-        //     // setTotalCommunities(res.data.totalCommunities);
-        //     // setTotalSessions(res.data.totalSessions);
-        //     // setTotalBeneficiaries(res.data.totalBeneficiaries);
-        // })
-        // .catch((err) => {
-        //     console.log(err);
-        // });
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/community/metrics/" + name,
+        {
+            headers: headers
+        })
+        .then((res) => {
+            setTotalActivities(res.data.totalActivity);
+            setTotalSessions(res.data.totalSessions);
+            setTotalBeneficiaries(res.data.totalBeneficiaries);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 
         // Get Gender
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/community/metrics/getGender/" + name,
@@ -196,30 +195,35 @@ const CommunityDetails = () => {
 
             <br />
             <div className='top-info-div'>
+
                 <TopInfo
                     background="linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%)"
                     icon={communityIconWhite}
-                    title="Total Activities"
-                    value="100"
+                    title="Total Activities Impacted"
+                    value={totalActivities}
                 />
+
                 <TopInfo
                     background="linear-gradient( 135deg, #FEC163 10%, #DE4313 100%)"
                     icon={communityIconWhite}
-                    title="Total Sessions"
-                    value="100"
+                    title="Total Sessions Conducted"
+                    value={totalSessions}
                 />
+
                 <TopInfo
                     background="linear-gradient(to top, #ff0844 0%, #ffb199 100%)"
                     icon={communityIconWhite}
                     title="Total Beneficiaries"
-                    value="100"
+                    value={totalBeneficiaries}
                 />
+
                 <TopInfo
                     background="linear-gradient(to top, #00c6fb 0%, #005bea 100%)"
                     icon={communityIconWhite}
                     title="Total Activities"
                     value="100"
                 />
+
             </div>
 
             <div className='all-details-div'>

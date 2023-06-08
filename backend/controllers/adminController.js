@@ -173,7 +173,8 @@ const isDateValid = (dateString, monthString, yearString) => {
 
 const createSession = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    const { name, activityName, communityName, date, location, age } = req.body;
+    const { name, activityName, communityName, date, location, age, gender } =
+      req.body;
 
     if (
       !name ||
@@ -181,7 +182,8 @@ const createSession = asyncHandler(async (req, res) => {
       !communityName ||
       !date ||
       !location ||
-      !age
+      !age ||
+      !gender
     ) {
       res.status(400);
       throw new Error("Please fill all the fields");
@@ -221,6 +223,17 @@ const createSession = asyncHandler(async (req, res) => {
       );
     }
 
+    if (
+      ![["male", "female"], ["female", "male"], ["male"], ["female"]].includes(
+        gender
+      )
+    ) {
+      res.status(400);
+      throw new Error(
+        `Invalid gender format! Correct format: [["male", "female"], ["female", "male"], ["male"], ["female"]] (anyone)`
+      );
+    }
+
     const session = await Session.create({
       name: name,
       activity_id: activity.id,
@@ -229,6 +242,7 @@ const createSession = asyncHandler(async (req, res) => {
       location: location,
       minAge: age[0],
       maxAge: age[1],
+      gender: gender,
     });
 
     if (session) {

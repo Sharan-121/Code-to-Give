@@ -37,6 +37,12 @@ const sessionSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+
+  gender: {
+    type: Array,
+    required: true,
+    enum: [["male", "female"], ["female", "male"], ["male"], ["female"]],
+  },
 });
 
 module.exports = mongoose.model("Session", sessionSchema);

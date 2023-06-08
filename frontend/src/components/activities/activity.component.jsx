@@ -267,9 +267,9 @@ const ActivityDetails = () => {
 
                 {loadCWB &&
                     <div className='chart'>
+                        <h4>Community Wise Beneficiaries</h4>
                         <BarPlot className="chart"
                             options={{ horizontal: true }}
-                            title={"Community Wise Beneficiaries"}
                             label={communityWiseBeneficiaries.label}
                             data={communityWiseBeneficiaries.data}
                             ylabel={"Total Beneficiaries"} />
@@ -278,6 +278,7 @@ const ActivityDetails = () => {
 
                 {loadCWA &&
                     <div className='chart'>
+                        <h4>Community Wise Attendance</h4>
                         <FormControl style={{ marginTop: "20px", width: "80%" }}>
                             <InputLabel>Gender</InputLabel>
                             <Select
@@ -297,7 +298,6 @@ const ActivityDetails = () => {
 
                         <MultipleLineChart
                             options={{ horizontal: true }}
-                            title={"Community Wise Attendance"}
                             label={communityWiseAttendance.label}
                             data={communityWiseAttendance.data}
                             ylabel={"Total Beneficiaries"} />

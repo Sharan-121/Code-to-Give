@@ -9,6 +9,7 @@ const BarPlot = (props) => {
     },
     plotOptions: {
       bar: {
+        horizontal: props.options.horizontal,
         distributed: true,
       },
     },

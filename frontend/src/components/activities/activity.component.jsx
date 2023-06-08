@@ -28,9 +28,9 @@ const ActivityDetails = () => {
     const [totalSessions, setTotalSessions] = useState(0);
     const [totalBeneficiaries, setTotalBeneficiaries] = useState(0);
 
-    const [loadCWB, setLoadCWB] = useState(0);
-    const [loadCWA, setLoadCWA] = useState(0);
-    const [loadGCWE, setLoadGCWE] = useState(0);
+    const [loadCWB, setLoadCWB] = useState(false);
+    const [loadCWA, setLoadCWA] = useState(false);
+    const [loadGCWE, setLoadGCWE] = useState(false);
 
     const [genderCWA, setGenderCWA] = useState('All');
     const [genderCWALabel, setGenderCWALabel] = useState([]);
@@ -127,11 +127,11 @@ const ActivityDetails = () => {
                 json_data["label"] = label;
                 json_data["data"] = data;
                 setCommunityWiseBeneficiaries(json_data);
-                setLoadCWB(1);
+                setLoadCWB(true);
             })
             .catch((err) => {
                 console.log(err);
-                setLoadCWB(1);
+                setLoadCWB(true);
             });
 
         // Community Wise Attendance
@@ -157,11 +157,11 @@ const ActivityDetails = () => {
                 json_data["label"] = label;
                 json_data["data"] = data;
                 setCommunityWiseAttendance(json_data);
-                setLoadCWA(1);
+                setLoadCWA(true);
             })
             .catch((err) => {
                 console.log(err);
-                setLoadCWA(1);
+                setLoadCWA(true);
             });
 
         // Gender and Community Wise Engagement
@@ -197,11 +197,11 @@ const ActivityDetails = () => {
                 json_data["label"] = genderCWALabel;
                 json_data["data"] = genderCWADataAll;
                 setCommunityWiseAttendance(json_data);
-                setLoadGCWE(1);
+                setLoadGCWE(true);
             })
             .catch((err) => {
                 console.log(err);
-                setLoadGCWE(1);
+                setLoadGCWE(true);
             });
     }, []);
 

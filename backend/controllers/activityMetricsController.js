@@ -100,12 +100,13 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
           age <= session.maxAge &&
           session.gender.includes(beneficiary.gender)
         ) {
+
           if (
-            numberOfAttendedVsEligibleCommunityWise.communityName === undefined
+            numberOfAttendedVsEligibleCommunityWise[communityName] === undefined
           ) {
-            numberOfAttendedVsEligibleCommunityWise.communityName = [0, 1];
+            numberOfAttendedVsEligibleCommunityWise[communityName] = [0, 1];
           } else {
-            numberOfAttendedVsEligibleCommunityWise.communityName[1]++;
+            numberOfAttendedVsEligibleCommunityWise[communityName][1]++;
           }
 
           let ageGroup = "";

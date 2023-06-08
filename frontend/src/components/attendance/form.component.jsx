@@ -21,6 +21,18 @@ const FormComponent = () => {
         e.preventDefault();
         // Handle form submission logic here
     };
+    const phoneNumberRegex = /^\d{10}$/;
+    if (!phoneNumberRegex.test(phoneNumber)) {
+      alert("Invalid phone number format. Please enter a 10-digit phone number.");
+      return;
+    }
+
+    const aadharNumberRegex = /^\d{12}$/;
+    if (!aadharNumberRegex.test(aadharNumber)) {
+      alert("Invalid Aadhar number format. Please enter a 12-digit Aadhar number.");
+      return;
+    }
+        
 
     return (
         <div className='form-div'>

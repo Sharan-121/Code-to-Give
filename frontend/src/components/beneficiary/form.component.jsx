@@ -29,10 +29,25 @@ const FormComponent = () => {
     // Handle form submission logic here
   };
 
-  // const handleAadharPanLinkChange = (event) => {
-  //   setAadharPanLink(event.target.value === 'linked');
-  // };
+  const panNumberRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+    if (!panNumberRegex.test(panNumber)) {
+      alert("Invalid PAN number format. Please enter a valid PAN number.");
+      return;
+    }
 
+    const phoneNumberRegex = /^\d{10}$/;
+    if (!phoneNumberRegex.test(phoneNumber)) {
+      alert("Invalid phone number format. Please enter a 10-digit phone number.");
+      return;
+    }
+
+    const aadharNumberRegex = /^\d{12}$/;
+    if (!aadharNumberRegex.test(aadharNumber)) {
+      alert("Invalid Aadhar number format. Please enter a 12-digit Aadhar number.");
+      return;
+    }
+
+  
 
   return (
     <div className='form-div'>

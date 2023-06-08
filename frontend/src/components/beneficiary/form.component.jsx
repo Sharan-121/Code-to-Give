@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { TextField,InputLabel, Button, Box, Typography } from '@mui/material';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import defaultVariables from '../variables/variables';
 
 
 
@@ -11,25 +13,28 @@ const FormComponent = () => {
   const [dob, setDOB] = useState('');
   const [aadharNumber, setAadharNumber] = useState('');
   const [panNumber, setPanNumber] = useState('');
-  const [aadharPanLink,setAadharPanLink]=useState('');
+  const [aadharPanLink,setAadharPanLink]=useState('yes');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [community,setCommunity]=useState('');
   const [address, setAddress] = useState('');
   const[familyMembersCount,setFamilyMembersCount]=useState('');
-  const[employed,setEmployed]=useState('');
+  const[employed,setEmployed]=useState('yes');
   const[annualIncome,setAnnualIncome]=useState('');
-  const[bankAccount,setBankAccount]=useState('');
+  const[bankAccount,setBankAccount]=useState('yes');
   const[previousDoctorVisit,setPreviousDoctorVisit]=useState('');
   const[medicalHistory,setMedicalHistory]=useState('');
-  const[childStudying,setChildStudying]=useState('');
-  const[gender,setGender]=useState('');
+  const[childStudying,setChildStudying]=useState('yes');
+  const[gender,setGender]=useState('male');
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + localStorage.getItem("token")
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-  };
 
-  const panNumberRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+    const panNumberRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
     if (!panNumberRegex.test(panNumber)) {
       alert("Invalid PAN number format. Please enter a valid PAN number.");
       return;
@@ -46,8 +51,55 @@ const FormComponent = () => {
       alert("Invalid Aadhar number format. Please enter a 12-digit Aadhar number.");
       return;
     }
+    
+    const beneficiary = {
+      name: name,
+      dob: dob,
+      gender : gender,
+      aadharNumber: aadharNumber,
+      panNumber: panNumber,
+      aadharPanLink: aadharPanLink,
+      phoneNumber: phoneNumber,
+      community: community,
+      address: address,
+      familyMembersCount: familyMembersCount,
+      employed: employed,
+      annualIncome: annualIncome,
+      bankAccount: bankAccount,
+      previousDoctorVisit: previousDoctorVisit,
+      medicalHistory: medicalHistory,
+      childStudying: childStudying,
+
+    }
+
+    axios.post(defaultVariables['backend-url'] + "api/v1/staff/beneficiary", beneficiary,{
+      headers : headers
+    }).then((res) => {
+      alert("Beneficiary added successfully")
+      setName('');
+      setDOB('');
+      setAadharNumber('');
+      setPanNumber('');
+      setAadharPanLink('');
+      setPhoneNumber('');
+      setCommunity('');
+      setAddress('');
+      setFamilyMembersCount('');
+      setEmployed('');
+      setAnnualIncome('');
+      setBankAccount('');
+      setPreviousDoctorVisit('');
+      setMedicalHistory('');
+      setChildStudying('');
+      setGender('');
+      
+    }).catch(err => {
+      alert(err.response.data.message);
+    })
+  };
 
   
+
 
   return (
     <div className='form-div'>
@@ -118,7 +170,7 @@ const FormComponent = () => {
             label="Pan Number"
             variant="outlined"
             value={panNumber}
-            type='number'
+           
             onChange={(e) => setPanNumber(e.target.value)}
             fullWidth
             margin="normal"

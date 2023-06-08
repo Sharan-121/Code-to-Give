@@ -269,7 +269,7 @@ const ActivityDetails = () => {
                     <div className='chart'>
                         <h4>Community Wise Beneficiaries</h4>
                         <BarPlot className="chart"
-                            options={{ horizontal: true }}
+                            options={{ horizontal: false }}
                             label={communityWiseBeneficiaries.label}
                             data={communityWiseBeneficiaries.data}
                             ylabel={"Total Beneficiaries"} />

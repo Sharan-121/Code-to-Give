@@ -34,3 +34,13 @@
     flex: 2;
     text-align: left;
 }
+
+
+.charts{
+    margin-top: 50px;
+    display: flex;
+}
+
+.charts .chart{
+    flex: 1;
+}

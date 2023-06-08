@@ -141,9 +141,9 @@ const ActivityDetails = () => {
 
             </div>
 
-            <div className='charts' style= {{ marginTop: "50px" }}>
+            <div className='charts'>
                 {/* Community Wise Beneficiaries Chart */}
-                <BarPlot title= { "Community Wise Beneficiaries" } label = {communityWiseBeneficiaries.label} data = {communityWiseBeneficiaries.data} ylabel ={"Total Beneficiaries"} />
+                <BarPlot className= "chart" title= { "Community Wise Beneficiaries" } label = {communityWiseBeneficiaries.label} data = {communityWiseBeneficiaries.data} ylabel ={"Total Beneficiaries"} />
             </div>
 
 

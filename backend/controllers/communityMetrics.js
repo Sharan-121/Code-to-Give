@@ -110,8 +110,44 @@ const activeBeneficiariesCommunity = asyncHandler(async (req, res) => {
   }
 });
 
+const activityAttendanceCountCommunity = asyncHandler(async (req, res) => {
+  if (req.user.role === "admin") {
+    const communityName = req.params.communityName;
+    const community = await Community.findOne({ name: communityName });
+    const sessions = await Session.find({ community_id: community._id });
+
+    let activityParticipation = {};
+    let attendedSet = new Set();
+
+    for (const session of sessions) {
+      const attendances = await Attendance.find({
+        session_id: session._id,
+      });
+
+      const activity = await Activity.findById(session.activity_id);
+
+      for (const attendance of attendances) {
+        const beneficiary = await Beneficiary.findById(
+          attendance.beneficiary_id
+        );
+
+        if (!attendedSet.has(beneficiary._id.toSting())) {
+          attendedSet.add(beneficiary._id.toSting());
+          activityParticipation[activity.name]++;
+        }
+      }
+    }
+
+    res.status(200).json(activityParticipation);
+  } else {
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }
+});
+
 module.exports = {
   ageDistributionCommunity,
   genderDistributionCommunity,
   activeBeneficiariesCommunity,
+  activityAttendanceCountCommunity,
 };

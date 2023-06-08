@@ -41,6 +41,7 @@ const { bankAccount } = require("../controllers/bankAccountController");
 const {
   genderDistributionCommunity,
   activeBeneficiariesCommunity,
+  activityAttendanceCountCommunity,
 } = require("../controllers/communityMetrics");
 
 
@@ -104,6 +105,11 @@ router.get(
   "/community/metrics/participation/:name",
   validateToken,
   activeBeneficiariesCommunity
+);
+router.get(
+  "/community/metrics/aac/:name",
+  validateToken,
+  activityAttendanceCountCommunity
 );
 
 module.exports = router;

@@ -13,10 +13,22 @@ import './beneficiary.css';
 const ViewBeneficiaries = () => {
 
     const gridRef = useRef();
-    const [rowData, setRowData] = useState();
 
+    var checkboxSelection = function (params) {
+        // we put checkbox on the name if we are not doing grouping
+        return params.columnApi.getRowGroupColumns().length === 0;
+    };
+
+    var headerCheckboxSelection = function (params) {
+        // we put checkbox on the name if we are not doing grouping
+        return params.columnApi.getRowGroupColumns().length === 0;
+    };
+
+    const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
+    const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
+    const [rowData, setRowData] = useState();
     const [columnDefs, setColumnDefs] = useState([
-        { field: 'name', filter: true },
+        { field: 'name', filter: true, cellRenderer: LinkCellRenderer },
         {
             field: 'dob',
             headerName: 'Date of Birth',
@@ -46,13 +58,63 @@ const ViewBeneficiaries = () => {
         { field: 'medicalHistory', filter: true },
         { field: 'childStudying', filter: true },
     ]);
+    const autoGroupColumnDef = useMemo(() => {
+        return {
+            headerName: 'Group',
+            minWidth: 170,
+            field: 'athlete',
+            valueGetter: (params) => {
+                if (params.node.group) {
+                    return params.node.key;
+                } else {
+                    return params.data[params.colDef.field];
+                }
+            },
+            headerCheckboxSelection: true,
+            cellRenderer: 'agGroupCellRenderer',
+            cellRendererParams: {
+                checkbox: true,
+            },
+        };
+    }, []);
 
-    const defaultColDef = useMemo(() => ({
-        sortable: true
-    }));
+    function LinkCellRenderer(props) {
+        return (
+            <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={"https://www.google.com/search?tbm=isch&q=" + props.value}
+            >
+            {props.value}
+            </a>
+        );
+    }
 
-    const cellClickedListener = useCallback(event => {
-        console.log('cellClicked', event);
+    function ButtonCellRenderer(props) {
+        const onClick = () => {
+            const { data } = props.node;
+            let message = "";
+
+            Object.keys(data).forEach((key) => {
+                message += key + ":" + data[key] + "\n";
+            });
+            alert(message);
+        };
+        return <button onClick={onClick}>View</button>;
+    }
+
+    const defaultColDef = useMemo(() => {
+        return {
+            editable: false,
+            enableRowGroup: true,
+            enablePivot: true,
+            enableValue: true,
+            sortable: true,
+            resizable: true,
+            filter: true,
+            flex: 1,
+            minWidth: 200,
+        };
     }, []);
 
     const headers = {
@@ -60,12 +122,7 @@ const ViewBeneficiaries = () => {
         'Authorization': 'Bearer ' + localStorage.getItem("token")
     }
 
-    // Export as CSV
-    const onBtnExport = useCallback(() => {
-        gridRef.current.api.exportDataAsCsv();
-    }, []);
-
-    useEffect(() => {
+    const onGridReady = useCallback((params) => {
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/beneficiary",
             {
                 headers: headers
@@ -77,9 +134,14 @@ const ViewBeneficiaries = () => {
             });
     }, []);
 
-    const buttonListener = useCallback(e => {
-        gridRef.current.api.deselectAll();
+    // Export as CSV
+    const onBtnExport = useCallback(() => {
+        gridRef.current.api.exportDataAsCsv();
     }, []);
+
+    const onCellClicked = () => {
+        alert("Hello");
+    };
 
     return (
         <div style={{ width: "100%", height: "100%", textAlign: "left" }}>
@@ -87,7 +149,7 @@ const ViewBeneficiaries = () => {
             <div className='grid-options-div'>
 
                 <button
-                    className='button'
+                    className='button-top'
                     onClick={onBtnExport}>
                     Export as CSV
                 </button>
@@ -98,17 +160,20 @@ const ViewBeneficiaries = () => {
 
                 <AgGridReact
                     ref={gridRef}
-
                     rowData={rowData}
-
                     columnDefs={columnDefs}
+                    autoGroupColumnDef={autoGroupColumnDef}
                     defaultColDef={defaultColDef}
+                    suppressRowClickSelection={true}
+                    groupSelectsChildren={true}
+                    rowSelection={'multiple'}
+                    rowGroupPanelShow={'always'}
+                    pivotPanelShow={'always'}
+                    pagination={true}
+                    onGridReady={onGridReady}
+                    // onCellClicked={onCellClicked}
+                ></AgGridReact>
 
-                    animateRows={true}
-                    rowSelection='multiple'
-
-                    onCellClicked={cellClickedListener}
-                />
             </div>
         </div>
     );

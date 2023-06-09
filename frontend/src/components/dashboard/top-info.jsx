@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const TopInfo = (props) => {
 
   return (
-    <div className='top-info' style={{ background: props.background }}>
+    <div className='top-info' >
         <div className='left'>
             <img src={ props.icon }  />
         </div>

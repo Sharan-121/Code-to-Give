@@ -79,7 +79,7 @@ const genderAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
 
 const genderAndSessionWiseCount = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    let res = { all: [], male: [], female: [], other: [] };
+    let result = { all: [], male: [], female: [], other: [] };
     const activity = await Activity.findOne({ name: req.params.activityName });
     const sessions = await Session.find({ activity_id: activity._id });
 
@@ -91,17 +91,17 @@ const genderAndSessionWiseCount = asyncHandler(async (req, res) => {
         const beneficiary = await Beneficiary.findById(
           attendance.beneficiary_id
         );
-        if (res.all[num - 1] === undefined) {
-          res.all[num - 1] = 0;
+        if (result.all[num - 1] === undefined) {
+          result.all[num - 1] = 0;
+          result.male[num - 1] = 0;
+          result.female[num - 1] = 0;
+          result.other[num - 1] = 0;
         }
-        if (res[beneficiary.gender][num - 1] === undefined) {
-          res[beneficiary.gender][num - 1] = 0;
-        }
-        res.all[num - 1]++;
-        res[beneficiary.gender][num - 1]++;
-        res.status(200).json(res);
+        result.all[num - 1]++;
+        result[beneficiary.gender][num - 1]++;
       }
     }
+    res.status(200).json(result);
   } else {
     res.status(403);
     throw new Error("You are not authorized to view this page");

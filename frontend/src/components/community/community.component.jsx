@@ -7,7 +7,6 @@ import Community from './community';
 import communityIconWhite from "../../assets/community_icon_white.png";
 import searchIcon from "../../assets/search_icon.png";
 import defaultVariables from '../variables/variables';
-import "./community.css";
 import BarPlot from '../charts/BarPlot';
 import LineChart from '../charts/LineChart';
 import MultipleLineChart from '../charts/MultipleLineChart';

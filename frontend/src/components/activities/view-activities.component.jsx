@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
 import axios from 'axios';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
@@ -112,13 +113,24 @@ const ViewActivities = () => {
     }, []);
 
     const onCellClicked = () => {
-        alert("Hello");
+        alert("Cell is Clicked");
     };
+
+    const navigate = useNavigate();
+    const navigateToAddActivity = () => {
+        navigate("/home/activities/view/add");
+    }
 
     return (
         <div style={{ width: "100%", height: "100%", textAlign: "left" }}>
 
             <div className='grid-options-div'>
+
+                <button
+                    className='button-top'
+                    onClick={navigateToAddActivity}>
+                    Add Data
+                </button>
 
                 <button
                     className='button-top'

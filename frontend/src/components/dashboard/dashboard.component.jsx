@@ -39,17 +39,17 @@ const Dashboard = () => {
     const [communities, setCommunities] = useState([]);
     const [community, setCommunity] = useState('');
 
-     const[loadGetSessions,setLoadGetSessions]=useState(false);
+    const [loadGetSessions, setLoadGetSessions] = useState(false);
     const [getSessions, setGetSessions] = useState({});
 
-    const[loadGetBeneficiaryActivityCount,setLoadGetBeneficiaryActivityCount]=useState(false);
-    const[getBeneficiaryActivityCount,setGetBeneficiaryActivityCount]=useState({});
+    const [loadGetBeneficiaryActivityCount, setLoadGetBeneficiaryActivityCount] = useState(false);
+    const [getBeneficiaryActivityCount, setGetBeneficiaryActivityCount] = useState({});
 
-    const[loadGetCommunityBeneficiary,setLoadGetCommunityBeneficiary]=useState(false);
-    const[getCommunityBeneficiary,setGetCommunityBeneficiary]=useState({});
+    const [loadGetCommunityBeneficiary, setLoadGetCommunityBeneficiary] = useState(false);
+    const [getCommunityBeneficiary, setGetCommunityBeneficiary] = useState({});
 
-    const[loadGetCommunityActivity,setLoadGetCommunityActivity]=useState(false);
-    const[getCommunityActivity,setGetCommunityActivity]=useState({});
+    const [loadGetCommunityActivity, setLoadGetCommunityActivity] = useState(false);
+    const [getCommunityActivity, setGetCommunityActivity] = useState({});
 
     const headers = {
         'Content-Type': 'application/json',
@@ -78,23 +78,23 @@ const Dashboard = () => {
             }).catch((err) => {
                 console.log(err);
             });
-             //session-community
-            axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/cs/",
+        //session-community
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/cs/",
             {
                 headers: headers
             })
             .then((res) => {
-               let json = res.data;
-               let label = [];
-               let data = [];
-           // Iterate over the JSON array
-          json.forEach((item) => {
-      if (item.hasOwnProperty("communityName") && item.hasOwnProperty("totalSession")) {
-              label.push(item.communityName);
-              data.push(item.totalSession);
-  }
-});
-               let json_data = {}
+                let json = res.data;
+                let label = [];
+                let data = [];
+                // Iterate over the JSON array
+                json.forEach((item) => {
+                    if (item.hasOwnProperty("communityName") && item.hasOwnProperty("totalSession")) {
+                        label.push(item.communityName);
+                        data.push(item.totalSession);
+                    }
+                });
+                let json_data = {}
                 json_data["label"] = label;
                 json_data["data"] = data;
                 setGetSessions(json_data);
@@ -105,24 +105,24 @@ const Dashboard = () => {
                 setLoadGetSessions(true);
             });
 
-            //community-beneficiary
+        //community-beneficiary
 
-             axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/cb/",
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/cb/",
             {
                 headers: headers
             })
             .then((res) => {
-               let json = res.data;
-               let label = [];
-               let data = [];
-           // Iterate over the JSON array
-          json.forEach((item) => {
-      if (item.hasOwnProperty("communityName") && item.hasOwnProperty("totalBeneficiary")) {
-              label.push(item.communityName);
-              data.push(item.totalBeneficiary);
-           }
-           });
-               let json_data = {}
+                let json = res.data;
+                let label = [];
+                let data = [];
+                // Iterate over the JSON array
+                json.forEach((item) => {
+                    if (item.hasOwnProperty("communityName") && item.hasOwnProperty("totalBeneficiary")) {
+                        label.push(item.communityName);
+                        data.push(item.totalBeneficiary);
+                    }
+                });
+                let json_data = {}
                 json_data["label"] = label;
                 json_data["data"] = data;
                 setGetCommunityBeneficiary(json_data);
@@ -136,7 +136,7 @@ const Dashboard = () => {
 
         // beneficiary-activity count
 
-         axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/bcaw/",
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/bcaw/",
             {
                 headers: headers
             })
@@ -165,9 +165,9 @@ const Dashboard = () => {
                 setLoadGetBeneficiaryActivityCount(true);
             });
 
-             //community-activity
+        //community-activity
 
-            axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/acfc/",
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/acfc/",
             {
                 headers: headers
             })
@@ -376,8 +376,8 @@ const Dashboard = () => {
 
             </div>
 
-            <div className='charts-display'>
-                 {
+            <div className='charts'>
+                {
                     loadGetSessions &&
                     <div className='chart' >
                         <h4>Sessions-Communities</h4>
@@ -390,39 +390,39 @@ const Dashboard = () => {
                 }
 
                 {
-                    loadGetBeneficiaryActivityCount && 
+                    loadGetBeneficiaryActivityCount &&
                     <div className='chart'>
-                      <h4>Beneficiary-Activity</h4>
-                      <PieChart 
-                      data={getBeneficiaryActivityCount.data} 
-                      labels={getBeneficiaryActivityCount.label} />
+                        <h4>Beneficiary-Activity</h4>
+                        <PieChart
+                            data={getBeneficiaryActivityCount.data}
+                            labels={getBeneficiaryActivityCount.label} />
                     </div>
                 }
 
                 {
                     loadGetCommunityBeneficiary &&
                     <div className='chart'>
-                          <h4>Community-Beneficiary</h4> 
-                          <PieChart
-                          data={getCommunityBeneficiary.data}
-                          labels={getCommunityBeneficiary.label}
-                           />
+                        <h4>Community-Beneficiary</h4>
+                        <PieChart
+                            data={getCommunityBeneficiary.data}
+                            labels={getCommunityBeneficiary.label}
+                        />
                     </div>
                 }
 
                 {
-                    loadGetCommunityActivity && 
+                    loadGetCommunityActivity &&
                     <div className='chart'>
-                      <h4>Community-Activity</h4> 
-                      <DonutChart 
-                        data={getCommunityActivity.data}
-                        labels={getCommunityActivity.label}
-                      />
+                        <h4>Community-Activity</h4>
+                        <DonutChart
+                            data={getCommunityActivity.data}
+                            labels={getCommunityActivity.label}
+                        />
 
                     </div>
                 }
 
-                
+
 
             </div>
 

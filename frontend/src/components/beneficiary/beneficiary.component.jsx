@@ -13,8 +13,20 @@ import './beneficiary.css';
 const ViewBeneficiaries = () => {
 
     const gridRef = useRef();
-    const [rowData, setRowData] = useState();
 
+    var checkboxSelection = function (params) {
+        // we put checkbox on the name if we are not doing grouping
+        return params.columnApi.getRowGroupColumns().length === 0;
+    };
+
+    var headerCheckboxSelection = function (params) {
+        // we put checkbox on the name if we are not doing grouping
+        return params.columnApi.getRowGroupColumns().length === 0;
+    };
+
+    const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
+    const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
+    const [rowData, setRowData] = useState();
     const [columnDefs, setColumnDefs] = useState([
         { field: 'name', filter: true },
         {
@@ -46,13 +58,37 @@ const ViewBeneficiaries = () => {
         { field: 'medicalHistory', filter: true },
         { field: 'childStudying', filter: true },
     ]);
-
-    const defaultColDef = useMemo(() => ({
-        sortable: true
-    }));
-
-    const cellClickedListener = useCallback(event => {
-        console.log('cellClicked', event);
+    const autoGroupColumnDef = useMemo(() => {
+        return {
+            headerName: 'Group',
+            minWidth: 170,
+            field: 'athlete',
+            valueGetter: (params) => {
+                if (params.node.group) {
+                    return params.node.key;
+                } else {
+                    return params.data[params.colDef.field];
+                }
+            },
+            headerCheckboxSelection: true,
+            cellRenderer: 'agGroupCellRenderer',
+            cellRendererParams: {
+                checkbox: true,
+            },
+        };
+    }, []);
+    const defaultColDef = useMemo(() => {
+        return {
+            editable: true,
+            enableRowGroup: true,
+            enablePivot: true,
+            enableValue: true,
+            sortable: true,
+            resizable: true,
+            filter: true,
+            flex: 1,
+            minWidth: 200,
+        };
     }, []);
 
     const headers = {
@@ -60,12 +96,7 @@ const ViewBeneficiaries = () => {
         'Authorization': 'Bearer ' + localStorage.getItem("token")
     }
 
-    // Export as CSV
-    const onBtnExport = useCallback(() => {
-        gridRef.current.api.exportDataAsCsv();
-    }, []);
-
-    useEffect(() => {
+    const onGridReady = useCallback((params) => {
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/beneficiary",
             {
                 headers: headers
@@ -77,8 +108,9 @@ const ViewBeneficiaries = () => {
             });
     }, []);
 
-    const buttonListener = useCallback(e => {
-        gridRef.current.api.deselectAll();
+    // Export as CSV
+    const onBtnExport = useCallback(() => {
+        gridRef.current.api.exportDataAsCsv();
     }, []);
 
     return (
@@ -97,18 +129,19 @@ const ViewBeneficiaries = () => {
             <div className="ag-theme-alpine" style={{ width: "100%", height: "calc(100% - 50px)", textAlign: "left" }}>
 
                 <AgGridReact
-                    ref={gridRef}
-
                     rowData={rowData}
-
                     columnDefs={columnDefs}
+                    autoGroupColumnDef={autoGroupColumnDef}
                     defaultColDef={defaultColDef}
+                    suppressRowClickSelection={true}
+                    groupSelectsChildren={true}
+                    rowSelection={'multiple'}
+                    rowGroupPanelShow={'always'}
+                    pivotPanelShow={'always'}
+                    pagination={true}
+                    onGridReady={onGridReady}
+                ></AgGridReact>
 
-                    animateRows={true}
-                    rowSelection='multiple'
-
-                    onCellClicked={cellClickedListener}
-                />
             </div>
         </div>
     );

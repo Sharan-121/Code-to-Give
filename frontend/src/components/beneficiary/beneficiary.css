@@ -7,9 +7,9 @@
     height: 40px;
     margin: 5px;
     font-size: 14px;
-    background: rgb(0, 115, 230);
+    background: dodgerblue;
     color: white;
     border-radius: 7.5px;
-    border: 2px solid rgb(0, 115, 230);
+    border: 2px solid dodgerblue;
     font-weight: 600;
 }

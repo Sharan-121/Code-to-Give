@@ -43,6 +43,7 @@ const {
   activeBeneficiariesCommunity,
   activityAttendanceCountCommunity,
 } = require("../controllers/communityMetrics");
+const { communitySession } = require("../controllers/communitySessionController");
 
 
 router.get("/activity", validateToken, getActivities);
@@ -111,5 +112,7 @@ router.get(
   validateToken,
   activityAttendanceCountCommunity
 );
+
+router.get("/dashboard/metrics/cs/",validateToken,communitySession)
 
 module.exports = router;

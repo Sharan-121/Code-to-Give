@@ -81,7 +81,7 @@ const ViewBeneficiaries = () => {
     function LinkCellRenderer(props) {
         return (
             <a
-                target="_blank"
+            style = {{ color: "var(--font-color)" }}
                 rel="noopener noreferrer"
                 href={"https://www.google.com/search?tbm=isch&q=" + props.value}
             >

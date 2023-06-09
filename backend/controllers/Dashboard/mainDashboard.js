@@ -21,6 +21,7 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
     //1. No. of sessions conducted in a particular year
     if (
       year !== "None" &&
+      year === "None" &&
       month === "None" &&
       activity === "None" &&
       community === "None"
@@ -87,6 +88,7 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       community !== "None"
     ) {
       const monthMap = {
+        "x-axis_title": `Number of Sessions conducted on ${parseInt(year)}`,
         0: "January",
         1: "February",
         2: "March",
@@ -133,6 +135,7 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       year = parseInt(year);
       const sessions = await Session.find({});
       let result = {
+        "x-axis_title": "Number of Beneficiaries",
         "Follow ups completed": 0,
         "Follow ups pending": 0,
       };
@@ -164,13 +167,40 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       let { year } = req.body;
       year = parseInt(year);
       const beneficiaries = await Beneficiary.find({});
+      const monthMap = {
+        "x-axis_title": `Number of Sessions conducted on ${parseInt(year)}`,
+        0: "January",
+        1: "February",
+        2: "March",
+        3: "April",
+        4: "May",
+        5: "June",
+        6: "July",
+        7: "August",
+        8: "September",
+        9: "October",
+        10: "November",
+        11: "December",
+      };
       let result = {
-        "Beneficiaries Registration Count": 0,
+        "x-axis_title": "Number of Beneficiaries Registered",
+        January: 0,
+        February: 0,
+        March: 0,
+        April: 0,
+        May: 0,
+        June: 0,
+        July: 0,
+        August: 0,
+        September: 0,
+        October: 0,
+        November: 0,
+        December: 0,
       };
 
       for (const beneficiary of beneficiaries) {
         if (beneficiary.createdAt.getFullYear() === year) {
-          result["Beneficiaries Registration Count"]++;
+          result[monthMap[beneficiary.createdAt.getMonth()]]++;
         }
       }
       res.status(200).json(result);

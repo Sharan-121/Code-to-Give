@@ -119,7 +119,7 @@ const ViewBeneficiaries = () => {
             <div className='grid-options-div'>
 
                 <button
-                    className='button'
+                    className='button-top'
                     onClick={onBtnExport}>
                     Export as CSV
                 </button>

@@ -5,6 +5,18 @@ const Community = require("../models/communityModel");
 const Session = require("../models/sessionModel");
 const Attendance = require("../models/attendanceModel");
 
+
+const getAllBeneficiaries = asyncHandler(async (req, res) => {
+  if(req.user.role == "admin"){
+    const beneficiaries = await Beneficiary.find({});
+    res.status(200).send( beneficiaries);
+  }else{
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }
+  }
+)
+
 const getAvailableSessions = asyncHandler(async (req, res) => {
   if (req.user.role == "beneficiary") {
     const beneficiary = await Beneficiary.findById(req.user._id);
@@ -95,4 +107,4 @@ const getAttendedSessions = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getAvailableSessions, getAttendedSessions };
+module.exports = { getAvailableSessions, getAttendedSessions,getAllBeneficiaries};

@@ -14,6 +14,8 @@ const {
   getSessionNumber,
 } = require("../controllers/adminController");
 
+const {getAllBeneficiaries} = require("../controllers/beneficiaryController");
+
 const {
   getActivityMetrics,
 } = require("../controllers/activityMetricsController");
@@ -139,5 +141,7 @@ router.get(
   validateToken,
   activityCountForCommunity
 );
+
+router.get("/beneficiary", validateToken, getAllBeneficiaries);
 
 module.exports = router;

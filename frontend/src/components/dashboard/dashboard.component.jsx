@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import BarPlot from '../charts/BarPlot';
+import PieChart from '../charts/PieChart';
 
 
 const Dashboard = () => {
@@ -39,6 +40,9 @@ const Dashboard = () => {
 
      const[loadGetSessions,setLoadGetSessions]=useState(false);
     const [getSessions, setGetSessions] = useState({});
+
+    const[loadGetBeneficiaryActivityCount,setLoadGetBeneficiaryActivityCount]=useState(false);
+    const[getBeneficiaryActivityCount,setGetBeneficiaryActivityCount]=useState({});
 
     const headers = {
         'Content-Type': 'application/json',
@@ -67,7 +71,7 @@ const Dashboard = () => {
             }).catch((err) => {
                 console.log(err);
             });
-             //get session
+             //session-community
             axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/cs/",
             {
                 headers: headers
@@ -87,12 +91,44 @@ const Dashboard = () => {
                 json_data["label"] = label;
                 json_data["data"] = data;
                 setGetSessions(json_data);
-                setLoadGetSessions(true);
+                setL(true);
             })
             .catch((err) => {
                 console.log(err);
                 setLoadGetSessions(true);
             });
+  
+        // beneficiary-activity count
+
+         axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/bcaw/",
+            {
+                headers: headers
+            })
+            .then((res) => {
+                let json = res.data;
+                let label = [];
+                let data = [];
+
+                // Iterate over the JSON object
+                for (let key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const value = json[key];
+                        label.push(key);
+                        data.push(value);
+                    }
+                }
+
+                let json_data = {}
+                json_data["label"] = label;
+                json_data["data"] = data;
+                setGetBeneficiaryActivityCount(json_data);
+                setLoadGetBeneficiaryActivityCount(true);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoadGetBeneficiaryActivityCount(true);
+            });
+
     }, []);
 
     const handleChange = (event) => {
@@ -274,13 +310,23 @@ const Dashboard = () => {
             <div className='charts-display' style={{ display: 'flex', marginTop: '20px' }}  >
                  {
                     loadGetSessions &&
-                    <div className='chart' style={{backgroundColor: 'white', borderRadius: '20px',height: 'fit-content',width:'40%'}}>
+                    <div className='chart' style={{backgroundColor: 'white', borderRadius: '20px',height: 'fit-content',width:'50%',marginRight:'20px'}}>
                         <h4>Sessions-Communities</h4>
                         <BarPlot className="chart"
                             options={{ horizontal: false }}
                             label={getSessions.label}
                             data={getSessions.data}
                             ylabel={"Sessions"} />
+                    </div>
+                }
+
+                {
+                    loadGetBeneficiaryActivityCount && 
+                    <div className='chart' style={{backgroundColor: 'white', borderRadius: '20px',height: 'fit-content',width:'50%'}}>
+                      <h4>Beneficiary-Activity</h4>
+                      <PieChart 
+                      data={getBeneficiaryActivityCount.data} 
+                      labels={getBeneficiaryActivityCount.label} />
                     </div>
                 }
 

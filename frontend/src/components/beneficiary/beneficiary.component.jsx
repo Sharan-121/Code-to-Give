@@ -156,7 +156,7 @@ const ViewBeneficiaries = () => {
 
             </div>
 
-            <div className="ag-theme-alpine" style={{ width: "100%", height: "calc(100% - 50px)", textAlign: "left" }}>
+            <div className="ag-theme-alpine" style={{ width: "100%", height: "calc(100% - 60px)", textAlign: "left" }}>
 
                 <AgGridReact
                     ref={gridRef}

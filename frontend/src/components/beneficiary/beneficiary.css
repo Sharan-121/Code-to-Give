@@ -1,11 +1,12 @@
 .grid-options-div {
     width: 100%;
-    height: 50px;
+    height: 60px;
+    background-color: white;
 }
 
 .grid-options-div .button-top {
     height: 40px;
-    margin: 5px;
+    margin: 10px;
     font-size: 14px;
     background: #1C4E80;
     color: white;

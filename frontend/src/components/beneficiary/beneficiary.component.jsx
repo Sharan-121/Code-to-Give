@@ -1,19 +1,37 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
+import axios from 'axios';
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 
-const Beneficiaries = () => {
+import defaultVariables from '../variables/variables';
+
+// import './beneficiary.css';
+
+const ViewBeneficiaries = () => {
 
     const gridRef = useRef(); // Optional - for accessing Grid's API
     const [rowData, setRowData] = useState(); // Set rowData to Array of Objects, one Object per Row
 
     // Each Column Definition results in one Column.
     const [columnDefs, setColumnDefs] = useState([
-        { field: 'make', filter: true },
-        { field: 'model', filter: true },
-        { field: 'price' }
+        { field: 'name', filter: true },
+        { field: 'dob', filter: true },
+        { field: 'gender', filter: true },
+        { field: 'community', filter: true },
+        { field: 'phoneNumber', filter: true },
+        { field: 'aadharNumber', filter: true },
+        { field: 'panNumber', filter: true },
+        { field: 'aadharPanLink', filter: true },
+        { field: 'address', filter: true },
+        { field: 'familyMembersCount', filter: true },
+        { field: 'employed', filter: true },
+        { field: 'annualIncome', filter: true },
+        { field: 'bankAccount', filter: true },
+        { field: 'previousDoctorVisit', filter: true },
+        { field: 'medicalHistory', filter: true },
+        { field: 'childStudying', filter: true },
     ]);
 
     // DefaultColDef sets props common to all Columns
@@ -26,11 +44,22 @@ const Beneficiaries = () => {
         console.log('cellClicked', event);
     }, []);
 
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem("token")
+    }
+
     // Example load data from server
     useEffect(() => {
-        fetch('https://www.ag-grid.com/example-assets/row-data.json')
-            .then(result => result.json())
-            .then(rowData => setRowData(rowData))
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/beneficiary",
+            {
+                headers: headers
+            })
+            .then((res) => {
+                setRowData(res.data);
+            }).catch((err) => {
+                console.log(err);
+            });
     }, []);
 
     // Example using Grid's API
@@ -39,13 +68,10 @@ const Beneficiaries = () => {
     }, []);
 
     return (
-        <div>
-
-            {/* Example using Grid's API */}
-            <button onClick={buttonListener}>Push Me</button>
+        <div style={{ width: "100%", height: "100%", textAlign: "left" }}>
 
             {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-            <div className="ag-theme-alpine" style={{ width: 500, height: 500 }}>
+            <div className="ag-theme-alpine" style={{ width: "100%", height: "100%", textAlign: "left" }}>
 
                 <AgGridReact
                     ref={gridRef} // Ref for accessing Grid's API
@@ -63,6 +89,7 @@ const Beneficiaries = () => {
             </div>
         </div>
     );
+
 };
 
-export default Beneficiaries;
+export default ViewBeneficiaries;

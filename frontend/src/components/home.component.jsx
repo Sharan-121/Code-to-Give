@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import Header from './header';
 import SideBar from './sidebar';
+import ViewBeneficiaries from './beneficiary/beneficiary.component';
 import ViewActivities from './activities/view-activities.component';
 import ViewCommunities from './community/view-communities.component';
 import ActivityDetails from './activities/activity.component';
@@ -29,7 +30,7 @@ const Home = () =>{
             <Routes>
                 <Route exact path="/" element={<Dashboard />} />
                 <Route exact path="/dashboard" element={<Dashboard />} />
-                <Route exact path="/beneficiary/view" element={<BeneficiaryForm />} />
+                <Route exact path="/beneficiary/view" element={<ViewBeneficiaries />} />
                 <Route exact path="/beneficiary/add" element={<BeneficiaryForm />} />
                 <Route exact path="/sessions/add" element={<SessionForm />} />
                 <Route exact path="/attendance/add" element={<AttendanceForm />} />

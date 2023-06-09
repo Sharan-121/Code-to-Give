@@ -50,6 +50,7 @@ const {
   sessionCountCommunityWiseTimePeriod,
   beneficiaryCountActivityWise,
 } = require("../controllers/mainDashboardMetrics");
+const { communityBeneficiary } = require("../controllers/Dashboard/communityBeneficiary");
 
 router.get("/activity", validateToken, getActivities);
 router.get("/activity/:name", validateToken, getActivityByName);
@@ -119,6 +120,7 @@ router.get(
 );
 
 router.get("/dashboard/metrics/cs/", validateToken, communitySession);
+router.get("/dashboard/metrics/cb/",validateToken,communityBeneficiary);
 router.get(
   "/dashboard/metrics/tpsc/:timePeriod",
   validateToken,

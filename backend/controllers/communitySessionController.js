@@ -25,7 +25,6 @@ const communitySession = asyncHandler(async (req, res) => {
         },
         {
             $project: {
-                // community_id: '$_id',
                 totalSession : '$totalSession',
                 communityName: { $arrayElemAt: ["$community.name", 0]}
             }

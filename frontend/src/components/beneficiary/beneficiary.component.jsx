@@ -129,6 +129,7 @@ const ViewBeneficiaries = () => {
             <div className="ag-theme-alpine" style={{ width: "100%", height: "calc(100% - 50px)", textAlign: "left" }}>
 
                 <AgGridReact
+                    ref={gridRef}
                     rowData={rowData}
                     columnDefs={columnDefs}
                     autoGroupColumnDef={autoGroupColumnDef}

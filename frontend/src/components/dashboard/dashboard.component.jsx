@@ -14,6 +14,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import BarPlot from '../charts/BarPlot';
 import PieChart from '../charts/PieChart';
+import DonutChart from '../charts/DonutChart';
 
 
 const Dashboard = () => {
@@ -46,6 +47,9 @@ const Dashboard = () => {
 
     const[loadGetCommunityBeneficiary,setLoadGetCommunityBeneficiary]=useState(false);
     const[getCommunityBeneficiary,setGetCommunityBeneficiary]=useState({});
+
+    const[loadGetCommunityActivity,setLoadGetCommunityActivity]=useState(false);
+    const[getCommunityActivity,setGetCommunityActivity]=useState({});
 
     const headers = {
         'Content-Type': 'application/json',
@@ -160,6 +164,39 @@ const Dashboard = () => {
                 console.log(err);
                 setLoadGetBeneficiaryActivityCount(true);
             });
+
+             //community-activity
+
+            axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/acfc/",
+            {
+                headers: headers
+            })
+            .then((res) => {
+                let json = res.data;
+                let label = [];
+                let data = [];
+
+                // Iterate over the JSON object
+                for (let key in json) {
+                    if (json.hasOwnProperty(key)) {
+                        const value = json[key];
+                        label.push(key);
+                        data.push(value);
+                    }
+                }
+
+                let json_data = {}
+                json_data["label"] = label;
+                json_data["data"] = data;
+                setGetCommunityActivity(json_data);
+                setLoadGetCommunityActivity(true);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoadGetCommunityActivity(true);
+            });
+
+
 
     }, []);
 
@@ -370,6 +407,18 @@ const Dashboard = () => {
                           data={getCommunityBeneficiary.data}
                           labels={getCommunityBeneficiary.label}
                            />
+                    </div>
+                }
+
+                {
+                    loadGetCommunityActivity && 
+                    <div className='chart'>
+                      <h4>Community-Activity</h4> 
+                      <DonutChart 
+                        data={getCommunityActivity.data}
+                        labels={getCommunityActivity.label}
+                      />
+
                     </div>
                 }
 

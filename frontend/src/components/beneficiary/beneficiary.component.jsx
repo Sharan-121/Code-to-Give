@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
 import axios from 'axios';
+import moment from 'moment';
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
@@ -16,7 +17,14 @@ const ViewBeneficiaries = () => {
 
     const [columnDefs, setColumnDefs] = useState([
         { field: 'name', filter: true },
-        { field: 'dob', filter: true },
+        {
+            field: 'dob',
+            headerName: 'Date of Birth',
+            filter: true,
+            cellRenderer: (data) => {
+                return moment(data.date).format('MM/DD/YYYY HH:mm')
+            }
+        },
         { field: 'gender', filter: true },
         { field: 'community', filter: true },
         { field: 'phoneNumber', filter: true },

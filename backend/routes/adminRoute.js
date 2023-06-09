@@ -25,6 +25,7 @@ const {
 const {
   genderAndCommunityWiseEngagement,
   genderAndSessionWiseCount,
+  ageAndSessionWiseCount,
 } = require("../controllers/genderEngagementController");
 const {
   ageAndCommunityWiseEngagement,
@@ -90,6 +91,11 @@ router.get(
   "/activity/metrics/gaswc/:activityName",
   validateToken,
   genderAndSessionWiseCount
+);
+router.get(
+  "/activity/metrics/aaswc/:activityName",
+  validateToken,
+  ageAndSessionWiseCount
 );
 router.post("/activity", validateToken, createActivity);
 router.get("/community/metrics/:name", validateToken, getCommunityMetrics);

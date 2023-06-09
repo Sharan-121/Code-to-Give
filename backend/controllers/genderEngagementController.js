@@ -118,7 +118,68 @@ const genderAndSessionWiseCount = asyncHandler(async (req, res) => {
   }
 });
 
+const ageAndSessionWiseCount = asyncHandler(async (req, res) => {
+  if (req.user.role === "admin") {
+    let result = {};
+    const activity = await Activity.findOne({ name: req.params.activityName });
+    const sessions = await Session.find({ activity_id: activity._id });
+
+    for (const session of sessions) {
+      const sessionParts = session.name.split("-");
+      const num = parseInt(sessionParts[sessionParts.length - 1]);
+      const attendances = await Attendance.find({ session_id: session._id });
+      for (const attendance of attendances) {
+        const beneficiary = await Beneficiary.findById(
+          attendance.beneficiary_id
+        );
+        if (result[beneficiary.communityName] === undefined) {
+          result[beneficiary.communityName] = {
+            all: [],
+            "0-8": [],
+            "9-16": [],
+            "17-27": [],
+            "28-40": [],
+            "41-60": [],
+            "61+": [],
+          };
+        }
+        if (result[beneficiary.communityName].all[num - 1] === undefined) {
+          result[beneficiary.communityName].all[num - 1] = 0;
+          result[beneficiary.communityName]["0-8"][num - 1] = 0;
+          result[beneficiary.communityName]["9-16"][num - 1] = 0;
+          result[beneficiary.communityName]["17-27"][num - 1] = 0;
+          result[beneficiary.communityName]["28-40"][num - 1] = 0;
+          result[beneficiary.communityName]["41-60"][num - 1] = 0;
+          result[beneficiary.communityName]["61+"][num - 1] = 0;
+        }
+        const age = getAge(beneficiary.dob);
+        let ageGroup = "";
+        if (age <= 8) {
+          ageGroup = "0-8";
+        } else if (9 <= age && age <= 16) {
+          ageGroup = "9-16";
+        } else if (17 <= age && age <= 27) {
+          ageGroup = "17-27";
+        } else if (28 <= age && age <= 40) {
+          ageGroup = "28-40";
+        } else if (41 <= age && age <= 60) {
+          ageGroup = "41-60";
+        } else {
+          ageGroup = "61+";
+        }
+        result[beneficiary.communityName].all[num - 1]++;
+        result[beneficiary.communityName][ageGroup][num - 1]++;
+      }
+    }
+    res.status(200).json(result);
+  } else {
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }
+});
+
 module.exports = {
   genderAndCommunityWiseEngagement,
   genderAndSessionWiseCount,
+  ageAndSessionWiseCount,
 };

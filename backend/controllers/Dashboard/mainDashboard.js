@@ -9,6 +9,11 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
     const { year, month, activity, community } = req.body;
 
+    if (!year || year === "None") {
+      res.status(400);
+      throw new Error("Provide year");
+    }
+
     if (!year || !month || !activity || !community) {
       res.status(400);
       throw new Error("Invalid request");
@@ -44,9 +49,7 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
 
       const result = await Session.aggregate(pipeline);
       res.status(200).json(result);
-    }
-
-    if (
+    } else if (
       year !== "None" &&
       month === "None" &&
       activity !== "None" &&
@@ -77,32 +80,97 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       ];
       const result = await Session.aggregate(pipeline);
       res.status(200).json(result);
-    }
-    if (
+    } else if (
       year !== "None" &&
       month === "None" &&
       activity === "None" &&
       community !== "None"
     ) {
+      const monthMap = {
+        0: "January",
+        1: "February",
+        2: "March",
+        3: "April",
+        4: "May",
+        5: "June",
+        6: "July",
+        7: "August",
+        8: "September",
+        9: "October",
+        10: "November",
+        11: "December",
+      };
       let result = {
-        0: 0,
-        1: 0,
-        2: 0,
-        3: 0,
-        4: 0,
-        5: 0,
-        6: 0,
-        7: 0,
-        8: 0,
-        9: 0,
-        10: 0,
-        11: 0,
+        January: 0,
+        February: 0,
+        March: 0,
+        April: 0,
+        May: 0,
+        June: 0,
+        July: 0,
+        August: 0,
+        September: 0,
+        October: 0,
+        November: 0,
+        December: 0,
       };
       const communityModel = await Community.findOne({ name: community });
       const sessions = await Session.find({ community_id: communityModel._id });
       for (const session of sessions) {
         if (session.date.getFullYear() === parseInt(year)) {
-          result[session.date.getMonth()]++;
+          result[monthMap[session.date.getMonth()]]++;
+        }
+      }
+      res.status(200).json(result);
+    } else if (
+      year !== "None" &&
+      month !== "None" &&
+      activity === "None" &&
+      community === "None"
+    ) {
+      let { year, month } = req.body;
+      month = parseInt(month) - 1;
+      year = parseInt(year);
+      const sessions = await Session.find({});
+      let result = {
+        "Follow ups completed": 0,
+        "Follow ups pending": 0,
+      };
+
+      for (const session of sessions) {
+        if (
+          session.date.getFullYear() === year &&
+          session.date.getMonth() === month
+        ) {
+          const attendances = await Attendance.find({
+            session_id: session._id,
+          });
+          for (const attendance of attendances) {
+            if (attendance.followUp === true) {
+              result["Follow ups completed"]++;
+            } else {
+              result["Follow ups pending"]++;
+            }
+          }
+        }
+      }
+      res.status(200).json(result);
+    } else if (
+      year !== "None" &&
+      month === "None" &&
+      activity === "None" &&
+      community === "None"
+    ) {
+      let { year } = req.body;
+      year = parseInt(year);
+      const beneficiaries = await Beneficiary.find({});
+      let result = {
+        "Beneficiaries Registration Count": 0,
+      };
+
+      for (const beneficiary of beneficiaries) {
+        if (beneficiary.createdAt.getFullYear() === year) {
+          result["Beneficiaries Registration Count"]++;
         }
       }
       res.status(200).json(result);

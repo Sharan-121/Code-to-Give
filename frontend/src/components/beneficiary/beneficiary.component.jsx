@@ -28,7 +28,7 @@ const ViewBeneficiaries = () => {
     const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
     const [rowData, setRowData] = useState();
     const [columnDefs, setColumnDefs] = useState([
-        { field: 'name', filter: true },
+        { field: 'name', filter: true, cellRenderer: LinkCellRenderer },
         {
             field: 'dob',
             headerName: 'Date of Birth',
@@ -77,9 +77,35 @@ const ViewBeneficiaries = () => {
             },
         };
     }, []);
+
+    function LinkCellRenderer(props) {
+        return (
+            <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={"https://www.google.com/search?tbm=isch&q=" + props.value}
+            >
+            {props.value}
+            </a>
+        );
+    }
+
+    function ButtonCellRenderer(props) {
+        const onClick = () => {
+            const { data } = props.node;
+            let message = "";
+
+            Object.keys(data).forEach((key) => {
+                message += key + ":" + data[key] + "\n";
+            });
+            alert(message);
+        };
+        return <button onClick={onClick}>View</button>;
+    }
+
     const defaultColDef = useMemo(() => {
         return {
-            editable: true,
+            editable: false,
             enableRowGroup: true,
             enablePivot: true,
             enableValue: true,
@@ -113,6 +139,10 @@ const ViewBeneficiaries = () => {
         gridRef.current.api.exportDataAsCsv();
     }, []);
 
+    const onCellClicked = () => {
+        alert("Hello");
+    };
+
     return (
         <div style={{ width: "100%", height: "100%", textAlign: "left" }}>
 
@@ -141,6 +171,7 @@ const ViewBeneficiaries = () => {
                     pivotPanelShow={'always'}
                     pagination={true}
                     onGridReady={onGridReady}
+                    // onCellClicked={onCellClicked}
                 ></AgGridReact>
 
             </div>

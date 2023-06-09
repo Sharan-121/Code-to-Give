@@ -15,15 +15,22 @@ import Select from '@mui/material/Select';
 import BarPlot from '../charts/BarPlot';
 import PieChart from '../charts/PieChart';
 import DonutChart from '../charts/DonutChart';
-
+import LineChart from '../charts/LineChart';
 
 const Dashboard = () => {
+
+    // Chart 1 - Year - Number of Beneficiaries Registered that year.
+
     const navigate = useNavigate();
 
     const [chartType, setChartType] = useState('mixed');
 
     const [month, setMonth] = useState(0);
     const [year, setYear] = useState(new Date().getFullYear());
+
+    const [mainDashboardData, setMainDashboardData] = useState({});
+    const [loadMainDashboardData, setLoadMainDashboardData] = useState(false);
+    const [lineChart, setLineChart] = useState(false);
 
     let yearArray = [];
 
@@ -78,7 +85,49 @@ const Dashboard = () => {
             }).catch((err) => {
                 console.log(err);
             });
-        //session-community
+
+        let parameters = {
+            year: '2023',
+            month: "None",
+            activity: "None",
+            community: "None"
+        };
+
+        // Dashboard Metrics
+        axios.post(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics",
+            parameters,
+            {
+                headers: headers
+            }
+        )
+            .then((res) => {
+                console.log(res.data);
+                // month == "None" && activity == "None" && community == "None"
+                if (true) {
+                    let json = res.data;
+                    let label = [];
+                    let data = [];
+                    // Iterate over the JSON object
+                    for (let key in json) {
+                        if (json.hasOwnProperty(key)) {
+                            const value = json[key];
+                            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                            let monthName = monthNames[value._id - 1];
+                            label.push(monthName);
+                            data.push(value.count);
+                        }
+                    }
+                    let json_data = {}
+                    json_data["label"] = label;
+                    json_data["data"] = data;
+                    setMainDashboardData(json_data);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+        // session-community
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/cs/",
             {
                 headers: headers
@@ -105,8 +154,7 @@ const Dashboard = () => {
                 setLoadGetSessions(true);
             });
 
-        //community-beneficiary
-
+        // community-beneficiary
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/cb/",
             {
                 headers: headers
@@ -200,6 +248,19 @@ const Dashboard = () => {
 
     }, []);
 
+    const functionSetChartType = (event) => {
+        setChartType(event.target.value);
+        if (event.target.value == "line"){
+            setLineChart(true);
+        }
+        if (event.target.value == "area"){
+            setLineChart(false);
+        }
+        else{
+            setLineChart(true);
+        }
+    }
+
     const handleChange = (event) => {
         setAge(event.target.value);
     };
@@ -271,7 +332,7 @@ const Dashboard = () => {
                                 id="demo-simple-select"
                                 value={chartType}
                                 label="Chart"
-                                onChange={handleChartChange}
+                                onChange={functionSetChartType}
                             >
                                 <MenuItem value={"mixed"}>Mixed</MenuItem>
                                 <MenuItem value={"line"}>Line</MenuItem>
@@ -372,7 +433,23 @@ const Dashboard = () => {
 
                 </div>
 
-                <ViewChart chartType={chartType} />
+                {
+                    lineChart &&
+                    <LineChart label={mainDashboardData.label}
+                        data={mainDashboardData.data}
+                        ytitle={"Beneficiaries registered each month"} />
+                }
+
+                {
+                    !lineChart &&
+                    <BarPlot
+                        options = {{ horizontal: false }}
+                        label={mainDashboardData.label}
+                        data={mainDashboardData.data}
+                        ylabel={"Beneficiaries registered each month"} />
+                }
+
+                {/* <ViewChart chartType={chartType} /> */}
 
             </div>
 
@@ -421,8 +498,6 @@ const Dashboard = () => {
 
                     </div>
                 }
-
-
 
             </div>
 

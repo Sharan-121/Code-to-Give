@@ -264,7 +264,7 @@ const FormComponent = () => {
 
                 </div>
 
-                <Button type="submit" variant="contained" color="primary" fullWidth style={{ gridColumnStart: '1', gridColumnEnd: '3' }}>
+                <Button type="submit" variant="contained" color="primary" fullWidth id="react-button">
                     Submit
                 </Button>
             </form>

@@ -3,7 +3,10 @@ import organizationLogo from '../assets/organization_logo.svg'
 const Header = () => {
     return (
         <div className="header">
-            <img src={ organizationLogo } />
+            <a target="_blank"
+                href="https://tinymiracles.com/">
+                <img src={organizationLogo} />
+            </a>
         </div>
     )
 }

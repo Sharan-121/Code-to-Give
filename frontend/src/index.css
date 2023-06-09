@@ -73,6 +73,22 @@ select {
   font-weight: 600;
 }
 
+#react-button {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  background-color: var(--font-color);
+  text-transform: capitalize;
+  color: white;
+  font-weight: 600;
+  padding: 10px;
+  font-size: 16px;
+  font-family: "Montserrat";
+}
+
+#react-button:hover{
+  background-color: dodgerblue;
+}
+
 /* Header */
 .header {
   height: 60px;
@@ -111,7 +127,7 @@ select {
 .sidebar {
   height: calc(100vh - 60px);
   /* border: 2px solid rgb(235,235, 235); */
-  background-color: rgb(240, 240, 240); 
+  background-color: rgb(240, 240, 240);
   flex: 2;
 }
 
@@ -467,7 +483,7 @@ select {
   padding: 30px;
   margin-top: 20px;
   /* border: 2px solid var(--font-color); */
-  border: 2px solid rgb(235,235, 235);
+  border: 2px solid rgb(235, 235, 235);
   box-shadow: 2px 3px 5px rgb(235, 235, 235);
 }
 

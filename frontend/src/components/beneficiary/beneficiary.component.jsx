@@ -11,10 +11,9 @@ import defaultVariables from '../variables/variables';
 
 const ViewBeneficiaries = () => {
 
-    const gridRef = useRef(); // Optional - for accessing Grid's API
-    const [rowData, setRowData] = useState(); // Set rowData to Array of Objects, one Object per Row
+    const gridRef = useRef();
+    const [rowData, setRowData] = useState();
 
-    // Each Column Definition results in one Column.
     const [columnDefs, setColumnDefs] = useState([
         { field: 'name', filter: true },
         { field: 'dob', filter: true },
@@ -34,12 +33,10 @@ const ViewBeneficiaries = () => {
         { field: 'childStudying', filter: true },
     ]);
 
-    // DefaultColDef sets props common to all Columns
     const defaultColDef = useMemo(() => ({
         sortable: true
     }));
 
-    // Example of consuming Grid Event
     const cellClickedListener = useCallback(event => {
         console.log('cellClicked', event);
     }, []);
@@ -49,7 +46,11 @@ const ViewBeneficiaries = () => {
         'Authorization': 'Bearer ' + localStorage.getItem("token")
     }
 
-    // Example load data from server
+    // Export as CSV
+    const onBtnExport = useCallback(() => {
+        gridRef.current.api.exportDataAsCsv();
+    }, []);
+
     useEffect(() => {
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/beneficiary",
             {
@@ -62,7 +63,6 @@ const ViewBeneficiaries = () => {
             });
     }, []);
 
-    // Example using Grid's API
     const buttonListener = useCallback(e => {
         gridRef.current.api.deselectAll();
     }, []);
@@ -70,21 +70,27 @@ const ViewBeneficiaries = () => {
     return (
         <div style={{ width: "100%", height: "100%", textAlign: "left" }}>
 
-            {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
+            <button
+                className='btn'
+                onClick={onBtnExport}
+            >
+                Export as CSV
+            </button>
+
             <div className="ag-theme-alpine" style={{ width: "100%", height: "100%", textAlign: "left" }}>
 
                 <AgGridReact
-                    ref={gridRef} // Ref for accessing Grid's API
+                    ref={gridRef}
 
-                    rowData={rowData} // Row Data for Rows
+                    rowData={rowData}
 
-                    columnDefs={columnDefs} // Column Defs for Columns
-                    defaultColDef={defaultColDef} // Default Column Properties
+                    columnDefs={columnDefs}
+                    defaultColDef={defaultColDef}
 
-                    animateRows={true} // Optional - set to 'true' to have rows animate when sorted
-                    rowSelection='multiple' // Options - allows click selection of rows
+                    animateRows={true}
+                    rowSelection='multiple'
 
-                    onCellClicked={cellClickedListener} // Optional - registering for Grid Event
+                    onCellClicked={cellClickedListener}
                 />
             </div>
         </div>

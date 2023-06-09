@@ -79,7 +79,9 @@ const genderAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
 
 const genderAndSessionWiseCount = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    let result = { all: [], male: [], female: [], other: [] };
+    let result = {};
+    let temp = { all: [], male: [], female: [], other: [] };
+
     const activity = await Activity.findOne({ name: req.params.activityName });
     const sessions = await Session.find({ activity_id: activity._id });
 
@@ -91,14 +93,22 @@ const genderAndSessionWiseCount = asyncHandler(async (req, res) => {
         const beneficiary = await Beneficiary.findById(
           attendance.beneficiary_id
         );
-        if (result.all[num - 1] === undefined) {
-          result.all[num - 1] = 0;
-          result.male[num - 1] = 0;
-          result.female[num - 1] = 0;
-          result.other[num - 1] = 0;
+        if (result[beneficiary.communityName] === undefined) {
+          result[beneficiary.communityName] = {
+            all: [],
+            male: [],
+            female: [],
+            other: [],
+          };
         }
-        result.all[num - 1]++;
-        result[beneficiary.gender][num - 1]++;
+        if (result[beneficiary.communityName].all[num - 1] === undefined) {
+          result[beneficiary.communityName].all[num - 1] = 0;
+          result[beneficiary.communityName].male[num - 1] = 0;
+          result[beneficiary.communityName].female[num - 1] = 0;
+          result[beneficiary.communityName].other[num - 1] = 0;
+        }
+        result[beneficiary.communityName].all[num - 1]++;
+        result[beneficiary.communityName][beneficiary.gender][num - 1]++;
       }
     }
     res.status(200).json(result);

@@ -78,7 +78,7 @@ const getAttendedSessions = asyncHandler(async (req, res) => {
       const year = session.date.getFullYear();
 
       let displaySession = {
-        sessionId: session._id,
+        sessionId: session._id.toString(),
         name: activity.name + " - " + parseInt(session.name.split("-").pop()),
         description: activity.description,
         category: activity.category,

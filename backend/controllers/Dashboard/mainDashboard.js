@@ -13,17 +13,13 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error("Invalid request");
     }
-
+    //1. No. of sessions conducted in a particular year
     if (
       year != "None" &&
       month === "None" &&
       activity === "None" &&
       community === "None"
     ) {
-      const sessions = await Session.find({
-        date: { $gte: new Date(year, 0, 1), $lt: new Date(year, 11, 31) },
-      });
-      console.log(sessions);
       const pipeline = [
         {
           $match: {
@@ -48,7 +44,39 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
 
       const result = await Session.aggregate(pipeline);
       res.status(200).json(result);
+    };
+
+    if(year != "None" && month === "None" && activity != "None" && community == "None"){
+        const activityVal = await Activity.findOne({name : activity});
+        const pipeline = [
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(year, 0, 1),
+                        $lt: new Date(year, 11, 31),
+                    },
+                    activity_id : activityVal._id
+                }
+            },
+            {
+                $group: {
+                    _id: { $month: "$date" },
+                    count: { $sum: 1 },
+                }
+            },
+            {
+                $sort: {
+                    _id: 1,
+                }
+            }
+        ];
+        const result = await Session.aggregate(pipeline);
+        res.status(200).json(result);
     }
+    
+    
+    // else if()
+
   }
 });
 

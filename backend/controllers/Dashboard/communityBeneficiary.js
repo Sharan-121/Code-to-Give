@@ -3,14 +3,8 @@ const Attendance = require("../../models/attendanceModel");
 const Beneficiary = require("../../models/beneficiaryModel");
 
 const communityBeneficiary = asyncHandler(async (req, res) => {
-  const data = await Attendance.distinct("beneficiary_id");
 
   Beneficiary.aggregate([
-    {
-      $match: {
-        _id: { $in: data },
-      },
-    },
     {
       $group: {
         _id: "$community",

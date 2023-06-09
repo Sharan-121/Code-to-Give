@@ -72,18 +72,6 @@ select {
   font-weight: 600;
 }
 
-.btn {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-size: 14px;
-  background: rgb(0, 115, 230);
-  color: white;
-  border-radius: 7.5px;
-  border: 2px solid rgb(0, 115, 230);
-  padding: 10px;
-  font-weight: 600;
-}
-
 /* Header */
 .header {
   height: 60px;

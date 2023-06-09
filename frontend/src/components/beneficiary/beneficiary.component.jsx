@@ -36,7 +36,13 @@ const ViewBeneficiaries = () => {
         { field: 'employed', filter: true },
         { field: 'annualIncome', filter: true },
         { field: 'bankAccount', filter: true },
-        { field: 'previousDoctorVisit', filter: true },
+        {
+            field: 'previousDoctorVisit',
+            filter: true,
+            cellRenderer: (data) => {
+                return moment(data.previousDoctorVisit).format('MM/DD/YYYY HH:mm')
+            }
+        },
         { field: 'medicalHistory', filter: true },
         { field: 'childStudying', filter: true },
     ]);

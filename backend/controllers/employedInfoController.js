@@ -13,12 +13,10 @@ const employedDistribution = asyncHandler(async (req, res) => {
       employed: false,
     });
 
-    res
-      .status(200)
-      .json({
-        employed: totalEmployed.length,
-        unemployed: totalUnemployed.length,
-      });
+    res.status(200).json({
+      Employed: totalEmployed.length,
+      Unemployed: totalUnemployed.length,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

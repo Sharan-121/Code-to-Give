@@ -18,9 +18,9 @@ const genderDistribution = asyncHandler(async (req, res) => {
     })
 
     res.status(200).json({
-        male : totalMale.length,
-        female : totalFemale.length,
-        other : totalOther.length
+        Male : totalMale.length,
+        Female : totalFemale.length,
+        Other : totalOther.length
     })
   } catch (error) {
     res.status(500).json({ message: error.message });

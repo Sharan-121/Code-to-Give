@@ -13,16 +13,13 @@ const bankAccount = asyncHandler(async (req, res) => {
       bankAccount: false,
     });
 
-    res
-      .status(200)
-      .json({
-        withAccount: totalWithBankAccount.length,
-        withoutAccount: totalWithoutBankAccount.length,
-      });
+    res.status(200).json({
+      Yes: totalWithBankAccount.length,
+      No: totalWithoutBankAccount.length,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
-
 
 module.exports = { bankAccount };

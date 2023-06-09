@@ -32,7 +32,6 @@ const communityWiseBeneficiary = asyncHandler(async (req, res) => {
       communityWiseBeneficiaries,
     );
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 });

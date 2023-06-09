@@ -8,7 +8,6 @@ const Beneficiary = require("../models/beneficiaryModel");
 const getCommunityMetrics = asyncHandler(async (req, res) => {
   try {
     const community = await Community.findOne({ name: req.params.name });
-    console.log(community);
     const community_id = community._id;
 
     const totalSessionID = await Session.find(

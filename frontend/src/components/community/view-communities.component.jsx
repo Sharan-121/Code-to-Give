@@ -1,93 +1,155 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
-import Community from './community';
-import communityIcon from "../../assets/community_icon.png";
-import searchIcon from "../../assets/search_icon.png";
+import moment from 'moment';
+
+import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
+import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
+
 import defaultVariables from '../variables/variables';
 
 const ViewCommunities = () => {
-    const navigate = useNavigate();
-    const [communities, setCommunities] = useState([]);
-    const navigateToCommunity = () => {
-        navigate("/home/communities/view/add");
+
+    const gridRef = useRef();
+
+    var checkboxSelection = function (params) {
+        // we put checkbox on the name if we are not doing grouping
+        return params.columnApi.getRowGroupColumns().length === 0;
+    };
+
+    var headerCheckboxSelection = function (params) {
+        // we put checkbox on the name if we are not doing grouping
+        return params.columnApi.getRowGroupColumns().length === 0;
+    };
+
+    const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
+    const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
+    const [rowData, setRowData] = useState();
+    const [columnDefs, setColumnDefs] = useState([
+        { field: 'name', filter: true, cellRenderer: LinkCellRenderer },
+        { field: 'challenges', filter: true },
+        { field: 'totalPopulation', filter: true },
+        { field: 'location', filter: true },
+    ]);
+    const autoGroupColumnDef = useMemo(() => {
+        return {
+            headerName: 'Group',
+            minWidth: 170,
+            field: 'athlete',
+            valueGetter: (params) => {
+                if (params.node.group) {
+                    return params.node.key;
+                } else {
+                    return params.data[params.colDef.field];
+                }
+            },
+            headerCheckboxSelection: true,
+            cellRenderer: 'agGroupCellRenderer',
+            cellRendererParams: {
+                checkbox: true,
+            },
+        };
+    }, []);
+
+    function LinkCellRenderer(props) {
+        return (
+            <a
+                rel="noopener noreferrer"
+                href={ defaultVariables["frontend-url"] + "home/communities/view/" + props.value }
+            >
+            {props.value}
+            </a>
+        );
     }
+
+    function ButtonCellRenderer(props) {
+        const onClick = () => {
+            const { data } = props.node;
+            let message = "";
+
+            Object.keys(data).forEach((key) => {
+                message += key + ":" + data[key] + "\n";
+            });
+            alert(message);
+        };
+        return <button onClick={onClick}>View</button>;
+    }
+
+    const defaultColDef = useMemo(() => {
+        return {
+            editable: false,
+            enableRowGroup: true,
+            enablePivot: true,
+            enableValue: true,
+            sortable: true,
+            resizable: true,
+            filter: true,
+            flex: 1,
+            minWidth: 200,
+        };
+    }, []);
 
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem("token")
     }
 
-    useEffect(() => {
+    const onGridReady = useCallback((params) => {
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/community",
             {
                 headers: headers
             })
             .then((res) => {
-                setCommunities(res.data);
-                document.getElementsByClassName('loading')[0].style.display = "none";
+                setRowData(res.data);
             }).catch((err) => {
                 console.log(err);
             });
     }, []);
 
-    const background = [
-        "linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%)",
-        "linear-gradient( 135deg, #FEC163 10%, #DE4313 100%)",
-        "linear-gradient(to top, #ff0844 0%, #ffb199 100%)",
-        "linear-gradient(to top, #00c6fb 0%, #005bea 100%)",
-        "linear-gradient( 135deg, #70F570 10%, #49C628 100%)",
-        "linear-gradient(135deg, #00cc99 60%, #ccffff 100%)",
-        "linear-gradient(to top, #ff0000 0%, #ff6699 100%)"
-    ]
+    // Export as CSV
+    const onBtnExport = useCallback(() => {
+        gridRef.current.api.exportDataAsCsv();
+    }, []);
 
-    let backgroundCounter = 0;
+    const onCellClicked = () => {
+        alert("Hello");
+    };
 
     return (
-        <div className='view-communities'>
+        <div style={{ width: "100%", height: "100%", textAlign: "left" }}>
 
-            <div style={{ display: 'flex' }}>
+            <div className='grid-options-div'>
 
-                <div className='search-bar'>
-                    <img src={searchIcon} />
-                    <input type='text' placeholder='Search...' />
-                </div>
-
-                <button className='button' onClick={navigateToCommunity}>Create new community</button>
+                <button
+                    className='button-top'
+                    onClick={onBtnExport}>
+                    Export as CSV
+                </button>
 
             </div>
 
+            <div className="ag-theme-alpine" style={{ width: "100%", height: "calc(100% - 60px)", textAlign: "left" }}>
 
-            <div className='list-communities'>
-
-                <p className='heading-small' style={{ textAlign: 'left' }}>Communities</p>
-                <br />
-
-                <p className='loading'>Loading...</p>
-                
-                <div className='list-communities-container'>
-
-                    {
-                        communities.map(community => (
-                            <Community
-                                background={background[backgroundCounter++ % background.length]}
-                                communityID={community._id}
-                                communityIcon={communityIcon}
-                                communityTitle={community.name}
-                                communityChallenges={community.challenges}
-                                communityPopulation={community.totalPopulation}
-                                communityLocation={community.location}
-                            />
-                        )
-                        )
-                    }
-
-                </div>
+                <AgGridReact
+                    ref={gridRef}
+                    rowData={rowData}
+                    columnDefs={columnDefs}
+                    autoGroupColumnDef={autoGroupColumnDef}
+                    defaultColDef={defaultColDef}
+                    suppressRowClickSelection={true}
+                    groupSelectsChildren={true}
+                    rowSelection={'multiple'}
+                    rowGroupPanelShow={'always'}
+                    pivotPanelShow={'always'}
+                    pagination={true}
+                    onGridReady={onGridReady}
+                    // onCellClicked={onCellClicked}
+                ></AgGridReact>
 
             </div>
         </div>
     );
+
 };
 
 export default ViewCommunities;

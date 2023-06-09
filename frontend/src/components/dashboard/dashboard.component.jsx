@@ -44,6 +44,9 @@ const Dashboard = () => {
     const[loadGetBeneficiaryActivityCount,setLoadGetBeneficiaryActivityCount]=useState(false);
     const[getBeneficiaryActivityCount,setGetBeneficiaryActivityCount]=useState({});
 
+    const[loadGetCommunityBeneficiary,setLoadGetCommunityBeneficiary]=useState(false);
+    const[getCommunityBeneficiary,setGetCommunityBeneficiary]=useState({});
+
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem("token")
@@ -91,13 +94,42 @@ const Dashboard = () => {
                 json_data["label"] = label;
                 json_data["data"] = data;
                 setGetSessions(json_data);
-                setL(true);
+                setLoadGetSessions(true);
             })
             .catch((err) => {
                 console.log(err);
                 setLoadGetSessions(true);
             });
-  
+
+            //community-beneficiary
+
+             axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/cb/",
+            {
+                headers: headers
+            })
+            .then((res) => {
+               let json = res.data;
+               let label = [];
+               let data = [];
+           // Iterate over the JSON array
+          json.forEach((item) => {
+      if (item.hasOwnProperty("communityName") && item.hasOwnProperty("totalBeneficiary")) {
+              label.push(item.communityName);
+              data.push(item.totalBeneficiary);
+           }
+           });
+               let json_data = {}
+                json_data["label"] = label;
+                json_data["data"] = data;
+                setGetCommunityBeneficiary(json_data);
+                setLoadGetCommunityBeneficiary(true);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoadGetCommunityBeneficiary(true);
+            });
+
+
         // beneficiary-activity count
 
          axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/bcaw/",
@@ -307,10 +339,10 @@ const Dashboard = () => {
 
             </div>
 
-            <div className='charts-display' style={{ display: 'flex', marginTop: '20px' }}  >
+            <div className='charts-display'>
                  {
                     loadGetSessions &&
-                    <div className='chart' style={{backgroundColor: 'white', borderRadius: '20px',height: 'fit-content',width:'50%',marginRight:'20px'}}>
+                    <div className='chart' >
                         <h4>Sessions-Communities</h4>
                         <BarPlot className="chart"
                             options={{ horizontal: false }}
@@ -322,13 +354,26 @@ const Dashboard = () => {
 
                 {
                     loadGetBeneficiaryActivityCount && 
-                    <div className='chart' style={{backgroundColor: 'white', borderRadius: '20px',height: 'fit-content',width:'50%'}}>
+                    <div className='chart'>
                       <h4>Beneficiary-Activity</h4>
                       <PieChart 
                       data={getBeneficiaryActivityCount.data} 
                       labels={getBeneficiaryActivityCount.label} />
                     </div>
                 }
+
+                {
+                    loadGetCommunityBeneficiary &&
+                    <div className='chart'>
+                          <h4>Community-Beneficiary</h4> 
+                          <PieChart
+                          data={getCommunityBeneficiary.data}
+                          labels={getCommunityBeneficiary.label}
+                           />
+                    </div>
+                }
+
+                
 
             </div>
 

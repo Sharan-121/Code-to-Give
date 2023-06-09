@@ -77,4 +77,38 @@ const genderAndCommunityWiseEngagement = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { genderAndCommunityWiseEngagement };
+const genderAndSessionWiseCount = asyncHandler(async (req, res) => {
+  if (req.user.role === "admin") {
+    let res = { all: [], male: [], female: [], other: [] };
+    const activity = await Activity.findOne({ name: req.params.activityName });
+    const sessions = await Session.find({ activity_id: activity._id });
+
+    for (const session of sessions) {
+      const sessionParts = session.name.split("-");
+      const num = parseInt(sessionParts[sessionParts.length - 1]);
+      const attendances = await Attendance.find({ session_id: session._id });
+      for (const attendance of attendances) {
+        const beneficiary = await Beneficiary.findById(
+          attendance.beneficiary_id
+        );
+        if (res.all[num - 1] === undefined) {
+          res.all[num - 1] = 0;
+        }
+        if (res[beneficiary.gender][num - 1] === undefined) {
+          res[beneficiary.gender][num - 1] = 0;
+        }
+        res.all[num - 1]++;
+        res[beneficiary.gender][num - 1]++;
+        res.status(200).json(res);
+      }
+    }
+  } else {
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }
+});
+
+module.exports = {
+  genderAndCommunityWiseEngagement,
+  genderAndSessionWiseCount,
+};

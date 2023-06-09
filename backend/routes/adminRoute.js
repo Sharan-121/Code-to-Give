@@ -14,7 +14,7 @@ const {
   getSessionNumber,
 } = require("../controllers/adminController");
 
-const {getAllBeneficiaries} = require("../controllers/beneficiaryController");
+const { getAllBeneficiaries } = require("../controllers/beneficiaryController");
 
 const {
   getActivityMetrics,
@@ -24,6 +24,7 @@ const {
 } = require("../controllers/communityMetricsController");
 const {
   genderAndCommunityWiseEngagement,
+  genderAndSessionWiseCount,
 } = require("../controllers/genderEngagementController");
 const {
   ageAndCommunityWiseEngagement,
@@ -55,8 +56,12 @@ const {
 const {
   communityBeneficiary,
 } = require("../controllers/Dashboard/communityBeneficiary");
-const{ activityCountForCommunity }=require("../controllers/activityCountCommunityWise");
-const { getDashboardMetrics } = require("../controllers/Dashboard/mainDashboard");
+const {
+  activityCountForCommunity,
+} = require("../controllers/activityCountCommunityWise");
+const {
+  getDashboardMetrics,
+} = require("../controllers/Dashboard/mainDashboard");
 
 router.get("/activity", validateToken, getActivities);
 router.get("/activity/:name", validateToken, getActivityByName);
@@ -80,6 +85,11 @@ router.get(
   "/activity/metrics/gcwe/:activityName",
   validateToken,
   genderAndCommunityWiseEngagement
+);
+router.get(
+  "/activity/metrics/gaswc/:activityName",
+  validateToken,
+  genderAndSessionWiseCount
 );
 router.post("/activity", validateToken, createActivity);
 router.get("/community/metrics/:name", validateToken, getCommunityMetrics);
@@ -137,14 +147,10 @@ router.get(
   validateToken,
   beneficiaryCountActivityWise
 );
-router.get(
-  "/dashboard/metrics/acfc",
-  validateToken,
-  activityCountForCommunity
-);
+router.get("/dashboard/metrics/acfc", validateToken, activityCountForCommunity);
 
 router.get("/beneficiary", validateToken, getAllBeneficiaries);
 
-router.post("/dashboard/metrics",validateToken,getDashboardMetrics);
+router.post("/dashboard/metrics", validateToken, getDashboardMetrics);
 
 module.exports = router;

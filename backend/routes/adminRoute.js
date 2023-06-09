@@ -55,7 +55,8 @@ const {
 const {
   communityBeneficiary,
 } = require("../controllers/Dashboard/communityBeneficiary");
-const{ activityCountForCommunity }=require("../controllers/activityCountCommunityWise")
+const{ activityCountForCommunity }=require("../controllers/activityCountCommunityWise");
+const { getDashboardMetrics } = require("../controllers/Dashboard/mainDashboard");
 
 router.get("/activity", validateToken, getActivities);
 router.get("/activity/:name", validateToken, getActivityByName);
@@ -143,5 +144,7 @@ router.get(
 );
 
 router.get("/beneficiary", validateToken, getAllBeneficiaries);
+
+router.post("/dashboard/metrics",validateToken,getDashboardMetrics);
 
 module.exports = router;

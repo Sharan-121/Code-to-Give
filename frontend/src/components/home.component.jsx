@@ -29,6 +29,7 @@ const Home = () =>{
             <Routes>
                 <Route exact path="/" element={<Dashboard />} />
                 <Route exact path="/dashboard" element={<Dashboard />} />
+                <Route exact path="/beneficiary/view" element={<BeneficiaryForm />} />
                 <Route exact path="/beneficiary/add" element={<BeneficiaryForm />} />
                 <Route exact path="/sessions/add" element={<SessionForm />} />
                 <Route exact path="/attendance/add" element={<AttendanceForm />} />

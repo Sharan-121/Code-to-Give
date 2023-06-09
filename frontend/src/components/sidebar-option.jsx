@@ -13,8 +13,8 @@ const SideBarOption = (props) => {
 
     return (
         <div onClick={navigatePage} className="sidebar-option"  style={{ fontSize: '16px', fontFamily: 'Montserrat'}}>
-            <img src={props.icon} />
-            <span style={{ lineHeight:'18px' }}>{props.title}</span>
+            <span className="img">{props.icon}</span>
+            <span className="span">{props.title}</span>
         </div>
     )
 }

@@ -8,7 +8,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 
 import defaultVariables from '../variables/variables';
 
-// import './beneficiary.css';
+import './beneficiary.css';
 
 const ViewBeneficiaries = () => {
 
@@ -78,14 +78,17 @@ const ViewBeneficiaries = () => {
     return (
         <div style={{ width: "100%", height: "100%", textAlign: "left" }}>
 
-            <button
-                className='btn'
-                onClick={onBtnExport}
-            >
-                Export as CSV
-            </button>
+            <div className='grid-options-div'>
 
-            <div className="ag-theme-alpine" style={{ width: "100%", height: "100%", textAlign: "left" }}>
+                <button
+                    className='button'
+                    onClick={onBtnExport}>
+                    Export as CSV
+                </button>
+
+            </div>
+
+            <div className="ag-theme-alpine" style={{ width: "100%", height: "calc(100% - 50px)", textAlign: "left" }}>
 
                 <AgGridReact
                     ref={gridRef}

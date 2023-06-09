@@ -1,5 +1,15 @@
-.ag-theme-alpine{
-    width: 500px;
-    height: 500px;
-    text-align: left;
+.grid-options-div {
+    width: 100%;
+    height: 50px;
+}
+
+.grid-options-div .button {
+    height: 40px;
+    margin: 5px;
+    font-size: 14px;
+    background: rgb(0, 115, 230);
+    color: white;
+    border-radius: 7.5px;
+    border: 2px solid rgb(0, 115, 230);
+    font-weight: 600;
 }

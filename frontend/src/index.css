@@ -108,6 +108,25 @@ select {
   object-fit: contain;
 }
 
+.footer{
+  height: 50px;
+  width: 100%;
+  bottom: -1px;
+  left: 0;
+  position: fixed;
+  background-color: rgb(240, 240, 240);
+  display: flex;
+  z-index: 100;
+}
+
+.footer p{
+  flex: 1;
+  font-size: 16px;
+  line-height: 50px;
+  color: var(--font-color);
+  font-weight: 600;
+}
+
 /* Container */
 .outer-container {
   width: 100vw;
@@ -116,15 +135,18 @@ select {
 }
 
 .inner-container {
-  height: calc(100vh - 60px);
+  height: calc(100vh - 160px);
   flex: 8;
   /* background-color: rgb(235, 235, 235); */
   background-color: white;
   overflow-y: scroll;
+  padding-bottom: 100px;
 }
 
 /* SideBar */
 .sidebar {
+  top: 60px;
+  position: sticky;
   height: calc(100vh - 60px);
   /* border: 2px solid rgb(235,235, 235); */
   background-color: rgb(240, 240, 240);

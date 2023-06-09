@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import Header from './header';
+import Footer from './footer';
 import SideBar from './sidebar';
 import ViewBeneficiaries from './beneficiary/beneficiary.component';
 import ViewActivities from './activities/view-activities.component';
@@ -46,6 +47,7 @@ const Home = () =>{
             </Routes>
             </div>
         </div>
+        <Footer />
         </>
     )
     

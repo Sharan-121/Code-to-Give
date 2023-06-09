@@ -12,8 +12,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import PieChart from "./charts/comm-cat";
-import BarPlot from "./charts/comm-sess";
+import BarPlot from '../charts/BarPlot';
 
 
 const Dashboard = () => {
@@ -37,6 +36,9 @@ const Dashboard = () => {
 
     const [communities, setCommunities] = useState([]);
     const [community, setCommunity] = useState('');
+
+     const[loadGetSessions,setLoadGetSessions]=useState(false);
+    const [getSessions, setGetSessions] = useState({});
 
     const headers = {
         'Content-Type': 'application/json',
@@ -64,6 +66,32 @@ const Dashboard = () => {
                 setActivities(res.data);
             }).catch((err) => {
                 console.log(err);
+            });
+             //get session
+            axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/cs/",
+            {
+                headers: headers
+            })
+            .then((res) => {
+               let json = res.data;
+               let label = [];
+               let data = [];
+           // Iterate over the JSON array
+          json.forEach((item) => {
+      if (item.hasOwnProperty("communityName") && item.hasOwnProperty("totalSession")) {
+              label.push(item.communityName);
+              data.push(item.totalSession);
+  }
+});
+               let json_data = {}
+                json_data["label"] = label;
+                json_data["data"] = data;
+                setGetSessions(json_data);
+                setLoadGetSessions(true);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoadGetSessions(true);
             });
     }, []);
 
@@ -244,15 +272,17 @@ const Dashboard = () => {
             </div>
 
             <div className='charts-display' style={{ display: 'flex', marginTop: '20px' }}  >
-                <div style={{
-                    flex: 1, backgroundColor: 'white', borderRadius: '20px', marginRight: '20px', display: 'inline-block',
-                    height: 'fit-content'
-                }}>
-                    <PieChart />
-                </div>
-                <div style={{ flex: 1, backgroundColor: 'white', padding: '20px', borderRadius: '20px' }}>
-                    <BarPlot />
-                </div>
+                 {
+                    loadGetSessions &&
+                    <div className='chart' style={{backgroundColor: 'white', borderRadius: '20px',height: 'fit-content',width:'40%'}}>
+                        <h4>Sessions-Communities</h4>
+                        <BarPlot className="chart"
+                            options={{ horizontal: false }}
+                            label={getSessions.label}
+                            data={getSessions.data}
+                            ylabel={"Sessions"} />
+                    </div>
+                }
 
             </div>
 

@@ -53,6 +53,7 @@ const ViewActivities = () => {
     function LinkCellRenderer(props) {
         return (
             <a
+                style = {{ color: "var(--font-color)" }}
                 rel="noopener noreferrer"
                 href={ defaultVariables["frontend-url"] + "home/activities/view/" + props.value }
             >

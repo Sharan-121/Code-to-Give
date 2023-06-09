@@ -54,6 +54,7 @@ const ViewCommunities = () => {
     function LinkCellRenderer(props) {
         return (
             <a
+                style = {{ color: "var(--font-color)" }}
                 rel="noopener noreferrer"
                 href={ defaultVariables["frontend-url"] + "home/communities/view/" + props.value }
             >

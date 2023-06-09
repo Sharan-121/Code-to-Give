@@ -28,7 +28,6 @@ p {
 
 a {
   text-decoration: none;
-  color: var(--font-color);
   font-weight: bold;
 }
 
@@ -126,7 +125,7 @@ select {
 }
 
 .sidebar .sidebar-option:hover {
-  background-color: #1C4E80;
+  background-color: var(--font-color);
   color: white;
   box-shadow: 3px 5px 10px rgb(200, 200, 200);
 }

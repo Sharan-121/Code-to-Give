@@ -103,7 +103,10 @@ const activeBeneficiariesCommunity = asyncHandler(async (req, res) => {
       participationDetails.total++;
     }
 
-    res.status(200).json(participationDetails);
+    res.status(200).json({
+      Active: participationDetails.active,
+      Inactive: participationDetails.total - participationDetails.active
+    });
   } else {
     res.status(403);
     throw new Error("You are not authorized to view this page");
@@ -142,6 +145,10 @@ const activityAttendanceCountCommunity = asyncHandler(async (req, res) => {
     }
 
     res.status(200).json(activityParticipation);
+    // res.status(200).json({
+    //   Active: activityParticipation.active,
+    //   Inactive: activityParticipation.total - activityParticipation.active,
+    // });
   } else {
     res.status(403);
     throw new Error("You are not authorized to view this page");

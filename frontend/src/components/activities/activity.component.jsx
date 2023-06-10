@@ -27,6 +27,7 @@ const ActivityDetails = () => {
     const [totalCommunities, setTotalCommunities] = useState(0);
     const [totalSessions, setTotalSessions] = useState(0);
     const [totalBeneficiaries, setTotalBeneficiaries] = useState(0);
+    const [successfulFollowUps, setSuccessfulFollowUps] = useState(0);
 
     const [loadCWB, setLoadCWB] = useState(false);
     const [loadCWA, setLoadCWA] = useState(false);
@@ -158,6 +159,7 @@ const ActivityDetails = () => {
                 setTotalCommunities(res.data.totalCommunities);
                 setTotalSessions(res.data.totalSessions);
                 setTotalBeneficiaries(res.data.totalBeneficiaries);
+                setSuccessfulFollowUps(res.data.successfulFollowUps);
             })
             .catch((err) => {
                 console.log(err);
@@ -353,8 +355,8 @@ const ActivityDetails = () => {
                 <TopInfo
                     background="linear-gradient(to top, #00c6fb 0%, #005bea 100%)"
                     icon={activityIconWhite}
-                    title="Total Activities"
-                    value="100"
+                    title="Successful Follow Ups"
+                    value={successfulFollowUps}
                 />
 
             </div>

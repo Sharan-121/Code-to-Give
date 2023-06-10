@@ -11,12 +11,14 @@ import ActivityDetails from './activities/activity.component';
 import CommunityDetails from './community/community.component';
 import BeneficiaryForm from './beneficiary/form.component';
 import SessionForm from './sessions/form.component';
+import ViewSessions from './sessions/sessions.component';
 import AttendanceForm from './attendance/form.component';
 import ViewLocations from './locations/viewLocations';
 import Dashboard from './dashboard/dashboard.component';
 import ActivityForm from './activities/form.component'
 import CommunityForm from './community/form.component'
 import ImageToText from './image-to-text/ImageToText';
+import DownloadData from './download/download.component';
 
 const Home = () =>{
 
@@ -33,7 +35,8 @@ const Home = () =>{
                 <Route exact path="/dashboard" element={<Dashboard />} />
                 <Route exact path="/beneficiary/view" element={<ViewBeneficiaries />} />
                 <Route exact path="/beneficiary/view/add" element={<BeneficiaryForm />} />
-                <Route exact path="/sessions/add" element={<SessionForm />} />
+                <Route exact path="/sessions/view/add" element={<SessionForm />} />
+                <Route exact path="/sessions/view" element={<ViewSessions />} />
                 <Route exact path="/attendance/add" element={<AttendanceForm />} />
                 <Route exact path="/activities/view/add" element={<ActivityForm />} />
                 <Route exact path="/activities/view" element={<ViewActivities />} />
@@ -43,6 +46,7 @@ const Home = () =>{
                 <Route exact path="/communities/view/:name" element={<CommunityDetails />} />
                 <Route exact path="/locations/view" element={<ViewLocations />} />
                 <Route exact path="/image-to-text" element={<ImageToText />} />
+                <Route exact path="/download-data" element={<DownloadData />} />
                 <Route exact path="*" element={<Dashboard />} />
             </Routes>
             </div>

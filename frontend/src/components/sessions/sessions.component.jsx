@@ -27,35 +27,21 @@ const ViewSessions = () => {
     const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
     const [rowData, setRowData] = useState();
     const [columnDefs, setColumnDefs] = useState([
-        { field: 'name', filter: true, cellRenderer: LinkCellRenderer },
+        { field: 'name', filter: true, cellRenderer: LinkCellRenderer, minWidth: 400 },
         {
-            field: 'dob',
-            headerName: 'Date of Birth',
+            field: 'date',
+            headerName: 'Date',
             filter: true,
             cellRenderer: (data) => {
                 return moment(data.date).format('MM/DD/YYYY HH:mm')
             }
         },
         { field: 'gender', filter: true },
-        { field: 'community', filter: true },
-        { field: 'phoneNumber', filter: true },
-        { field: 'aadharNumber', filter: true },
-        { field: 'panNumber', filter: true },
-        { field: 'aadharPanLink', filter: true },
-        { field: 'address', filter: true },
-        { field: 'familyMembersCount', filter: true },
-        { field: 'employed', filter: true },
-        { field: 'annualIncome', filter: true },
-        { field: 'bankAccount', filter: true },
-        {
-            field: 'previousDoctorVisit',
-            filter: true,
-            cellRenderer: (data) => {
-                return moment(data.previousDoctorVisit).format('MM/DD/YYYY HH:mm')
-            }
-        },
-        { field: 'medicalHistory', filter: true },
-        { field: 'childStudying', filter: true },
+        { field: 'location', filter: true },
+        { field: 'minAge', filter: true },
+        { field: 'maxAge', filter: true },
+        { field: 'activityName', filter: true, cellRenderer: LinkCellRendererActivity, },
+        { field: 'communityName', filter: true, cellRenderer: LinkCellRendererCommunity, },
     ]);
     const autoGroupColumnDef = useMemo(() => {
         return {
@@ -82,7 +68,31 @@ const ViewSessions = () => {
             <a
             style = {{ color: "var(--font-color)" }}
                 rel="noopener noreferrer"
-                href={"https://www.google.com/search?tbm=isch&q=" + props.value}
+                href={defaultVariables["frontend-url"] + "home/sessions/view/" + props.value}
+            >
+            {props.value}
+            </a>
+        );
+    }
+
+    function LinkCellRendererActivity(props) {
+        return (
+            <a
+            style = {{ color: "var(--font-color)" }}
+                rel="noopener noreferrer"
+                href={defaultVariables["frontend-url"] + "home/activities/view/" + props.value}
+            >
+            {props.value}
+            </a>
+        );
+    }
+
+    function LinkCellRendererCommunity(props) {
+        return (
+            <a
+            style = {{ color: "var(--font-color)" }}
+                rel="noopener noreferrer"
+                href={defaultVariables["frontend-url"] + "home/communities/view/" + props.value}
             >
             {props.value}
             </a>
@@ -122,7 +132,7 @@ const ViewSessions = () => {
     }
 
     const onGridReady = useCallback((params) => {
-        axios.get(defaultVariables['backend-url'] + "api/v1/admin/beneficiary",
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/session",
             {
                 headers: headers
             })
@@ -143,8 +153,8 @@ const ViewSessions = () => {
     };
 
     const navigate = useNavigate();
-    const navigateToAddBeneficiary = () => {
-        navigate("/home/beneficiary/view/add");
+    const navigateToAddSession = () => {
+        navigate("/home/sessions/view/add");
     }
 
     return (
@@ -154,7 +164,7 @@ const ViewSessions = () => {
 
             <button
                     className='button-top'
-                    onClick={navigateToAddBeneficiary}>
+                    onClick={navigateToAddSession}>
                     Add Data
                 </button>
 

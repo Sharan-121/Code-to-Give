@@ -25,7 +25,7 @@ const Dashboard = () => {
 
     const navigate = useNavigate();
 
-    const [chartType, setChartType] = useState('mixed');
+    const [chartType, setChartType] = useState('area');
 
     const [month, setMonth] = useState('None');
     const [year, setYear] = useState(new Date().getFullYear());
@@ -377,9 +377,8 @@ const Dashboard = () => {
                                 label="Chart"
                                 onChange={functionSetChartType}
                             >
-                                <MenuItem value={"mixed"}>Mixed</MenuItem>
+                                <MenuItem value={"area"}>Bar</MenuItem>
                                 <MenuItem value={"line"}>Line</MenuItem>
-                                <MenuItem value={"area"}>Area</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>

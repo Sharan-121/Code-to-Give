@@ -21,6 +21,7 @@ const FormComponent = () => {
     const [male, setMale] = useState('');
     const [female, setFemale] = useState('');
     const [other, setOther] = useState('');
+    const [followUp, setFollowUp] = useState('');
 
     const [communities, setCommunities] = useState([]);
     const [activities, setActivities] = useState([]);
@@ -121,6 +122,7 @@ const FormComponent = () => {
             location: location,
             age: age,
             gender: gender,
+            followUp: followUp
         };
 
         const headers = {
@@ -261,8 +263,17 @@ const FormComponent = () => {
                     <input type="checkbox" checked={male} onChange={(e) => setMale(e.target.checked)} /> Male
                     <input type="checkbox" checked={female} onChange={(e) => setFemale(e.target.checked)} /> Female
                     <input type="checkbox" checked={other} onChange={(e) => setOther(e.target.checked)} /> Other
-
                 </div>
+
+                <TextField
+                    label="Follow Up"
+                    variant="outlined"
+                    value={followUp}
+                    type='text'
+                    onChange={(e) => setFollowUp(e.target.value)}
+                    fullWidth
+                    margin="normal"
+                />
 
                 <Button type="submit" variant="contained" color="primary" fullWidth id="react-button">
                     Submit

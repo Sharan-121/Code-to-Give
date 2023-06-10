@@ -40,16 +40,19 @@ select {
 .heading {
   font-size: 50px;
   font-weight: 700;
+  color: var(--font-color);
 }
 
 .heading-medium {
   font-size: 40px;
   font-weight: 700;
+  color: var(--font-color);
 }
 
 .heading-small {
   font-size: 30px;
   font-weight: 700;
+  color: var(--font-color);
 }
 
 .bold {

@@ -256,7 +256,7 @@ const CommunityDetails = () => {
 
     return (
         <div className='activity-details'>
-            <p className='heading-medium' style={{ color: 'dodgerblue' }}>{community.name}</p>
+            <p className='heading-medium' >{community.name}</p>
 
             <br />
             <div className='top-info-div'>

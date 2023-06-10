@@ -324,7 +324,7 @@ const ActivityDetails = () => {
     return (
         <div className='activity-details'>
 
-            <p className='heading-medium' style={{ color: 'dodgerblue' }}>{activity.name}</p>
+            <p className='heading-medium'>{activity.name}</p>
 
             <br />
             <div className='top-info-div'>

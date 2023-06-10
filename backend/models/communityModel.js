@@ -5,7 +5,6 @@ const communitySchema = mongoose.Schema(
     name: {
       type: String,
       required: [true, "Please enter the community name"],
-      unique: [true, "Community already exist"],
     },
 
     location: {

@@ -70,7 +70,9 @@ const {
   getDashboardMetrics,
 } = require("../controllers/Dashboard/mainDashboard");
 const { getOverallMetrics } = require("../controllers/Dashboard/overallMetrics");
+const { explorationDetails } = require("../controllers/mapController");
 
+router.get("/map/exploration", validateToken, explorationDetails);
 router.get("/activity", validateToken, getActivities);
 router.get("/activity/:name", validateToken, getActivityByName);
 router.get("/activity/metrics/:name", validateToken, getActivityMetrics);

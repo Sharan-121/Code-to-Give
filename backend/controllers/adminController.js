@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Activity = require("../models/activityModel");
 const Community = require("../models/communityModel");
 const Session = require("../models/sessionModel");
+const Explore = require("../models/exploreModel");
 
 const getActivities = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
@@ -86,7 +87,7 @@ const addCommunity = asyncHandler(async (req, res) => {
       throw new Error("Mandatory field(s) is/are missing");
     }
 
-    let community = await Community.findOne({ name });
+    let community = await Community.findOne({ name: name, location: location });
     if (community) {
       res.status(400);
       throw new Error("Community already exist");
@@ -103,6 +104,22 @@ const addCommunity = asyncHandler(async (req, res) => {
 
     try {
       await Community.create(newCommunity);
+      let explore = await Explore.findOne({
+        community: name,
+        location: location,
+      });
+      if (explore) {
+        explore.isExplored = true;
+        await Explore.findByIdAndUpdate(explore._id, explore, {
+          new: true,
+        });
+      } else {
+        await Explore.create({
+          community: name,
+          location: location,
+          isExplored: true,
+        });
+      }
       res.status(201).json({ success: true });
     } catch {
       res.status(400);

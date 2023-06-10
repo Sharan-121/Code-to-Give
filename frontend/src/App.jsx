@@ -6,13 +6,17 @@ import Login from './components/login.component'
 import Home from './components/home.component'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("id"));
 
   return (
 		<Router>
 			<Routes>
 				<Route exact path="/login" element={<Login/>} />
-				<Route exact path="/home/*" element={<Home/>} />
+				{ isAuthenticated ?
+					(<Route exact path="/home/*" element={<Home/>} />):
+					(<Route exact path="/home/*" element={<Login setIsAuthenticated = {setIsAuthenticated} />}  />)
+				}
 				<Route path="*" element={<Login/>} />
 			</Routes>
 		</Router>

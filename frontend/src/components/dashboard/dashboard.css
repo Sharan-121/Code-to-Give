@@ -18,10 +18,14 @@
     flex: 1;
     margin: 5px;
     color: white;
-    background-color: #1C4E80;
+    background-color: var(--font-color);
     border-radius: 20px;
     padding: 30px;
     display: flex;
+}
+
+.top-info:hover{
+    background-color: var(--hover-color);
 }
 
 .top-info .left {

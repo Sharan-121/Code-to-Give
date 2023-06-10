@@ -20,6 +20,7 @@ body {
   margin: 0;
   padding: 0;
   --font-color: #1C4E80;
+  --hover-color: #4E8dCD;
 }
 
 p {
@@ -121,7 +122,7 @@ select {
 }
 
 #react-button:hover{
-  background-color: dodgerblue;
+  background-color: var(--hover-color);
 }
 
 /* Header */
@@ -217,7 +218,7 @@ select {
 }
 
 .sidebar-option.active {
-  background-color: #4e8dcd;
+  background-color: var(--hover-color);
   color: white;
 }
 

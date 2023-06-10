@@ -401,7 +401,7 @@ const Dashboard = () => {
                         </FormControl>
                     </Box>
 
-                    <Box className="filter-option" sx={{ minWidth: 120 }}>
+                    <Box className="filter-option" sx={{ minWidth: 120 }} style= {{display:"none"}}>
                         <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label">Month</InputLabel>
                             <Select

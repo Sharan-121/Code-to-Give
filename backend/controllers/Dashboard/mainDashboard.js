@@ -326,6 +326,52 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
         res.status(200).json(result2);
       }
     }
+    if(year !== "None" && activity === "None" && community !== "None"){
+      let result2 = {
+        "x-axis-title": `Total Number of Attendees in ${parseInt(
+          year
+        )} for ${community}`,
+        label: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      };
+
+      const communityVal = await Community.findOne({ name: community });
+
+      const communitySessions = await Session.find({
+        community_id: communityVal._id,
+      });
+
+      const sessionIds = communitySessions.map((session) => session._id);
+
+      const attendances = await Attendance.find({
+        session_id: { $in: sessionIds },
+      });
+
+      for(const attendance of attendances){
+        const sessionId = attendance.session_id;
+        const session = await Session.findOne({_id: sessionId});
+        const yearOfSession = session.date.getFullYear();
+        const monthOfSession = session.date.getMonth();
+        if(yearOfSession === parseInt(year)){
+          result2.data[monthOfSession] += 1;
+        }
+      }
+
+      res.status(200).json(result2);
+    }
   }
 });
 

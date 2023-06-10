@@ -1,6 +1,6 @@
 import SideBarOption from "./sidebar-option";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTable, faList, faUser, faPeopleCarry, faFire, faCalendarPlus, faMap, faDownload, faImage } from '@fortawesome/fontawesome-free-solid'
+import { faTable, faList, faUser, faPeopleCarry, faFire, faCalendarPlus, faMap, faDatabase, faImage } from '@fortawesome/fontawesome-free-solid'
 
 const SideBar = () => {
     return (
@@ -12,7 +12,7 @@ const SideBar = () => {
             <SideBarOption icon={<FontAwesomeIcon icon={faFire} />} title={"Sessions"} redirect={"sessions/view"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faCalendarPlus} />} title={"Attendance"} redirect={"attendance/add"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faMap} />} title={"Locations"} redirect={"locations/view"} />
-            <SideBarOption icon={<FontAwesomeIcon icon={faDownload} />} title={"Download"} redirect={"download-data"} />
+            <SideBarOption icon={<FontAwesomeIcon icon={faDatabase} />} title={"Data"} redirect={"download-data"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faImage} />} title={"Scan documents"} redirect={"image-to-text"} />
         </div>
     )

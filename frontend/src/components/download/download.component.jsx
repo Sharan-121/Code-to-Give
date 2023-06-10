@@ -42,10 +42,20 @@ const DownloadData = () => {
     };
 
     return (
-        <div className='div-options'>
-            <Button onClick={functionDownloadData} variant="contained" color="primary" fullWidth id="react-button">
+        <div className='div-options' >
+
+            <p>Download all the data from the database.</p><br />
+            <Button onClick={functionDownloadData} variant="contained" color="primary" id="react-button">
                 Download
             </Button>
+            <br /><br /><br />
+
+            <p>Upload the data to the database.</p><br />
+            <Button onClick={functionDownloadData} variant="contained" color="primary" id="react-button">
+                Upload
+            </Button>
+            <br /><br />
+
         </div>
     );
 };

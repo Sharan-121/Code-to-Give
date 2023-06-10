@@ -553,4 +553,17 @@ select {
   box-shadow: 2px 3px 5px #a4c9ef;
 }
 
+.div-options{
+  padding: 20px;
+}
+
+.div-options p{
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.div-options #react-button{
+  width: 200px;
+}
+
 @media (prefers-color-scheme: light) {}

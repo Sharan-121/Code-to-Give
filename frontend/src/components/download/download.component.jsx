@@ -68,9 +68,9 @@ const DownloadData = () => {
     return (
         <div className='div-options' >
 
-            <p className='heading-medium' >Data Upload / Download</p>
+            <p className='heading-medium' >Data Upload</p>
 
-            <div className='form-div'>
+            <div className='form-div' style={{ display : 'none'}}>
                 <p className='paragraph'>Download all the data from the database.</p><br />
                 <Button onClick={functionDownloadData} variant="contained" color="primary" id="react-button">
                     Download

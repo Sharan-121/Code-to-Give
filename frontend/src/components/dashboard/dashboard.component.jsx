@@ -60,12 +60,30 @@ const Dashboard = () => {
     const [loadGetCommunityActivity, setLoadGetCommunityActivity] = useState(false);
     const [getCommunityActivity, setGetCommunityActivity] = useState({});
 
+    const [totalCommunities, setTotalCommunities] = useState(0);
+    const [totalSessions, setTotalSessions] = useState(0);
+    const [totalBeneficiaries, setTotalBeneficiaries] = useState(0);
+    const [totalParticipations, setTotalParticipations] = useState(0);
+
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem("token")
     }
 
     useEffect(() => {
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/overall",
+            {
+                headers: headers
+            })
+            .then((res) => {
+                setTotalCommunities(res.data.totalCommunities);
+                setTotalSessions(res.data.totalSessions);
+                setTotalBeneficiaries(res.data.totalBeneficiaries);
+                setTotalParticipations(res.data.totalParticipations);
+            }).catch((err) => {
+                console.log(err);
+            });
+
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/community",
             {
                 headers: headers
@@ -75,9 +93,7 @@ const Dashboard = () => {
             }).catch((err) => {
                 console.log(err);
             });
-    }, []);
 
-    useEffect(() => {
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity",
             {
                 headers: headers
@@ -318,29 +334,29 @@ const Dashboard = () => {
                 <TopInfo
                     background="linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%)"
                     icon={activityIconWhite}
-                    title="Total Activities"
-                    value="100"
+                    title="Total Communities"
+                    value={totalCommunities}
                 />
 
                 <TopInfo
                     background="linear-gradient( 135deg, #FEC163 10%, #DE4313 100%)"
                     icon={activityIconWhite}
-                    title="Total Activities"
-                    value="100"
+                    title="Total Sessions"
+                    value={totalSessions}
                 />
 
                 <TopInfo
                     background="linear-gradient(to top, #ff0844 0%, #ffb199 100%)"
                     icon={activityIconWhite}
-                    title="Total Activities"
-                    value="100"
+                    title="Total Beneficiaries"
+                    value={totalBeneficiaries}
                 />
 
                 <TopInfo
                     background="linear-gradient(to top, #00c6fb 0%, #005bea 100%)"
                     icon={activityIconWhite}
-                    title="Total Activities"
-                    value="100"
+                    title="Total Participations"
+                    value={totalParticipations}
                 />
 
             </div>

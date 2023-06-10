@@ -13,10 +13,10 @@ const getOverallMetrics = asyncHandler(async (req, res) => {
     const attendances = await Attendance.find({});
 
     res.status(200).json({
-        "Total Communities" : communities.length,
-        "Total Sessions" : sessions.length,
-        "Total Beneficiaries" : beneficiaries.length,
-        "Total Participation" : attendances.length,
+        "totalCommunities" : communities.length,
+        "totalSessions" : sessions.length,
+        "totalBeneficiaries" : beneficiaries.length,
+        "totalParticipations" : attendances.length,
     });
 })
 

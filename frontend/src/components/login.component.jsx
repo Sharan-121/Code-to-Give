@@ -34,7 +34,15 @@ const Login = (props) =>{
 			localStorage.setItem("id", response.data._id);
 			localStorage.setItem("username", response.data.token.username);
 			localStorage.setItem("token", response.data.token);
-			navigate("/home/dashboard");
+			if(role === "admin"){
+				navigate("/home/dashboard");
+			}
+			else if(role === "staff"){
+				navigate("/staff");
+			}
+			else{
+				navigate("/home/dashboard");
+			}
 		})
 		.catch(error => {
 			alert(error)

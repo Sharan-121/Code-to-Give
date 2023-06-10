@@ -28,6 +28,7 @@ const CommunityDetails = () => {
     const [totalSessions, setTotalSessions] = useState(0);
     const [totalBeneficiaries, setTotalBeneficiaries] = useState(0);
     const [totalActivities, setTotalActivities] = useState(0);
+    const [totalParticipations, setTotalParticipations] = useState(0);
 
     const [loadGetGender, setLoadGetGender] = useState(false);
     const [loadGetEmployed, setLoadGetEmployed] = useState(false);
@@ -68,6 +69,7 @@ const CommunityDetails = () => {
                 setTotalActivities(res.data.totalActivity);
                 setTotalSessions(res.data.totalSessions);
                 setTotalBeneficiaries(res.data.totalBeneficiaries);
+                setTotalParticipations(res.data.totalParticipations);
             })
             .catch((err) => {
                 console.log(err);
@@ -288,8 +290,8 @@ const CommunityDetails = () => {
                 <TopInfo
                     background="linear-gradient(to top, #00c6fb 0%, #005bea 100%)"
                     icon={<FontAwesomeIcon icon={faPeopleCarry} />}
-                    title="Total Activities"
-                    value="100"
+                    title="Total Participations"
+                    value={totalParticipations}
                 />
 
             </div>
@@ -306,7 +308,7 @@ const CommunityDetails = () => {
                 </div>
 
                 <div className='details-div'>
-                    <p className='details-field'>Category: </p>
+                    <p className='details-field'>Population: </p>
                     <p className='details-value'>{community.totalPopulation}</p>
                 </div>
 

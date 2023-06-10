@@ -129,6 +129,18 @@ const FormComponent = () => {
       });
   };
 
+  const convertPhoneNumberToString = (e) => {
+    const inputNumber = e.target.value.toString();
+    const phoneNumber = inputNumber.slice(0, 10);
+    setPhoneNumber(phoneNumber);
+  };
+
+  const convertAadharNumberToString = (e) => {
+    const inputNumber = e.target.value.toString();
+    const aadharNumber = inputNumber.slice(0, 12);
+    setAadharNumber(aadharNumber);
+  };
+
   return (
     <div className="form-div" style={{ marginBottom: "50px" }}>
       <br />
@@ -187,11 +199,11 @@ const FormComponent = () => {
           variant="outlined"
           value={phoneNumber}
           type="number"
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          onChange={convertPhoneNumberToString}
           fullWidth
           margin="normal"
           required
-          inputProps={{ min: 0 }}
+          inputProps={{ maxLength: 10 }}
         />
 
         <TextField
@@ -199,11 +211,11 @@ const FormComponent = () => {
           variant="outlined"
           value={aadharNumber}
           type="number"
-          onChange={(e) => setAadharNumber(e.target.value)}
+          onChange={convertAadharNumberToString}
           fullWidth
           margin="normal"
           required
-          inputProps={{ min: 0 }}
+          inputProps={{ maxLength:12 }}
         />
         <TextField
           label="PAN Number"

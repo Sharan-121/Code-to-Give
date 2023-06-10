@@ -25,7 +25,7 @@ const Dashboard = () => {
 
     const [chartType, setChartType] = useState('mixed');
 
-    const [month, setMonth] = useState(0);
+    const [month, setMonth] = useState('None');
     const [year, setYear] = useState(new Date().getFullYear());
 
     const [mainDashboardData, setMainDashboardData] = useState({});
@@ -41,10 +41,10 @@ const Dashboard = () => {
     const [age, setAge] = React.useState('');
 
     const [activities, setActivities] = useState([]);
-    const [activity, setActivity] = useState('');
+    const [activity, setActivity] = useState('None');
 
     const [communities, setCommunities] = useState([]);
-    const [community, setCommunity] = useState('');
+    const [community, setCommunity] = useState('None');
 
     const [loadGetSessions, setLoadGetSessions] = useState(false);
     const [getSessions, setGetSessions] = useState({});
@@ -87,10 +87,10 @@ const Dashboard = () => {
             });
 
         let parameters = {
-            year: '2023',
-            month: "None",
-            activity: "None",
-            community: "None"
+            year: year,
+            month: month,
+            activity: activity,
+            community: community
         };
 
         // Dashboard Metrics
@@ -98,30 +98,14 @@ const Dashboard = () => {
             parameters,
             {
                 headers: headers
-            }
-        )
+            })
             .then((res) => {
-                console.log(res.data);
-                // month == "None" && activity == "None" && community == "None"
-                if (true) {
-                    let json = res.data;
-                    let label = [];
-                    let data = [];
-                    // Iterate over the JSON object
-                    for (let key in json) {
-                        if (json.hasOwnProperty(key)) {
-                            const value = json[key];
-                            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-                            let monthName = monthNames[value._id - 1];
-                            label.push(monthName);
-                            data.push(value.count);
-                        }
-                    }
-                    let json_data = {}
-                    json_data["label"] = label;
-                    json_data["data"] = data;
-                    setMainDashboardData(json_data);
-                }
+                let json = res.data;
+                let json_data = {}
+                json_data["x-axis-title"] = json["x-axis-title"];
+                json_data["label"] = json.label;
+                json_data["data"] = json.data;
+                setMainDashboardData(json_data);
             })
             .catch((err) => {
                 console.log(err);
@@ -250,16 +234,44 @@ const Dashboard = () => {
 
     const functionSetChartType = (event) => {
         setChartType(event.target.value);
-        if (event.target.value == "line"){
+        if (event.target.value == "line") {
             setLineChart(true);
         }
-        if (event.target.value == "area"){
+        if (event.target.value == "area") {
             setLineChart(false);
         }
-        else{
+        else {
             setLineChart(true);
         }
     }
+
+    const changeMainDashboard = async (yearVal, monthVal, activityVal, communityVal) => {
+
+        let parameters = {
+            year: yearVal,
+            month: monthVal,
+            activity: activityVal,
+            community: communityVal
+        };
+
+        // Dashboard Metrics
+        await axios.post(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics",
+            parameters,
+            {
+                headers: headers
+            })
+            .then((res) => {
+                let json = res.data;
+                let json_data = {}
+                json_data["x-axis-title"] = json["x-axis-title"];
+                json_data["label"] = json.label;
+                json_data["data"] = json.data;
+                setMainDashboardData(json_data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     const handleChange = (event) => {
         setAge(event.target.value);
@@ -271,6 +283,7 @@ const Dashboard = () => {
 
     const handleYearChange = (event) => {
         setYear(event.target.value);
+        changeMainDashboard(event.target.value, month, activity, community);
     };
 
     const handleChartChange = (event) => {
@@ -370,19 +383,19 @@ const Dashboard = () => {
                                 label="Month"
                                 onChange={handleMonthChange}
                             >
-                                <MenuItem value={0}>None</MenuItem>
-                                <MenuItem value={1}>January</MenuItem>
-                                <MenuItem value={2}>February</MenuItem>
-                                <MenuItem value={3}>March</MenuItem>
-                                <MenuItem value={4}>April</MenuItem>
-                                <MenuItem value={5}>May</MenuItem>
-                                <MenuItem value={6}>June</MenuItem>
-                                <MenuItem value={7}>July</MenuItem>
-                                <MenuItem value={8}>August</MenuItem>
-                                <MenuItem value={9}>September</MenuItem>
-                                <MenuItem value={10}>October</MenuItem>
-                                <MenuItem value={11}>November</MenuItem>
-                                <MenuItem value={12}>December</MenuItem>
+                                <MenuItem value={"None"}>None</MenuItem>
+                                <MenuItem value={"January"}>January</MenuItem>
+                                <MenuItem value={"February"}>February</MenuItem>
+                                <MenuItem value={"March"}>March</MenuItem>
+                                <MenuItem value={"April"}>April</MenuItem>
+                                <MenuItem value={"May"}>May</MenuItem>
+                                <MenuItem value={"June"}>June</MenuItem>
+                                <MenuItem value={"July"}>July</MenuItem>
+                                <MenuItem value={"August"}>August</MenuItem>
+                                <MenuItem value={"September"}>September</MenuItem>
+                                <MenuItem value={"October"}>October</MenuItem>
+                                <MenuItem value={"November"}>November</MenuItem>
+                                <MenuItem value={"December"}>December</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
@@ -397,6 +410,7 @@ const Dashboard = () => {
                                 label="Activity"
                                 onChange={handleActivityChange}
                             >
+                                <MenuItem value={"None"}>None</MenuItem>
 
                                 {
                                     activities.map(activity => (
@@ -419,6 +433,7 @@ const Dashboard = () => {
                                 label="Community"
                                 onChange={(handleCommunityChange)}
                             >
+                                <MenuItem value={"None"}>None</MenuItem>
 
                                 {
                                     communities.map(community => (
@@ -433,20 +448,22 @@ const Dashboard = () => {
 
                 </div>
 
+                <h4>{mainDashboardData["x-axis-title"]}</h4>
+
                 {
                     lineChart &&
                     <LineChart label={mainDashboardData.label}
                         data={mainDashboardData.data}
-                        ytitle={"Beneficiaries registered each month"} />
+                        ytitle={mainDashboardData["x-axis-title"]} />
                 }
 
                 {
                     !lineChart &&
                     <BarPlot
-                        options = {{ horizontal: false }}
+                        options={{ horizontal: false }}
                         label={mainDashboardData.label}
                         data={mainDashboardData.data}
-                        ylabel={"Beneficiaries registered each month"} />
+                        ylabel={mainDashboardData["x-axis-title"]} />
                 }
 
                 {/* <ViewChart chartType={chartType} /> */}

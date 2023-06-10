@@ -1,22 +1,27 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useNavigate, NavLink, useLocation } from 'react-router-dom';
 
-const SideBarOption = (props) => {
+const SidebarOption = ({ icon, title, redirect }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isActive = location.pathname === redirect;
 
-    const navigate = useNavigate();
-    let [select, setSelect] = useState(0);
+  const navigatePage = (event) => {
+    event.preventDefault();
+    navigate(redirect);
+  };
 
-    function navigatePage(event) {
-        event.preventDefault();
-        navigate(props.redirect);
-    }
+  return (
+    <NavLink
+      to={redirect}
+      className={`sidebar-option ${isActive ? 'active' : ''}`}
+      onClick={navigatePage}
+      style={{ fontSize: '16px', fontFamily: 'Montserrat'}}
+    >
+      <span className="img">{icon}</span>
+        <span className="span">{title}</span>
+   </NavLink>
+  );
+};
 
-    return (
-        <div onClick={navigatePage} className="sidebar-option"  style={{ fontSize: '16px', fontFamily: 'Montserrat'}}>
-            <span className="img">{props.icon}</span>
-            <span className="span">{props.title}</span>
-        </div>
-    )
-}
-
-export default SideBarOption;
+export default SidebarOption;

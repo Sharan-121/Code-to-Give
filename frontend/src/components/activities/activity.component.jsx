@@ -222,7 +222,7 @@ const ActivityDetails = () => {
             });
 
         // Gender and Community Wise Engagement
-        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity/metrics/gcwe/" + name,
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity/metrics/gaswc/" + name,
             {
                 headers: headers
             })
@@ -262,7 +262,7 @@ const ActivityDetails = () => {
             });
 
         // Age and Community Wise Engagement
-        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity/metrics/acwe/" + name,
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity/metrics/aaswc/" + name,
             {
                 headers: headers
             })

@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const multer = require("multer");
+const upload = multer({ dest: "/" });
+
 const validateToken = require("../middleware/validateTokenHandler");
 const {
   getActivityByName,
@@ -15,7 +18,10 @@ const {
 } = require("../controllers/adminController");
 
 const { getAllBeneficiaries } = require("../controllers/beneficiaryController");
-const { downloadFullDatabase } = require("../controllers/downloadController");
+const {
+  downloadFullDatabase,
+  csvToDatabase,
+} = require("../controllers/downloadController");
 const {
   getActivityMetrics,
 } = require("../controllers/activityMetricsController");
@@ -78,6 +84,12 @@ router.get(
   communityWiseBeneficiary
 );
 router.get("/download/all", validateToken, downloadFullDatabase);
+router.post(
+  "/upload/:collection",
+  validateToken,
+  upload.single("csvFile"),
+  csvToDatabase
+);
 router.get(
   "/activity/metrics/acwe/:activityName",
   validateToken,

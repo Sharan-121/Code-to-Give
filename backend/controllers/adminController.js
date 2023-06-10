@@ -272,12 +272,14 @@ const getAllSessions = asyncHandler(async (req, res) => {
     const sessions = await Session.find();
     const result = [];
 
-    for(const session of sessions){
-      const names = session.name.split("-");  
-      result.push({...session._doc, activityName: names[0].trim(), communityName: names[1].trim()});
-    } 
-
-   
+    for (const session of sessions) {
+      const names = session.name.split("-");
+      result.push({
+        ...session._doc,
+        activityName: names[0].trim(),
+        communityName: names[1].trim(),
+      });
+    }
 
     res.status(200).send(result);
   } else {

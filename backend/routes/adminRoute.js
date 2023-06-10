@@ -70,6 +70,7 @@ const {
 const {
   getDashboardMetrics,
 } = require("../controllers/Dashboard/mainDashboard");
+const { getOverallMetrics } = require("../controllers/Dashboard/overallMetrics");
 
 router.get("/activity", validateToken, getActivities);
 router.get("/activity/:name", validateToken, getActivityByName);
@@ -173,5 +174,7 @@ router.get("/dashboard/metrics/acfc", validateToken, activityCountForCommunity);
 router.get("/beneficiary", validateToken, getAllBeneficiaries);
 
 router.post("/dashboard/metrics", validateToken, getDashboardMetrics);
+
+router.get("/dashboard/metrics/overall",validateToken,getOverallMetrics)
 
 module.exports = router;

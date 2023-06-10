@@ -16,6 +16,7 @@ import LineChart from '../charts/LineChart';
 import MultipleLineChart from '../charts/MultipleLineChart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTable, faList, faUser, faUsers, faPeopleCarry, faFire, faCalendarPlus, faMap, faDatabase, faImage } from '@fortawesome/fontawesome-free-solid'
+import ColumnChart from '../charts/ColumnChart';
 
 const ActivityDetails = () => {
     const navigate = useNavigate();
@@ -33,27 +34,43 @@ const ActivityDetails = () => {
 
     const [loadCWB, setLoadCWB] = useState(false);
     const [loadCWA, setLoadCWA] = useState(false);
+    const [loadGASWC, setLoadGASWC] = useState(false);
+    const [loadaaswc, setLoadaaswc] = useState(false);
     const [loadGCWE, setLoadGCWE] = useState(false);
     const [loadACWE, setLoadACWE] = useState(false);
 
-    const [genderCWA, setGenderCWA] = useState('All');
-    const [genderCWALabel, setGenderCWALabel] = useState([]);
-    const [genderCWAData, setGenderCWAData] = useState([]);
-    const [genderCWADataMale, setGenderCWADataMale] = useState([]);
-    const [genderCWADataFemale, setGenderCWADataFemale] = useState([]);
-    const [genderCWADataOther, setGenderCWADataOther] = useState([]);
-    const [genderCWADataAll, setGenderCWADataAll] = useState([]);
+    const [genderASWC, setgenderASWC] = useState('All');
+    const [genderASWCLabel, setgenderASWCLabel] = useState([]);
+    const [genderASWCData, setgenderASWCData] = useState([]);
+    const [genderASWCDataMale, setgenderASWCDataMale] = useState([]);
+    const [genderASWCDataFemale, setgenderASWCDataFemale] = useState([]);
+    const [genderASWCDataOther, setgenderASWCDataOther] = useState([]);
+    const [genderASWCDataAll, setgenderASWCDataAll] = useState([]);
 
+    const [ageASWC, setAgeASWC] = useState('All');
+    const [ageASWCLabel, setAgeASWCLabel] = useState([]);
+    const [ageASWCData, setAgeASWCData] = useState([]);
+    const [ageASWCData1, setAgeASWCData1] = useState([]);
+    const [ageASWCData2, setAgeASWCData2] = useState([]);
+    const [ageASWCData3, setAgeASWCData3] = useState([]);
+    const [ageASWCData4, setAgeASWCData4] = useState([]);
+    const [ageASWCData5, setAgeASWCData5] = useState([]);
+    const [ageASWCData6, setAgeASWCData6] = useState([]);
+    const [ageASWCDataAll, setAgeASWCDataAll] = useState([]);
+
+    // GCWE
+    const [genderCWE, setGenderCWE] = useState('All');
+    const [genderCWEData, setGenderCWEData] = useState([]);
+    const [genderCWEData1, setGenderCWEData1] = useState([]);
+    const [genderCWEData2, setGenderCWEData2] = useState([]);
+    const [genderCWELabel, setGenderCWELabel] = useState([]);
+
+    // ACWE
     const [ageCWE, setAgeCWE] = useState('All');
-    const [ageCWELabel, setAgeCWELabel] = useState([]);
     const [ageCWEData, setAgeCWEData] = useState([]);
     const [ageCWEData1, setAgeCWEData1] = useState([]);
     const [ageCWEData2, setAgeCWEData2] = useState([]);
-    const [ageCWEData3, setAgeCWEData3] = useState([]);
-    const [ageCWEData4, setAgeCWEData4] = useState([]);
-    const [ageCWEData5, setAgeCWEData5] = useState([]);
-    const [ageCWEData6, setAgeCWEData6] = useState([]);
-    const [ageCWEDataAll, setAgeCWEDataAll] = useState([]);
+    const [ageCWELabel, setAgeCWELabel] = useState([]);
 
     const [communityWiseBeneficiaries, setCommunityWiseBeneficiaries] = useState({});
     const [communityWiseAttendance, setCommunityWiseAttendance] = useState({});
@@ -64,81 +81,178 @@ const ActivityDetails = () => {
     }
 
     const onclickfn = () => {
-        console.log(communityWiseAttendance);
+        // console.log(communityWiseAttendance);
     }
 
-    const changeGenderCWA = (event) => {
-        setGenderCWA(event.target.value);
+    const changegenderASWC = (event) => {
+        setgenderASWC(event.target.value);
         if (event.target.value === "All") {
             let json_data = {}
-            json_data["label"] = genderCWALabel;
-            json_data["data"] = genderCWADataAll;
+            json_data["label"] = genderASWCLabel;
+            json_data["data"] = genderASWCDataAll;
             setCommunityWiseAttendance(json_data);
         }
         if (event.target.value === "Male") {
             let json_data = {}
-            json_data["label"] = genderCWALabel;
-            json_data["data"] = genderCWADataMale;
+            json_data["label"] = genderASWCLabel;
+            json_data["data"] = genderASWCDataMale;
             setCommunityWiseAttendance(json_data);
         }
         if (event.target.value === "Female") {
             let json_data = {}
-            json_data["label"] = genderCWALabel;
-            json_data["data"] = genderCWADataFemale;
+            json_data["label"] = genderASWCLabel;
+            json_data["data"] = genderASWCDataFemale;
             setCommunityWiseAttendance(json_data);
         }
         if (event.target.value === "Other") {
             let json_data = {}
-            json_data["label"] = genderCWALabel;
-            json_data["data"] = genderCWADataOther;
+            json_data["label"] = genderASWCLabel;
+            json_data["data"] = genderASWCDataOther;
             setCommunityWiseAttendance(json_data);
         }
     };
 
-    const changeAgeCWE = (event) => {
-        setAgeCWE(event.target.value);
+    const changeAgeASWC = (event) => {
+        setAgeASWC(event.target.value);
         if (event.target.value === "All") {
             let json_data = {}
-            json_data["label"] = ageCWELabel;
-            json_data["data"] = ageCWEDataAll;
-            setAgeCWEData(json_data);
+            json_data["label"] = ageASWCLabel;
+            json_data["data"] = ageASWCDataAll;
+            setAgeASWCData(json_data);
         }
         if (event.target.value === "0-8") {
             let json_data = {}
-            json_data["label"] = ageCWELabel;
-            json_data["data"] = ageCWEData1;
-            setAgeCWEData(json_data);
+            json_data["label"] = ageASWCLabel;
+            json_data["data"] = ageASWCData1;
+            setAgeASWCData(json_data);
         }
         if (event.target.value === "9-16") {
             let json_data = {}
-            json_data["label"] = ageCWELabel;
-            json_data["data"] = ageCWEData2;
-            setAgeCWEData(json_data);
+            json_data["label"] = ageASWCLabel;
+            json_data["data"] = ageASWCData2;
+            setAgeASWCData(json_data);
         }
         if (event.target.value === "17-27") {
             let json_data = {}
-            json_data["label"] = ageCWELabel;
-            json_data["data"] = ageCWEData3;
-            setAgeCWEData(json_data);
+            json_data["label"] = ageASWCLabel;
+            json_data["data"] = ageASWCData3;
+            setAgeASWCData(json_data);
         }
         if (event.target.value === "28-40") {
             let json_data = {}
-            json_data["label"] = ageCWELabel;
-            json_data["data"] = ageCWEData4;
-            setAgeCWEData(json_data);
+            json_data["label"] = ageASWCLabel;
+            json_data["data"] = ageASWCData4;
+            setAgeASWCData(json_data);
         }
         if (event.target.value === "41-60") {
             let json_data = {}
-            json_data["label"] = ageCWELabel;
-            json_data["data"] = ageCWEData5;
-            setAgeCWEData(json_data);
+            json_data["label"] = ageASWCLabel;
+            json_data["data"] = ageASWCData5;
+            setAgeASWCData(json_data);
         }
         if (event.target.value === "61+") {
             let json_data = {}
-            json_data["label"] = ageCWELabel;
-            json_data["data"] = ageCWEData6;
-            setAgeCWEData(json_data);
+            json_data["label"] = ageASWCLabel;
+            json_data["data"] = ageASWCData6;
+            setAgeASWCData(json_data);
         }
+    };
+
+    const changeGenderCWE = (event) => {
+        setGenderCWE(event.target.value);
+
+        let data1 = [];
+        let data2 = [];
+
+        if (event.target.value === "All") {
+            for (let i = 0; i < genderCWEData1.length; i++) {
+                data1.push(genderCWEData1[i][0]);
+                data2.push(genderCWEData2[i][0]);
+            }
+        }
+        if (event.target.value === "Male") {
+            for (let i = 0; i < genderCWEData1.length; i++) {
+                data1.push(genderCWEData1[i][1]);
+                data2.push(genderCWEData2[i][1]);
+            }
+        }
+        if (event.target.value === "Female") {
+            for (let i = 0; i < genderCWEData1.length; i++) {
+                data1.push(genderCWEData1[i][2]);
+                data2.push(genderCWEData2[i][2]);
+            }
+        }
+        if (event.target.value === "Other") {
+            for (let i = 0; i < genderCWEData1.length; i++) {
+                data1.push(genderCWEData1[i][3]);
+                data2.push(genderCWEData2[i][3]);
+            }
+        }
+
+        let json_data = {}
+        let json_arr = [data1, data2];
+        json_data["label"] = genderCWELabel;
+        json_data["data"] = json_arr;
+        // console.log(json_data);
+        setGenderCWEData(json_data);
+    };
+
+
+    const changeAgeCWE = (event) => {
+        setAgeCWE(event.target.value);
+
+        let data1 = [];
+        let data2 = [];
+
+        if (event.target.value === "All") {
+            for (let i = 0; i < ageCWEData1.length; i++) {
+                data1.push(ageCWEData1[i][0]);
+                data2.push(ageCWEData2[i][0]);
+            }
+        }
+        if (event.target.value === "0-8") {
+            for (let i = 0; i < ageCWEData1.length; i++) {
+                data1.push(ageCWEData1[i][1]);
+                data2.push(ageCWEData2[i][1]);
+            }
+        }
+        if (event.target.value === "9-16") {
+            for (let i = 0; i < ageCWEData1.length; i++) {
+                data1.push(ageCWEData1[i][2]);
+                data2.push(ageCWEData2[i][2]);
+            }
+        }
+        if (event.target.value === "17-27") {
+            for (let i = 0; i < ageCWEData1.length; i++) {
+                data1.push(ageCWEData1[i][3]);
+                data2.push(ageCWEData2[i][3]);
+            }
+        }
+        if (event.target.value === "28-40") {
+            for (let i = 0; i < ageCWEData1.length; i++) {
+                data1.push(ageCWEData1[i][4]);
+                data2.push(ageCWEData2[i][4]);
+            }
+        }
+        if (event.target.value === "41-60") {
+            for (let i = 0; i < ageCWEData1.length; i++) {
+                data1.push(ageCWEData1[i][5]);
+                data2.push(ageCWEData2[i][5]);
+            }
+        }
+        if (event.target.value === "61+") {
+            for (let i = 0; i < ageCWEData1.length; i++) {
+                data1.push(ageCWEData1[i][6]);
+                data2.push(ageCWEData2[i][6]);
+            }
+        }
+
+        let json_data = {}
+        let json_arr = [data1, data2];
+        json_data["label"] = ageCWELabel;
+        json_data["data"] = json_arr;
+        // console.log(json_data);
+        setAgeCWEData(json_data);
     };
 
     useEffect(() => {
@@ -237,7 +351,7 @@ const ActivityDetails = () => {
                 for (let key in json) {
                     if (json.hasOwnProperty(key)) {
                         const value = json[key];
-                        genderCWALabel.push(key);
+                        genderASWCLabel.push(key);
                         let resMale = [];
                         let resFemale = [];
                         let resOther = [];
@@ -248,21 +362,21 @@ const ActivityDetails = () => {
                             resOther.push(value.other[i]);
                             resAll.push(value.male[i] + value.female[i] + value.other[i]);
                         }
-                        genderCWADataMale.push(resMale);
-                        genderCWADataFemale.push(resFemale);
-                        genderCWADataOther.push(resOther);
-                        genderCWADataAll.push(resAll);
+                        genderASWCDataMale.push(resMale);
+                        genderASWCDataFemale.push(resFemale);
+                        genderASWCDataOther.push(resOther);
+                        genderASWCDataAll.push(resAll);
                     }
                 }
                 let json_data = {}
-                json_data["label"] = genderCWALabel;
-                json_data["data"] = genderCWADataAll;
+                json_data["label"] = genderASWCLabel;
+                json_data["data"] = genderASWCDataAll;
                 setCommunityWiseAttendance(json_data);
-                setLoadGCWE(true);
+                setLoadGASWC(true);
             })
             .catch((err) => {
                 console.log(err);
-                setLoadGCWE(true);
+                setLoadGASWC(true);
             });
 
         // Age and Community Wise Engagement
@@ -277,7 +391,7 @@ const ActivityDetails = () => {
                 for (let key in json) {
                     if (json.hasOwnProperty(key)) {
                         const value = json[key];
-                        ageCWELabel.push(key);
+                        ageASWCLabel.push(key);
                         let res1 = [];
                         let res2 = [];
                         let res3 = [];
@@ -301,26 +415,154 @@ const ActivityDetails = () => {
                                 value["61+"][i]
                             );
                         }
-                        ageCWEDataAll.push(resAll);
-                        ageCWEData1.push(res1);
-                        ageCWEData2.push(res2);
-                        ageCWEData3.push(res3);
-                        ageCWEData4.push(res4);
-                        ageCWEData5.push(res5);
-                        ageCWEData6.push(res6);
+                        ageASWCDataAll.push(resAll);
+                        ageASWCData1.push(res1);
+                        ageASWCData2.push(res2);
+                        ageASWCData3.push(res3);
+                        ageASWCData4.push(res4);
+                        ageASWCData5.push(res5);
+                        ageASWCData6.push(res6);
                     }
                 }
                 let json_data = {}
-                json_data["label"] = ageCWELabel;
-                json_data["data"] = ageCWEDataAll;
-                setAgeCWEData(json_data);
+                json_data["label"] = ageASWCLabel;
+                json_data["data"] = ageASWCDataAll;
+                setAgeASWCData(json_data);
 
-                setLoadACWE(true);
+                setLoadaaswc(true);
             })
             .catch((err) => {
                 console.log(err);
-                setLoadACWE(true);
+                setLoadaaswc(true);
             });
+
+            // Gender and Community Wise Engagement
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity/metrics/gcwe/" + name,
+        {
+            headers: headers
+        })
+        .then((res) => {
+            let json = res.data;
+            // Iterate over the JSON object
+            let eligible = [];
+            let attended = [];
+
+            let label = [];
+            let data1 = [];
+            let data2 = [];
+            for (let key in json) {
+                if (json.hasOwnProperty(key)) {
+                    const value = json[key];
+                    label.push(key);
+
+                    let attendedEach = [value.male[0] + value.female[0] + value.other[0], value.male[0], value.female[0], value.other[0]];
+                    attended.push(attendedEach);
+
+                    let eligibleEach = [value.male[1] + value.female[1] + value.other[1], value.male[1], value.female[1], value.other[1]];
+                    eligible.push(eligibleEach);
+
+                }
+            }
+
+            // console.log(eligible[0][2]);
+            setGenderCWEData1(eligible);
+            setGenderCWEData2(attended);
+            setGenderCWELabel(label);
+
+            for (let i = 0; i < attended.length; i++) {
+                data1.push(eligible[i][0]);
+                data2.push(attended[i][0]);
+            }
+
+            let json_data = {}
+            let json_arr = [data1, data2];
+            json_data["label"] = label;
+            json_data["data"] = json_arr;
+            setGenderCWEData(json_data);
+            setLoadGCWE(true);
+        })
+        .catch((err) => {
+            console.log(err);
+            setLoadGCWE(true);
+        });
+
+                // Age and Community Wise Engagement
+                axios.get(defaultVariables['backend-url'] + "api/v1/admin/activity/metrics/acwe/" + name,
+                {
+                    headers: headers
+                })
+                .then((res) => {
+                    let json = res.data;
+                    // Iterate over the JSON object
+                    let eligible = [];
+                    let attended = [];
+    
+                    let label = [];
+                    let data1 = [];
+                    let data2 = [];
+                    for (let key in json) {
+                        if (json.hasOwnProperty(key)) {
+                            const value = json[key];
+                            label.push(key);
+    
+                            let attendedEach = [
+                                value["0-8"][0]+
+                                value["9-16"][0]+
+                                value["17-27"][0]+
+                                value["28-40"][0]+
+                                value["41-60"][0]+
+                                value["61+"][0],
+    
+                                value["0-8"][0],
+                                value["9-16"][0],
+                                value["17-27"][0],
+                                value["28-40"][0],
+                                value["41-60"][0],
+                                value["61+"][0]
+                            ];
+                            attended.push(attendedEach);
+    
+                            let eligibleEach = [
+                                value["0-8"][1]+
+                                value["9-16"][1]+
+                                value["17-27"][1]+
+                                value["28-40"][1]+
+                                value["41-60"][1]+
+                                value["61+"][1],
+                                
+                                value["0-8"][1],
+                                value["9-16"][1],
+                                value["17-27"][1],
+                                value["28-40"][1],
+                                value["41-60"][1],
+                                value["61+"][1]
+                            ];
+                            eligible.push(eligibleEach);
+    
+                        }
+                    }
+    
+                    // console.log(eligible[0][2]);
+                    setAgeCWEData1(eligible);
+                    setAgeCWEData2(attended);
+                    setAgeCWELabel(label);
+    
+                    for (let i = 0; i < attended.length; i++) {
+                        data1.push(eligible[i][0]);
+                        data2.push(attended[i][0]);
+                    }
+    
+                    let json_data = {}
+                    let json_arr = [data1, data2];
+                    json_data["label"] = label;
+                    json_data["data"] = json_arr;
+                    setAgeCWEData(json_data);
+                    setLoadACWE(true);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setLoadACWE(true);
+                });
 
     }, []);
 
@@ -395,7 +637,7 @@ const ActivityDetails = () => {
                     </div>
                 }
 
-                {loadCWA &&
+                {loadGASWC &&
                     <div className='chart'>
                         <h4>Community and Gender Wise Attendance</h4>
                         <FormControl style={{ marginTop: "20px", width: "80%" }}>
@@ -403,9 +645,9 @@ const ActivityDetails = () => {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={genderCWA}
+                                value={genderASWC}
                                 label="Session"
-                                onChange={(e) => changeGenderCWA(e)}
+                                onChange={(e) => changegenderASWC(e)}
                                 required
                             >
                                 <MenuItem value={'All'}>All</MenuItem>
@@ -423,10 +665,69 @@ const ActivityDetails = () => {
                     </div>
                 }
 
-                {loadACWE &&
+                {loadaaswc &&
                     <div className='chart'>
                         <h4>Community and Age Wise Attendance</h4>
                         <FormControl style={{ marginTop: "20px", width: "80%" }}>
+                            <InputLabel>Age</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={ageASWC}
+                                label="Session"
+                                onChange={(e) => changeAgeASWC(e)}
+                                required
+                            >
+                                <MenuItem value={'All'}>All</MenuItem>
+                                <MenuItem value={'0-8'}>0-8</MenuItem>
+                                <MenuItem value={'9-16'}>9-16</MenuItem>
+                                <MenuItem value={'17-27'}>17-27</MenuItem>
+                                <MenuItem value={'28-40'}>28-40</MenuItem>
+                                <MenuItem value={'41-60'}>41-60</MenuItem>
+                                <MenuItem value={'61+'}>61+</MenuItem>
+
+                            </Select>
+                        </FormControl>
+
+                        <MultipleLineChart
+                            options={{ horizontal: true }}
+                            label={ageASWCData.label}
+                            data={ageASWCData.data}
+                            ylabel={"Total Beneficiaries"} />
+                    </div>
+                }
+
+                {loadGCWE && <div className='chart'>
+                    <h4>Gender and Community Wise Attendance</h4>
+
+                    <FormControl style={{ marginTop: "20px", width: "80%" }}>
+                        <InputLabel>Gender</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={genderCWE}
+                            label="Session"
+                            onChange={(e) => changeGenderCWE(e)}
+                            required
+                        >
+                            <MenuItem value={'All'}>All</MenuItem>
+                            <MenuItem value={'Male'}>Male</MenuItem>
+                            <MenuItem value={'Female'}>Female</MenuItem>
+                            <MenuItem value={'Other'}>Other</MenuItem>
+                        </Select>
+                    </FormControl>
+
+                    <ColumnChart
+                        label={genderCWEData.label}
+                        data={genderCWEData.data}
+                        ylabel={"Total Attendees"} />
+
+                </div>}
+
+                {loadACWE && <div className='chart'>
+                    <h4>Age and Community Wise Attendance</h4>
+
+                    <FormControl style={{ marginTop: "20px", width: "80%" }}>
                             <InputLabel>Age</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
@@ -443,17 +744,18 @@ const ActivityDetails = () => {
                                 <MenuItem value={'28-40'}>28-40</MenuItem>
                                 <MenuItem value={'41-60'}>41-60</MenuItem>
                                 <MenuItem value={'61+'}>61+</MenuItem>
-                                
+
                             </Select>
                         </FormControl>
 
-                        <MultipleLineChart
-                            options={{ horizontal: true }}
-                            label={ageCWEData.label}
-                            data={ageCWEData.data}
-                            ylabel={"Total Beneficiaries"} />
-                    </div>
-                }
+                    <ColumnChart
+                        label={ageCWEData.label}
+                        data={ageCWEData.data}
+                        ylabel={"Total Attendees"} />
+
+                </div>}
+            
+
 
 
             </div>

@@ -115,7 +115,6 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       }
       if (year !== "None" && activity === "None" && community !== "None") {
         const communityVal = await Community.findOne({ name: community });
-        console.log(communityVal);
         const pipeline = [
           {
             $match: {

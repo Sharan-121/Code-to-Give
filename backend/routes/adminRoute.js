@@ -24,7 +24,6 @@ const {
 } = require("../controllers/downloadController");
 const {
   getActivityMetrics,
-  followUpsCompleted,
 } = require("../controllers/activityMetricsController");
 const {
   getCommunityMetrics,
@@ -75,7 +74,6 @@ const { getOverallMetrics } = require("../controllers/Dashboard/overallMetrics")
 router.get("/activity", validateToken, getActivities);
 router.get("/activity/:name", validateToken, getActivityByName);
 router.get("/activity/metrics/:name", validateToken, getActivityMetrics);
-router.get("/activity/followups/:name", validateToken, followUpsCompleted);
 router.get(
   "/activity/metrics/cwa/:name",
   validateToken,

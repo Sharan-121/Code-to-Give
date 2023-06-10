@@ -92,7 +92,8 @@ const Dashboard = () => {
             year: year,
             month: month,
             activity: activity,
-            community: community
+            community: community,
+            metric: metric
         };
 
         // Dashboard Metrics

@@ -15,7 +15,7 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
-const Login = () =>{
+const Login = (props) =>{
 
 	const navigate = useNavigate();
 	const [username, setUsername] = useState("");
@@ -30,6 +30,7 @@ const Login = () =>{
 
 		axios.post(defaultVariables['backend-url'] + 'api/v1/login', parameters)
 		.then(response => {
+			props.setIsAuthenticated(true);
 			localStorage.setItem("id", response.data._id);
 			localStorage.setItem("username", response.data.token.username);
 			localStorage.setItem("token", response.data.token);

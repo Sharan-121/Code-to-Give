@@ -34,7 +34,12 @@ const MultipleLineChart = (props) => {
             height: 350,
             type: 'line',
         },
-        colors: ['#FA8072', '#FFD700', '#FF1493'],
+        colors: [
+            "#ef476f",
+            "#06d6a0",
+            "#118ab2",
+            "#073b4c"
+          ],
         dataLabels: {
             enabled: true,
         },

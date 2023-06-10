@@ -8,6 +8,12 @@ const DonutChart = ({ data, labels }) => {
       width: 380,
       type: 'donut',
     },
+    colors: [
+      "#ef476f",
+      "#06d6a0",
+      "#118ab2",
+      "#073b4c"
+    ],
     labels: labels,
     responsive: [
       {

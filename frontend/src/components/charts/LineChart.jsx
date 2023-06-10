@@ -15,7 +15,13 @@ const LineChart = (props) => {
       const options = {
         xaxis: {
           categories: props.label
-        }
+        },
+        colors: [
+          "#ef476f",
+          "#06d6a0",
+          "#118ab2",
+          "#073b4c"
+        ],
       };
 
       return <ReactApexChart type="line" series={series} options={options} height={400}/>;

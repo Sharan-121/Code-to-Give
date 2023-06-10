@@ -26,6 +26,12 @@ const ColumnChart = (props) => {
                 endingShape: 'rounded'
             },
         },
+        colors: [
+            "#ef476f",
+            "#06d6a0",
+            "#118ab2",
+            "#073b4c"
+          ],
         dataLabels: {
             enabled: false
         },

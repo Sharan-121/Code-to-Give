@@ -8,7 +8,7 @@ const { Readable } = require("stream");
 const xlsx = require("xlsx");
 
 const downloadFullDatabase = asyncHandler(async (req, res) => {
-    if (req.user.role === "admin") {
+  if (req.user.role === "admin") {
     try {
       // Fetch data from all collections
       let session = await Session.find().lean();

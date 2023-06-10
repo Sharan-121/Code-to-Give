@@ -195,7 +195,7 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
         let result2 = {
           "x-axis-title": `Number of sessions conducted in ${parseInt(
             year
-          )} for ${community}`,
+          )} for ${community} and ${activity}`,
           label: [
             "January",
             "February",
@@ -217,6 +217,72 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
         }
 
         res.status(200).json(result2);
+      }
+    } else if (metric === "attendance") {
+      if (year !== "None" && activity === "None" && community === "None") {
+        const pipleline = [
+          {
+            $lookup: {
+              from: "sessions",
+              localField: "session_id",
+              foreignField: "_id",
+              as: "session",
+            },
+          },
+          {
+            $unwind: "$session",
+          },
+          {
+            $project: {
+              year: { $year: "$session.date" },
+              month: { $month: "$session.date" },
+            },
+          },
+          {
+            $match: {
+              year: year,
+            },
+          },
+          {
+            $group: {
+              _id: "$month",
+              count: { $sum: 1 },
+            },
+          },
+          {
+            $sort: { _id: 1 },
+          },
+        ];
+
+        const result = await Attendance.aggregate(pipleline);
+
+        let result2 = {
+          "x-axis-title": `Total Number of Attendees in ${parseInt(
+            year
+          )}`,
+          label: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ],
+          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        };
+        for (const temp of result) {
+          result2.data[temp._id - 1] += temp.count;
+        }
+
+        res.status(200).json(result2);
+
+        
       }
     }
   }

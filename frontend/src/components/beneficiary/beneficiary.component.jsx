@@ -29,7 +29,10 @@ const ViewBeneficiaries = () => {
     const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
     const [rowData, setRowData] = useState();
     const [columnDefs, setColumnDefs] = useState([
-        { field: 'name', filter: true, cellRenderer: LinkCellRenderer },
+        {
+            field: 'name', filter: true,
+            cellRenderer: LinkCellRenderer
+        },
         {
             field: 'dob',
             headerName: 'Date of Birth',
@@ -81,13 +84,11 @@ const ViewBeneficiaries = () => {
 
     function LinkCellRenderer(props) {
         return (
-            <a
-            style = {{ color: "var(--font-color)" }}
-                rel="noopener noreferrer"
-                href={"https://www.google.com/search?tbm=isch&q=" + props.value}
+            <b
+                style={{ color: "var(--font-color)" }}
             >
-            {props.value}
-            </a>
+                {props.value}
+            </b>
         );
     }
 
@@ -154,7 +155,7 @@ const ViewBeneficiaries = () => {
 
             <div className='grid-options-div'>
 
-            <button
+                <button
                     className='button-top'
                     onClick={navigateToAddBeneficiary}>
                     Add Data
@@ -183,7 +184,7 @@ const ViewBeneficiaries = () => {
                     pivotPanelShow={'always'}
                     pagination={true}
                     onGridReady={onGridReady}
-                    // onCellClicked={onCellClicked}
+                // onCellClicked={onCellClicked}
                 ></AgGridReact>
 
             </div>

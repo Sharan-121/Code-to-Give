@@ -27,7 +27,9 @@ const ViewSessions = () => {
     const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
     const [rowData, setRowData] = useState();
     const [columnDefs, setColumnDefs] = useState([
-        { field: 'name', filter: true, cellRenderer: LinkCellRenderer, minWidth: 400 },
+        { field: 'name', filter: true,
+        cellRenderer: LinkCellRenderer,
+        minWidth: 400 },
         {
             field: 'date',
             headerName: 'Date',
@@ -65,13 +67,11 @@ const ViewSessions = () => {
 
     function LinkCellRenderer(props) {
         return (
-            <a
-            style = {{ color: "var(--font-color)" }}
-                rel="noopener noreferrer"
-                href={defaultVariables["frontend-url"] + "home/sessions/view/" + props.value}
+            <b
+                style={{ color: "var(--font-color)" }}
             >
-            {props.value}
-            </a>
+                {props.value}
+            </b>
         );
     }
 

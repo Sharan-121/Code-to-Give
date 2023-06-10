@@ -18,6 +18,7 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error("Invalid request");
     }
+
     //1. No. of sessions conducted in a particular year
     if (
       year !== "None" &&
@@ -70,6 +71,8 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
         result2.data[temp._id] += temp.count;
       }
       res.status(200).json(result2);
+
+      // year, activity
     } else if (
       year !== "None" &&
       month === "None" &&
@@ -102,6 +105,8 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       const result = await Session.aggregate(pipeline);
 
       res.status(200).json(result);
+
+      // year, community
     } else if (
       year !== "None" &&
       month === "None" &&
@@ -134,6 +139,8 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
         }
       }
       res.status(200).json(result);
+
+      // year, month
     } else if (
       year !== "None" &&
       month !== "None" &&
@@ -168,6 +175,8 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
         }
       }
       res.status(200).json(result);
+
+      // year, month, community
     } else if (
       year !== "None" &&
       month !== "None" &&

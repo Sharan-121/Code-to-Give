@@ -38,8 +38,8 @@
 .charts {
     margin-top: 50px;
     display: grid;
-    grid-gap: 15px;
-    grid-template-columns: 50% 50%;
+    grid-gap: 2%;
+    grid-template-columns: 49% 49%;
 }
 
 .charts .chart{

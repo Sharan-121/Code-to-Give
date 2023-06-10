@@ -15,7 +15,7 @@ const {
 } = require("../controllers/adminController");
 
 const { getAllBeneficiaries } = require("../controllers/beneficiaryController");
-
+const { downloadFullDatabase } = require("../controllers/downloadController");
 const {
   getActivityMetrics,
 } = require("../controllers/activityMetricsController");
@@ -77,6 +77,7 @@ router.get(
   validateToken,
   communityWiseBeneficiary
 );
+router.get("/download/all", validateToken, downloadFullDatabase);
 router.get(
   "/activity/metrics/acwe/:activityName",
   validateToken,

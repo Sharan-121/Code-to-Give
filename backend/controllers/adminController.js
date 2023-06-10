@@ -270,8 +270,16 @@ const createSession = asyncHandler(async (req, res) => {
 const getAllSessions = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
     const sessions = await Session.find();
+    const result = [];
 
-    res.status(200).json(sessions);
+    for(const session of sessions){
+      const names = session.name.split("-");  
+      result.push({...session._doc, activityName: names[0].trim(), communityName: names[1].trim()});
+    } 
+
+   
+
+    res.status(200).send(result);
   } else {
     res.status(403);
     throw new Error("You are not authorized to view this page");

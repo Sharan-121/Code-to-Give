@@ -43,6 +43,11 @@ const sessionSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
+
+    followUp: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

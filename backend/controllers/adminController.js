@@ -173,8 +173,16 @@ const isDateValid = (dateString, monthString, yearString) => {
 
 const createSession = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    const { name, activityName, communityName, date, location, age, gender } =
-      req.body;
+    const {
+      name,
+      activityName,
+      communityName,
+      date,
+      location,
+      age,
+      gender,
+      followUp,
+    } = req.body;
 
     if (
       !name ||
@@ -183,7 +191,8 @@ const createSession = asyncHandler(async (req, res) => {
       !date ||
       !location ||
       !age ||
-      !gender
+      !gender ||
+      !followUp
     ) {
       res.status(400);
       throw new Error("Please fill all the fields");
@@ -222,7 +231,7 @@ const createSession = asyncHandler(async (req, res) => {
           : "Invalid date format! Accepted date format: yyyy-mm-dd"
       );
     }
-    
+
     if (
       !gender.includes("male") &&
       !gender.includes("female") &&
@@ -243,6 +252,7 @@ const createSession = asyncHandler(async (req, res) => {
       minAge: age[0],
       maxAge: age[1],
       gender: gender,
+      followUp: followUp,
     });
 
     if (session) {

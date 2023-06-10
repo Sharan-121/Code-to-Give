@@ -13,6 +13,11 @@ const attendanceSchema = new mongoose.Schema(
       ref: "Beneficiary",
       required: true,
     },
+
+    followUp_status: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

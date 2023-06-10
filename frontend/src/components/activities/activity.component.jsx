@@ -628,7 +628,7 @@ const ActivityDetails = () => {
 
                 {loadCWB &&
                     <div className='chart'>
-                        <h4>Community Wise Beneficiaries</h4>
+                        <h4>Community wise Beneficiaries</h4>
                         <BarPlot className="chart"
                             options={{ horizontal: false }}
                             label={communityWiseBeneficiaries.label}
@@ -639,7 +639,7 @@ const ActivityDetails = () => {
 
                 {loadGASWC &&
                     <div className='chart'>
-                        <h4>Community and Gender Wise Attendance</h4>
+                        <h4>Community and Gender wise Attendance</h4>
                         <FormControl style={{ marginTop: "20px", width: "80%" }}>
                             <InputLabel>Gender</InputLabel>
                             <Select
@@ -667,7 +667,7 @@ const ActivityDetails = () => {
 
                 {loadaaswc &&
                     <div className='chart'>
-                        <h4>Community and Age Wise Attendance</h4>
+                        <h4>Community and Age wise Attendance</h4>
                         <FormControl style={{ marginTop: "20px", width: "80%" }}>
                             <InputLabel>Age</InputLabel>
                             <Select
@@ -698,7 +698,7 @@ const ActivityDetails = () => {
                 }
 
                 {loadGCWE && <div className='chart'>
-                    <h4>Gender and Community Wise Attendance</h4>
+                    <h4>Community and Gender wise Participation</h4>
 
                     <FormControl style={{ marginTop: "20px", width: "80%" }}>
                         <InputLabel>Gender</InputLabel>
@@ -725,7 +725,7 @@ const ActivityDetails = () => {
                 </div>}
 
                 {loadACWE && <div className='chart'>
-                    <h4>Age and Community Wise Attendance</h4>
+                    <h4>Community and Age wise Participation</h4>
 
                     <FormControl style={{ marginTop: "20px", width: "80%" }}>
                             <InputLabel>Age</InputLabel>

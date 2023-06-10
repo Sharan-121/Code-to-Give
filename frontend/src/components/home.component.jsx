@@ -11,6 +11,7 @@ import ActivityDetails from './activities/activity.component';
 import CommunityDetails from './community/community.component';
 import BeneficiaryForm from './beneficiary/form.component';
 import SessionForm from './sessions/form.component';
+import ViewSessions from './sessions/sessions.component';
 import AttendanceForm from './attendance/form.component';
 import ViewLocations from './locations/viewLocations';
 import Dashboard from './dashboard/dashboard.component';
@@ -34,7 +35,8 @@ const Home = () =>{
                 <Route exact path="/dashboard" element={<Dashboard />} />
                 <Route exact path="/beneficiary/view" element={<ViewBeneficiaries />} />
                 <Route exact path="/beneficiary/view/add" element={<BeneficiaryForm />} />
-                <Route exact path="/sessions/add" element={<SessionForm />} />
+                <Route exact path="/sessions/view/add" element={<SessionForm />} />
+                <Route exact path="/sessions/view" element={<ViewSessions />} />
                 <Route exact path="/attendance/add" element={<AttendanceForm />} />
                 <Route exact path="/activities/view/add" element={<ActivityForm />} />
                 <Route exact path="/activities/view" element={<ViewActivities />} />

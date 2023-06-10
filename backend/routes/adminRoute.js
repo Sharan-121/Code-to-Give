@@ -77,7 +77,7 @@ router.get(
   validateToken,
   communityWiseBeneficiary
 );
-router.get("/download/all", downloadFullDatabase);
+router.get("/download/all", validateToken, downloadFullDatabase);
 router.get(
   "/activity/metrics/acwe/:activityName",
   validateToken,

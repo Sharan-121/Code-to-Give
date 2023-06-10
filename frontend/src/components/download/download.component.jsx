@@ -8,7 +8,36 @@ const DownloadData = () => {
 
     const functionDownloadData = () => {
 
-        window.location.href = defaultVariables['backend-url'] + "api/v1/admin/download/all";
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("token")
+        }
+
+        axios({
+            url: defaultVariables['backend-url'] + "api/v1/admin/download/all",
+            method: 'GET',
+            responseType: 'blob',
+            headers: headers
+        })
+            .then(response => {
+                // Create a temporary URL for the file
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+
+                // Create a link element
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'data.xlsx');
+
+                // Programmatically click the link to trigger the download
+                document.body.appendChild(link);
+                link.click();
+
+                // Clean up the temporary URL
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Error downloading the file:', error);
+            });
 
     };
 

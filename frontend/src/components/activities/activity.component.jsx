@@ -15,7 +15,7 @@ import BarPlot from '../charts/BarPlot';
 import LineChart from '../charts/LineChart';
 import MultipleLineChart from '../charts/MultipleLineChart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTable, faList, faUser, faUsers, faPeopleCarry, faFire, faCalendarPlus, faMap, faDatabase, faImage } from '@fortawesome/fontawesome-free-solid'
+import { faBolt, faTable, faList, faUser, faUsers, faPeopleCarry, faFire, faCalendarPlus, faMap, faDatabase, faImage } from '@fortawesome/fontawesome-free-solid'
 import ColumnChart from '../charts/ColumnChart';
 
 const ActivityDetails = () => {
@@ -584,21 +584,21 @@ const ActivityDetails = () => {
 
                 <TopInfo
                     background="linear-gradient( 135deg, #FEC163 10%, #DE4313 100%)"
-                    icon={<FontAwesomeIcon icon={faPeopleCarry} />}
+                    icon={<FontAwesomeIcon icon={faFire} />}
                     title="Total Sessions Conducted"
                     value={totalSessions}
                 />
 
                 <TopInfo
                     background="linear-gradient(to top, #ff0844 0%, #ffb199 100%)"
-                    icon={<FontAwesomeIcon icon={faPeopleCarry} />}
+                    icon={<FontAwesomeIcon icon={faUser} />}
                     title="Total Beneficiaries"
                     value={totalBeneficiaries}
                 />
 
                 <TopInfo
                     background="linear-gradient(to top, #00c6fb 0%, #005bea 100%)"
-                    icon={<FontAwesomeIcon icon={faPeopleCarry} />}
+                    icon={<FontAwesomeIcon icon={faBolt} />}
                     title="Successful Follow Ups"
                     value={successfulFollowUps}
                 />

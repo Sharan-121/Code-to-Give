@@ -1,10 +1,4 @@
 import SideBarOption from "./sidebar-option";
-import communityIcon from "../assets/community_icon.png";
-import dashboardIcon from "../assets/dashboard_icon.png";
-import activityIcon from "../assets/activity_icon.png";
-import avatarProfileIcon from '../assets/avatar_profile_icon.png';
-import locationIcon from '../assets/location_icon.png';
-import sessionIcon from '../assets/session_icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTable, faList, faUser, faPeopleCarry, faFire, faCalendarPlus, faMap, faDownload, faImage } from '@fortawesome/fontawesome-free-solid'
 

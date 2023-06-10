@@ -6,7 +6,7 @@ const Session = require("../models/sessionModel");
 const Attendance = require("../models/attendanceModel");
 
 const getAllBeneficiaries = asyncHandler(async (req, res) => {
-  if (req.user.role == "admin") {
+  if (req.user.role == "admin" || req.user.role == "staff") {
     const beneficiaries = await Beneficiary.find({});
     res.status(200).send(beneficiaries);
   } else {

@@ -38,7 +38,7 @@ const Login = (props) =>{
 				navigate("/home/dashboard");
 			}
 			else if(role === "staff"){
-				navigate("/staff");
+				navigate("/staff/beneficiary/view");
 			}
 			else{
 				navigate("/home/dashboard");

@@ -94,8 +94,8 @@ const ViewLocations = () => {
             <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
                 integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
                 crossorigin="" />
-            <div class="container pt-5 pb-5">
-                <ul id="result-list" class="col-4 list-group" style={{ display: "none" }}>
+            <div >
+                <ul id="result-list" style={{ display: "none" }}>
                 </ul>
                 <div id="map-container" style={{ height: "75vh", width: "100%" }} ></div>
             </div>

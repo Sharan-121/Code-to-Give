@@ -6,10 +6,18 @@ const MultipleLineChart = (props) => {
     let series = [];
     let data_xaxis = [];
 
+    // Find the communities in which the more number of sessions has conducted.
+    let largest = 0;
     if (props.data.length > 0) {
-        for (let i = 0; i < props.data[0].length; i++) {
-            data_xaxis.push(i + 1);
+        for (let i = 0; i < props.data.length; i++) {
+            if (props.data[i].length > largest) {
+                largest = props.data[i].length;
+            }
         }
+    }
+
+    for (let i = 0; i < largest; i++) {
+        data_xaxis.push(i + 1);
     }
 
     for (let i = 0; i < props.label.length; i++) {

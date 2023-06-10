@@ -5,17 +5,15 @@ const Community = require("../models/communityModel");
 const Session = require("../models/sessionModel");
 const Attendance = require("../models/attendanceModel");
 
-
 const getAllBeneficiaries = asyncHandler(async (req, res) => {
-  if(req.user.role == "admin"){
+  if (req.user.role == "admin") {
     const beneficiaries = await Beneficiary.find({});
-    res.status(200).send( beneficiaries);
-  }else{
+    res.status(200).send(beneficiaries);
+  } else {
     res.status(403);
     throw new Error("You are not authorized to view this page");
   }
-  }
-)
+});
 
 const getAvailableSessions = asyncHandler(async (req, res) => {
   if (req.user.role == "beneficiary") {
@@ -70,12 +68,14 @@ const getAttendedSessions = asyncHandler(async (req, res) => {
     const attendances = await Attendance.find({ beneficiary_id: req.user._id });
     let sessions = [];
     let attendedSessions = [];
+    let statuses = [];
 
     for (const attendance of attendances) {
       let session = await Session.findById(attendance.session_id);
       sessions.push(session);
+      statuses.push(attendance.followUp_status);
     }
-
+    let i = 0;
     for (const session of sessions) {
       let activity = await Activity.findById(session.activity_id);
 
@@ -96,9 +96,12 @@ const getAttendedSessions = asyncHandler(async (req, res) => {
         category: activity.category,
         date: `${date}-${month}-${year}`,
         location: session.location,
+        followUp: session.followUp,
+        status: statuses[i],
       };
 
       attendedSessions.push(displaySession);
+      i++;
     }
     res.status(200).json({ sessions: attendedSessions });
   } else {
@@ -107,4 +110,32 @@ const getAttendedSessions = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getAvailableSessions, getAttendedSessions,getAllBeneficiaries};
+const updateStatus = asyncHandler(async (req, res) => {
+  if (req.user.role == "beneficiary") {
+    const beneficiary = await Beneficiary.findOne({
+      aadharNumber: req.user.aadharNumber,
+    });
+    const { status, sessionId } = req.body;
+    let attendance = await Attendance.findOne({
+      session_id: sessionId,
+      beneficiary_id: beneficiary._id,
+    });
+    attendance.followUp_status = status;
+
+    await Attendance.findByIdAndUpdate(attendance._id, attendance, {
+      new: true,
+    });
+
+    res.status(200).json({ success: true });
+  } else {
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }
+});
+
+module.exports = {
+  getAvailableSessions,
+  getAttendedSessions,
+  getAllBeneficiaries,
+  updateStatus,
+};

@@ -1,6 +1,6 @@
 import SideBarOption from "./sidebar-option";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTable, faList, faUser, faPeopleCarry, faFire, faCalendarPlus, faMap, faDatabase, faImage } from '@fortawesome/fontawesome-free-solid'
+import { faLocationArrow, faTable, faList, faUser, faPeopleCarry, faFire, faCalendarPlus, faMap, faDatabase, faImage } from '@fortawesome/fontawesome-free-solid'
 
 const SideBar = () => {
     return (
@@ -11,7 +11,7 @@ const SideBar = () => {
             <SideBarOption icon={<FontAwesomeIcon icon={faPeopleCarry} />} title={"Communities"} redirect={"communities/view"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faFire} />} title={"Sessions"} redirect={"sessions/view"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faCalendarPlus} />} title={"Attendance"} redirect={"attendance/add"} />
-            <SideBarOption icon={<FontAwesomeIcon icon={faMap} />} title={"Locations"} redirect={"locations/view"} />
+            <SideBarOption icon={<FontAwesomeIcon icon={faLocationArrow} />} title={"Locations"} redirect={"locations/view"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faDatabase} />} title={"Data Upload"} redirect={"download-data"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faImage} />} title={"Image to Text"} redirect={"image-to-text"} />
         </div>

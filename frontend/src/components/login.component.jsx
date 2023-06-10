@@ -33,7 +33,7 @@ const Login = () =>{
 			localStorage.setItem("id", response.data._id);
 			localStorage.setItem("username", response.data.token.username);
 			localStorage.setItem("token", response.data.token);
-			navigate("/home");
+			navigate("/home/dashboard");
 		})
 		.catch(error => {
 			alert(error)

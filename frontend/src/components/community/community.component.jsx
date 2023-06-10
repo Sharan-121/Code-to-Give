@@ -11,6 +11,8 @@ import BarPlot from '../charts/BarPlot';
 import LineChart from '../charts/LineChart';
 import MultipleLineChart from '../charts/MultipleLineChart';
 
+import '../activities/activity.css';
+
 const CommunityDetails = () => {
     const navigate = useNavigate();
     const navigateToCommunity = () => {
@@ -253,7 +255,7 @@ const CommunityDetails = () => {
     }, []);
 
     return (
-        <div className='community-details'>
+        <div className='activity-details'>
             <p className='heading-medium' style={{ color: 'dodgerblue' }}>{community.name}</p>
 
             <br />

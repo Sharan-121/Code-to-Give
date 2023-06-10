@@ -21,7 +21,6 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
     //1. No. of sessions conducted in a particular year
     if (
       year !== "None" &&
-      year === "None" &&
       month === "None" &&
       activity === "None" &&
       community === "None"
@@ -49,7 +48,28 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       ];
 
       const result = await Session.aggregate(pipeline);
-      res.status(200).json(result);
+      let result2 = {
+        "x-axis-title": `Number of sessions conducted in ${parseInt(year)}`,
+        label: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      };
+      for (const temp of result) {
+        result2.data[temp._id] += temp.count;
+      }
+      res.status(200).json(result2);
     } else if (
       year !== "None" &&
       month === "None" &&
@@ -80,6 +100,7 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
         },
       ];
       const result = await Session.aggregate(pipeline);
+
       res.status(200).json(result);
     } else if (
       year !== "None" &&
@@ -87,40 +108,29 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       activity === "None" &&
       community !== "None"
     ) {
-      const monthMap = {
-        "x-axis_title": `Number of Sessions conducted on ${parseInt(year)}`,
-        0: "January",
-        1: "February",
-        2: "March",
-        3: "April",
-        4: "May",
-        5: "June",
-        6: "July",
-        7: "August",
-        8: "September",
-        9: "October",
-        10: "November",
-        11: "December",
-      };
-      let result = {
-        January: 0,
-        February: 0,
-        March: 0,
-        April: 0,
-        May: 0,
-        June: 0,
-        July: 0,
-        August: 0,
-        September: 0,
-        October: 0,
-        November: 0,
-        December: 0,
-      };
       const communityModel = await Community.findOne({ name: community });
       const sessions = await Session.find({ community_id: communityModel._id });
+      let result = {
+        "x-axis-title": `Number of sessions conducted for ${communityModel.name}`,
+        label: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      };
       for (const session of sessions) {
         if (session.date.getFullYear() === parseInt(year)) {
-          result[monthMap[session.date.getMonth()]]++;
+          result.data[session.date.getMonth()]++;
         }
       }
       res.status(200).json(result);
@@ -135,9 +145,9 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       year = parseInt(year);
       const sessions = await Session.find({});
       let result = {
-        "x-axis_title": "Number of Beneficiaries",
-        "Follow ups completed": 0,
-        "Follow ups pending": 0,
+        "x-axis-title": "Number of Beneficiaries",
+        label: ["Follow ups completed", "Follow ups pending"],
+        data: [0, 0],
       };
 
       for (const session of sessions) {
@@ -150,9 +160,9 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
           });
           for (const attendance of attendances) {
             if (attendance.followUp === true) {
-              result["Follow ups completed"]++;
+              result.data[0]++;
             } else {
-              result["Follow ups pending"]++;
+              result.data[1]++;
             }
           }
         }
@@ -160,47 +170,27 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       res.status(200).json(result);
     } else if (
       year !== "None" &&
-      month === "None" &&
+      month !== "None" &&
       activity === "None" &&
-      community === "None"
+      community !== "None"
     ) {
-      let { year } = req.body;
+      let { year, community, month } = req.body;
       year = parseInt(year);
-      const beneficiaries = await Beneficiary.find({});
-      const monthMap = {
-        "x-axis_title": `Number of Sessions conducted on ${parseInt(year)}`,
-        0: "January",
-        1: "February",
-        2: "March",
-        3: "April",
-        4: "May",
-        5: "June",
-        6: "July",
-        7: "August",
-        8: "September",
-        9: "October",
-        10: "November",
-        11: "December",
-      };
+      month = parseInt(month) - 1;
+      const beneficiaries = await Beneficiary.find({ community: community });
       let result = {
-        "x-axis_title": "Number of Beneficiaries Registered",
-        January: 0,
-        February: 0,
-        March: 0,
-        April: 0,
-        May: 0,
-        June: 0,
-        July: 0,
-        August: 0,
-        September: 0,
-        October: 0,
-        November: 0,
-        December: 0,
+        "x-axis-title":
+          "Number of Beneficiaries Registered on " + year + " - " + (month + 1),
+        label: [community],
+        data: [0],
       };
 
       for (const beneficiary of beneficiaries) {
-        if (beneficiary.createdAt.getFullYear() === year) {
-          result[monthMap[beneficiary.createdAt.getMonth()]]++;
+        if (
+          beneficiary.createdAt.getFullYear() === year &&
+          beneficiary.createdAt.getMonth() === month
+        ) {
+          result.data++;
         }
       }
       res.status(200).json(result);

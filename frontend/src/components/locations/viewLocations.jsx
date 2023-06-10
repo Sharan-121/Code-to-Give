@@ -21,7 +21,7 @@ const ViewLocations = () => {
 
                 var queries = [];
 
-                for (var data of res.data){
+                for (var data of res.data) {
                     // console.log(data.location);
                     queries.push(data.location);
                 }
@@ -97,13 +97,9 @@ const ViewLocations = () => {
                 integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
                 crossorigin="" />
             <div class="container pt-5 pb-5">
-                <div class="row mt-5">
-                    <ul id="result-list" class="col-4 list-group">
-                    </ul>
-                    <div class="col-8">
-                        <div id="map-container" style={{ height: "75vh" }} ></div>
-                    </div>
-                </div>
+                <ul id="result-list" class="col-4 list-group" style={{ display: "none" }}>
+                </ul>
+                <div id="map-container" style={{ height: "75vh", width: "100%" }} ></div>
             </div>
         </>
 

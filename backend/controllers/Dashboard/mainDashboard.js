@@ -103,8 +103,32 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
         },
       ];
       const result = await Session.aggregate(pipeline);
+      let output = {
+        "x-axis-title" : `Number of sessions
+        conducted for ${activity}`,
+        label : [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ],
+        data : [0,0,0,0,0,0,0,0,0,0,0,0]
+      };
 
-      res.status(200).json(result);
+      for(const res of result){
+        output.data[res._id] += res.count;
+      }
+      // console.log(result);
+
+      res.status(200).json(output);
 
       // year, community
     } else if (

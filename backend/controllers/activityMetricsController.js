@@ -31,4 +31,24 @@ const getActivityMetrics = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getActivityMetrics };
+const followUpsCompleted = asyncHandler(async (req, res) => {
+  if (req.user.role === "admin") {
+    const activityName = req.params.activityName;
+    const activity = await Activity.findOne({ name: activityName });
+    const sessions = await Session.find({ activity_id: activity._id });
+    let result = 0;
+    for (let session of sessions) {
+      const attendances = await Attendance.find({
+        session_id: session._id,
+        followUp_status: true,
+      });
+      result += attendances.length;
+    }
+    res.status(200).json({ "Successful Follow Ups": result });
+  } else {
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }
+});
+
+module.exports = { getActivityMetrics, followUpsCompleted };

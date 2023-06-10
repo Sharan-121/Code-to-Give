@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import defaultVariables from '../variables/variables';
-import Button from '@mui/material/Button';
+import { Button, Select, MenuItem, Box, FormControl, InputLabel } from '@mui/material';
 import fs from 'fs-react';
 
 const DownloadData = () => {
+
+    const [collection, setCollection] = useState('Activity');
+    const [file, setFile] = useState('');
 
     const functionDownloadData = () => {
 
@@ -41,17 +44,75 @@ const DownloadData = () => {
 
     };
 
+    const functionUploadData = () => {
+
+        const formData = new FormData();
+        formData.append('csvFile', file);
+
+        const headers = {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer ' + localStorage.getItem("token")
+        }
+
+        axios.post(defaultVariables['backend-url'] + "api/v1/admin/upload/" + collection, formData, {
+            headers: headers
+        })
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error('Error uploading file:', error);
+            });
+    };
+
     return (
         <div className='div-options' >
 
-            <p>Download all the data from the database.</p><br />
+            <p className='heading-medium' >Data Upload / Download</p>
+            <br /><br /><br />
+
+            <p className='paragraph'>Download all the data from the database.</p><br />
             <Button onClick={functionDownloadData} variant="contained" color="primary" id="react-button">
                 Download
             </Button>
             <br /><br /><br />
 
-            <p>Upload the data to the database.</p><br />
-            <Button onClick={functionDownloadData} variant="contained" color="primary" id="react-button">
+            <p className='paragraph'>Upload the data to the database.</p><br />
+
+            <div style={{ display: "flex", margin: "auto", alignItems: "center", justifyContent: "center" }}>
+                <Box sx={{ minWidth: 200 }} style={{ margin: "10px" }} >
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Collection</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={collection}
+                            label="Collection"
+                            onChange={(event) => setCollection(event.target.value)}>
+                            <MenuItem value={"Activity"}>Activities</MenuItem>
+                            <MenuItem value={"Attendance"}>Attendance</MenuItem>
+                            <MenuItem value={"Beneficiary"}>Beneficiaries</MenuItem>
+                            <MenuItem value={"Community"}>Communities</MenuItem>
+                            <MenuItem value={"Session"}>Sessions</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+
+                <div className='image-input' style={{ margin: "10px" }}>
+                    <input
+                        accept=".csv, .xlsx, .xls"
+                        style={{ height: "36px", lineHeight: "36px", width: "300px" }}
+                        type="file"
+                        onChange={(e) =>
+                            setFile(e.target.files[0])
+                        }
+                        id='react-button'
+                    />
+                </div>
+
+            </div>
+
+            <Button onClick={functionUploadData} variant="contained" color="primary" id="react-button">
                 Upload
             </Button>
             <br /><br />

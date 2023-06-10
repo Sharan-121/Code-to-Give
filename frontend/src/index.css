@@ -557,7 +557,7 @@ select {
   padding: 20px;
 }
 
-.div-options p{
+.div-options .paragraph{
   font-size: 16px;
   font-weight: 600;
 }

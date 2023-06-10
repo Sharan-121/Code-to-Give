@@ -17,6 +17,7 @@ import Dashboard from './dashboard/dashboard.component';
 import ActivityForm from './activities/form.component'
 import CommunityForm from './community/form.component'
 import ImageToText from './image-to-text/ImageToText';
+import DownloadData from './download/download.component';
 
 const Home = () =>{
 
@@ -43,6 +44,7 @@ const Home = () =>{
                 <Route exact path="/communities/view/:name" element={<CommunityDetails />} />
                 <Route exact path="/locations/view" element={<ViewLocations />} />
                 <Route exact path="/image-to-text" element={<ImageToText />} />
+                <Route exact path="/download-data" element={<DownloadData />} />
                 <Route exact path="*" element={<Dashboard />} />
             </Routes>
             </div>

@@ -6,7 +6,7 @@ import avatarProfileIcon from '../assets/avatar_profile_icon.png';
 import locationIcon from '../assets/location_icon.png';
 import sessionIcon from '../assets/session_icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTable, faList, faUser, faPeopleCarry, faFire, faCalendarPlus, faMap } from '@fortawesome/fontawesome-free-solid'
+import { faTable, faList, faUser, faPeopleCarry, faFire, faCalendarPlus, faMap, faDownload } from '@fortawesome/fontawesome-free-solid'
 
 const SideBar = () => {
     return (
@@ -18,6 +18,7 @@ const SideBar = () => {
             <SideBarOption icon={<FontAwesomeIcon icon={faFire} />} title={"Sessions"} redirect={"sessions/add"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faCalendarPlus} />} title={"Attendance"} redirect={"attendance/add"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faMap} />} title={"Locations"} redirect={"locations/view"} />
+            <SideBarOption icon={<FontAwesomeIcon icon={faDownload} />} title={"Download"} redirect={"download-data"} />
         </div>
     )
 }

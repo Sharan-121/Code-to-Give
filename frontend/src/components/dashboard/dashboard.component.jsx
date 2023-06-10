@@ -279,6 +279,7 @@ const Dashboard = () => {
 
     const handleMonthChange = (event) => {
         setMonth(event.target.value);
+        changeMainDashboard(year, event.target.value, activity, community);
     };
 
     const handleYearChange = (event) => {
@@ -292,10 +293,12 @@ const Dashboard = () => {
 
     const handleActivityChange = (event) => {
         setActivity(event.target.value);
+        changeMainDashboard(year, month, event.target.value, community);
     };
 
     const handleCommunityChange = (event) => {
         setCommunity(event.target.value);
+        changeMainDashboard(year, month, activity, event.target.value);
     };
 
     return (

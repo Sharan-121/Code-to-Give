@@ -11,6 +11,9 @@ import BarPlot from '../charts/BarPlot';
 import LineChart from '../charts/LineChart';
 import MultipleLineChart from '../charts/MultipleLineChart';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTable, faList, faUser, faUsers, faPeopleCarry, faFire, faCalendarPlus, faMap, faDatabase, faImage } from '@fortawesome/fontawesome-free-solid'
+
 import '../activities/activity.css';
 
 const CommunityDetails = () => {
@@ -263,28 +266,28 @@ const CommunityDetails = () => {
 
                 <TopInfo
                     background="linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%)"
-                    icon={communityIconWhite}
+                    icon={<FontAwesomeIcon icon={faPeopleCarry} />}
                     title="Total Activities Impacted"
                     value={totalActivities}
                 />
 
                 <TopInfo
                     background="linear-gradient( 135deg, #FEC163 10%, #DE4313 100%)"
-                    icon={communityIconWhite}
+                    icon={<FontAwesomeIcon icon={faPeopleCarry} />}
                     title="Total Sessions Conducted"
                     value={totalSessions}
                 />
 
                 <TopInfo
                     background="linear-gradient(to top, #ff0844 0%, #ffb199 100%)"
-                    icon={communityIconWhite}
+                    icon={<FontAwesomeIcon icon={faPeopleCarry} />}
                     title="Total Beneficiaries"
                     value={totalBeneficiaries}
                 />
 
                 <TopInfo
                     background="linear-gradient(to top, #00c6fb 0%, #005bea 100%)"
-                    icon={communityIconWhite}
+                    icon={<FontAwesomeIcon icon={faPeopleCarry} />}
                     title="Total Activities"
                     value="100"
                 />

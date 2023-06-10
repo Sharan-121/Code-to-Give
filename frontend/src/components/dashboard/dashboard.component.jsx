@@ -46,6 +46,8 @@ const Dashboard = () => {
     const [communities, setCommunities] = useState([]);
     const [community, setCommunity] = useState('None');
 
+    const [metric, setMetric] = useState('session');
+
     const [loadGetSessions, setLoadGetSessions] = useState(false);
     const [getSessions, setGetSessions] = useState({});
 
@@ -245,13 +247,14 @@ const Dashboard = () => {
         }
     }
 
-    const changeMainDashboard = async (yearVal, monthVal, activityVal, communityVal) => {
+    const changeMainDashboard = async (yearVal, monthVal, activityVal, communityVal, metricVal) => {
 
         let parameters = {
             year: yearVal,
             month: monthVal,
             activity: activityVal,
-            community: communityVal
+            community: communityVal,
+            metric: metricVal
         };
 
         // Dashboard Metrics
@@ -279,12 +282,12 @@ const Dashboard = () => {
 
     const handleMonthChange = (event) => {
         setMonth(event.target.value);
-        changeMainDashboard(year, event.target.value, activity, community);
+        changeMainDashboard(year, event.target.value, activity, community, metric);
     };
 
     const handleYearChange = (event) => {
         setYear(event.target.value);
-        changeMainDashboard(event.target.value, month, activity, community);
+        changeMainDashboard(event.target.value, month, activity, community, metric);
     };
 
     const handleChartChange = (event) => {
@@ -293,12 +296,17 @@ const Dashboard = () => {
 
     const handleActivityChange = (event) => {
         setActivity(event.target.value);
-        changeMainDashboard(year, month, event.target.value, community);
+        changeMainDashboard(year, month, event.target.value, community, metric);
     };
 
     const handleCommunityChange = (event) => {
         setCommunity(event.target.value);
-        changeMainDashboard(year, month, activity, event.target.value);
+        changeMainDashboard(year, month, activity, event.target.value, metric);
+    };
+
+    const handleMetricChange = (event) => {
+        setMetric(event.target.value);
+        changeMainDashboard(year, month, activity, community, event.target.value);
     };
 
     return (
@@ -444,6 +452,24 @@ const Dashboard = () => {
                                     )
                                     )
                                 }
+
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+                    <Box className="filter-option" sx={{ minWidth: 120 }}>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Metric</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={metric}
+                                label="Metric"
+                                onChange={handleMetricChange}
+                            >
+
+                                <MenuItem value={"session"}>Session</MenuItem>
+                                <MenuItem value={"attendance"}>Attendance</MenuItem>
 
                             </Select>
                         </FormControl>

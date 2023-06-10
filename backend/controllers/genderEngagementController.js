@@ -93,22 +93,22 @@ const genderAndSessionWiseCount = asyncHandler(async (req, res) => {
         const beneficiary = await Beneficiary.findById(
           attendance.beneficiary_id
         );
-        if (result[beneficiary.communityName] === undefined) {
-          result[beneficiary.communityName] = {
+        if (result[beneficiary.community] === undefined) {
+          result[beneficiary.community] = {
             all: [],
             male: [],
             female: [],
             other: [],
           };
         }
-        if (result[beneficiary.communityName].all[num - 1] === undefined) {
-          result[beneficiary.communityName].all[num - 1] = 0;
-          result[beneficiary.communityName].male[num - 1] = 0;
-          result[beneficiary.communityName].female[num - 1] = 0;
-          result[beneficiary.communityName].other[num - 1] = 0;
+        if (result[beneficiary.community].all[num - 1] === undefined) {
+          result[beneficiary.community].all[num - 1] = 0;
+          result[beneficiary.community].male[num - 1] = 0;
+          result[beneficiary.community].female[num - 1] = 0;
+          result[beneficiary.community].other[num - 1] = 0;
         }
-        result[beneficiary.communityName].all[num - 1]++;
-        result[beneficiary.communityName][beneficiary.gender][num - 1]++;
+        result[beneficiary.community].all[num - 1]++;
+        result[beneficiary.community][beneficiary.gender][num - 1]++;
       }
     }
     res.status(200).json(result);
@@ -132,8 +132,8 @@ const ageAndSessionWiseCount = asyncHandler(async (req, res) => {
         const beneficiary = await Beneficiary.findById(
           attendance.beneficiary_id
         );
-        if (result[beneficiary.communityName] === undefined) {
-          result[beneficiary.communityName] = {
+        if (result[beneficiary.community] === undefined) {
+          result[beneficiary.community] = {
             all: [],
             "0-8": [],
             "9-16": [],
@@ -143,14 +143,14 @@ const ageAndSessionWiseCount = asyncHandler(async (req, res) => {
             "61+": [],
           };
         }
-        if (result[beneficiary.communityName].all[num - 1] === undefined) {
-          result[beneficiary.communityName].all[num - 1] = 0;
-          result[beneficiary.communityName]["0-8"][num - 1] = 0;
-          result[beneficiary.communityName]["9-16"][num - 1] = 0;
-          result[beneficiary.communityName]["17-27"][num - 1] = 0;
-          result[beneficiary.communityName]["28-40"][num - 1] = 0;
-          result[beneficiary.communityName]["41-60"][num - 1] = 0;
-          result[beneficiary.communityName]["61+"][num - 1] = 0;
+        if (result[beneficiary.community].all[num - 1] === undefined) {
+          result[beneficiary.community].all[num - 1] = 0;
+          result[beneficiary.community]["0-8"][num - 1] = 0;
+          result[beneficiary.community]["9-16"][num - 1] = 0;
+          result[beneficiary.community]["17-27"][num - 1] = 0;
+          result[beneficiary.community]["28-40"][num - 1] = 0;
+          result[beneficiary.community]["41-60"][num - 1] = 0;
+          result[beneficiary.community]["61+"][num - 1] = 0;
         }
         const age = getAge(beneficiary.dob);
         let ageGroup = "";
@@ -167,8 +167,8 @@ const ageAndSessionWiseCount = asyncHandler(async (req, res) => {
         } else {
           ageGroup = "61+";
         }
-        result[beneficiary.communityName].all[num - 1]++;
-        result[beneficiary.communityName][ageGroup][num - 1]++;
+        result[beneficiary.community].all[num - 1]++;
+        result[beneficiary.community][ageGroup][num - 1]++;
       }
     }
     res.status(200).json(result);

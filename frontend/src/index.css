@@ -213,7 +213,7 @@ select {
 }
 
 .sidebar-option.active {
-  background-color: dodgerblue;
+  background-color: #4e8dcd;
   color: white;
 }
 

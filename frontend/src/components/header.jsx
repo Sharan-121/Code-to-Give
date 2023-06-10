@@ -19,17 +19,6 @@ const Header = () => {
         paddingRight: '16px', 
     };
 
-    const logoutButtonStyle = {
-        backgroundColor: 'black',
-        color: 'white',
-        border: 'none',
-        padding: '8px 16px',
-        display: 'flex',
-        alignItems: 'center',
-        cursor: 'pointer',
-        marginRight:'10px'
-    };
-
     const logoutIconStyle = {
         marginRight: '8px',
     };
@@ -37,7 +26,7 @@ const Header = () => {
     return (
         <div className="header" style={headerStyle}>
             <img src={organizationLogo} alt="Organization Logo" />
-            <button style={logoutButtonStyle} onClick={handleLogout}>
+            <button className='logout-button' onClick={handleLogout}>
                 <FaSignOutAlt style={logoutIconStyle} />
                 Logout
             </button>

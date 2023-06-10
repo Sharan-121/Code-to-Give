@@ -5,6 +5,21 @@ const Attendance = require("../../models/attendanceModel");
 const Community = require("../../models/communityModel");
 const Activity = require("../../models/activityModel");
 
+const monthMap = {
+  January: 0,
+  February: 1,
+  March: 2,
+  April: 3,
+  May: 4,
+  June: 5,
+  July: 6,
+  August: 7,
+  September: 8,
+  October: 9,
+  November: 10,
+  December: 11,
+};
+
 const getDashboardMetrics = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
     const { year, month, activity, community } = req.body;
@@ -104,9 +119,9 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       ];
       const result = await Session.aggregate(pipeline);
       let output = {
-        "x-axis-title" : `Number of sessions
+        "x-axis-title": `Number of sessions
         conducted for ${activity}`,
-        label : [
+        label: [
           "January",
           "February",
           "March",
@@ -120,10 +135,10 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
           "November",
           "December",
         ],
-        data : [0,0,0,0,0,0,0,0,0,0,0,0]
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       };
 
-      for(const res of result){
+      for (const res of result) {
         output.data[res._id] += res.count;
       }
       // console.log(result);
@@ -172,7 +187,7 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
       community === "None"
     ) {
       let { year, month } = req.body;
-      month = parseInt(month) - 1;
+      month = monthMap[month];
       year = parseInt(year);
       const sessions = await Session.find({});
       let result = {
@@ -190,7 +205,7 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
             session_id: session._id,
           });
           for (const attendance of attendances) {
-            if (attendance.followUp === true) {
+            if (attendance.followUp_status === true) {
               result.data[0]++;
             } else {
               result.data[1]++;
@@ -209,7 +224,7 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
     ) {
       let { year, community, month } = req.body;
       year = parseInt(year);
-      month = parseInt(month) - 1;
+      month = monthMap[month];
       const beneficiaries = await Beneficiary.find({ community: community });
       let result = {
         "x-axis-title":

@@ -548,4 +548,9 @@ select {
   box-shadow: 2px 3px 5px rgb(235, 235, 235);
 }
 
+.form-div:hover{
+  border-color:#a4c9ef;
+  box-shadow: 2px 3px 5px #a4c9ef;
+}
+
 @media (prefers-color-scheme: light) {}

@@ -16,6 +16,8 @@ import BarPlot from '../charts/BarPlot';
 import PieChart from '../charts/PieChart';
 import DonutChart from '../charts/DonutChart';
 import LineChart from '../charts/LineChart';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTable, faList, faUser, faUsers, faPeopleCarry, faFire, faCalendarPlus, faMap, faDatabase, faImage } from '@fortawesome/fontawesome-free-solid'
 
 const Dashboard = () => {
 
@@ -333,28 +335,28 @@ const Dashboard = () => {
 
                 <TopInfo
                     background="linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%)"
-                    icon={activityIconWhite}
+                    icon={<FontAwesomeIcon icon={faPeopleCarry} />}
                     title="Total Communities"
                     value={totalCommunities}
                 />
 
                 <TopInfo
                     background="linear-gradient( 135deg, #FEC163 10%, #DE4313 100%)"
-                    icon={activityIconWhite}
+                    icon={<FontAwesomeIcon icon={faFire} />}
                     title="Total Sessions"
                     value={totalSessions}
                 />
 
                 <TopInfo
                     background="linear-gradient(to top, #ff0844 0%, #ffb199 100%)"
-                    icon={activityIconWhite}
+                    icon={<FontAwesomeIcon icon={faUser} />}
                     title="Total Beneficiaries"
                     value={totalBeneficiaries}
                 />
 
                 <TopInfo
                     background="linear-gradient(to top, #00c6fb 0%, #005bea 100%)"
-                    icon={activityIconWhite}
+                    icon={<FontAwesomeIcon icon={faUsers} />}
                     title="Total Participations"
                     value={totalParticipations}
                 />

@@ -12,12 +12,12 @@ function App() {
   return (
 		<Router>
 			<Routes>
-				<Route exact path="/login" element={<Login/>} />
+				<Route exact path="/login" element={<Login setIsAuthenticated = {setIsAuthenticated}/>} />
 				{ isAuthenticated ?
-					(<Route exact path="/home/*" element={<Home/>} />):
+					(<Route exact path="/home/*" element={<Home setIsAuthenticated = {setIsAuthenticated} />} />):
 					(<Route exact path="/home/*" element={<Login setIsAuthenticated = {setIsAuthenticated} />}  />)
 				}
-				<Route path="*" element={<Login/>} />
+				<Route path="*" element={<Login setIsAuthenticated = {setIsAuthenticated}/>} />
 			</Routes>
 		</Router>
   	);

@@ -73,9 +73,7 @@ const FormComponent = () => {
 								id="demo-simple-select"
 								value={category}
 								onChange={(e) => setCategory(e.target.value)}
-								label="Session"
-
-							>
+								label="Session">
 								<MenuItem value={'Health'}>Health</MenuItem>
 								<MenuItem value={'Education'}>Education</MenuItem>
 								<MenuItem value={'Social Awareness'}>Social Awareness</MenuItem>

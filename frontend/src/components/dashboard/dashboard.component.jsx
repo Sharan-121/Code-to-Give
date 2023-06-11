@@ -18,6 +18,7 @@ import DonutChart from '../charts/DonutChart';
 import LineChart from '../charts/LineChart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTable, faList, faUser, faUsers, faPeopleCarry, faFire, faCalendarPlus, faMap, faDatabase, faImage } from '@fortawesome/fontawesome-free-solid'
+import MainColumnChart from '../charts/MainColumnChart';
 
 const Dashboard = () => {
 
@@ -29,7 +30,8 @@ const Dashboard = () => {
 
     const [month, setMonth] = useState('None');
     const [year, setYear] = useState(new Date().getFullYear());
-    const [compareTo, setCompareTo] = useState(new Date().getFullYear() - 1);
+    const [compareTo, setCompareTo] = useState("None");
+    const [isCompareToEnabled, setIsCompareToEnabled] = useState(false);
 
     const [mainDashboardData, setMainDashboardData] = useState({});
     const [loadMainDashboardData, setLoadMainDashboardData] = useState(false);
@@ -267,10 +269,11 @@ const Dashboard = () => {
         }
     }
 
-    const changeMainDashboard = async (yearVal, monthVal, activityVal, communityVal, metricVal) => {
+    const changeMainDashboard = async (yearVal, compareToVal, monthVal, activityVal, communityVal, metricVal) => {
 
         let parameters = {
             year: yearVal,
+            compareTo: compareToVal,
             month: monthVal,
             activity: activityVal,
             community: communityVal,
@@ -289,6 +292,7 @@ const Dashboard = () => {
                 json_data["x-axis-title"] = json["x-axis-title"];
                 json_data["label"] = json.label;
                 json_data["data"] = json.data;
+                json_data["data1"] = json.data;
                 setMainDashboardData(json_data);
             })
             .catch((err) => {
@@ -307,6 +311,12 @@ const Dashboard = () => {
 
     const handleCompareToChange = (event) => {
         setCompareTo(event.target.value);
+        if (event.target.value != "None") {
+            setIsCompareToEnabled(true);
+        }
+        else {
+            setIsCompareToEnabled(false);
+        }
         changeMainDashboard(year, event.target.value, month, activity, community, metric);
     };
 
@@ -399,6 +409,7 @@ const Dashboard = () => {
                                 label="Year"
                                 onChange={handleYearChange}
                             >
+                                <MenuItem value={"None"}>None</MenuItem>
 
                                 {yearArray.map(eachYear => (
                                     <MenuItem value={eachYear}>{eachYear}</MenuItem>
@@ -419,6 +430,8 @@ const Dashboard = () => {
                                 onChange={handleCompareToChange}
                             >
 
+                                <MenuItem value={"None"}>None</MenuItem>
+
                                 {yearArray.map(eachYear => (
                                     <MenuItem value={eachYear}>{eachYear}</MenuItem>
                                 ))}
@@ -427,7 +440,7 @@ const Dashboard = () => {
                         </FormControl>
                     </Box>
 
-                    <Box className="filter-option" sx={{ minWidth: 120 }} style= {{display:"none"}}>
+                    <Box className="filter-option" sx={{ minWidth: 120 }} style={{ display: "none" }}>
                         <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label">Month</InputLabel>
                             <Select
@@ -523,18 +536,29 @@ const Dashboard = () => {
                 <h4>{mainDashboardData["x-axis-title"]}</h4>
 
                 {
-                    lineChart &&
+                    lineChart && !isCompareToEnabled &&
                     <LineChart label={mainDashboardData.label}
                         data={mainDashboardData.data}
                         ytitle={mainDashboardData["x-axis-title"]} />
                 }
 
                 {
-                    !lineChart &&
+                    !lineChart && !isCompareToEnabled &&
                     <BarPlot
                         options={{ horizontal: false }}
                         label={mainDashboardData.label}
                         data={mainDashboardData.data}
+                        ylabel={mainDashboardData["x-axis-title"]} />
+                }
+
+                {
+                    isCompareToEnabled &&
+                    <MainColumnChart
+                        label={mainDashboardData.label}
+                        data={mainDashboardData.data}
+                        data1={mainDashboardData.data1}
+                        name1={year}
+                        name2={compareTo}
                         ylabel={mainDashboardData["x-axis-title"]} />
                 }
 

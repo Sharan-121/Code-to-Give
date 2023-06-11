@@ -271,13 +271,22 @@ const createSession = asyncHandler(async (req, res) => {
     let coordinates = [];
 
     for (let loc of locParts) {
-      let query = loc.trim();
-      let apiData = await fetch(
-        "http://api.positionstack.com/v1/forward?access_key=cca1336cca299e49bcf5e61ee804c38c&query=" +
-          location
-      );
-      let jsonData = await apiData.json();
-      let coord = [jsonData.data[0].latitude, jsonData.data[0].latitude];
+      try {
+        let query = loc.trim();
+        let apiData = await fetch(
+          "http://api.positionstack.com/v1/forward?access_key=cca1336cca299e49bcf5e61ee804c38c&query=" +
+            query
+        );
+        let jsonData = await apiData.json();
+        coordinates = [jsonData.data[0].latitude, jsonData.data[0].latitude];
+        break;
+      } catch (err) {
+        err = err;
+      }
+    }
+    if (coordinates.length === 0) {
+      res.status(400);
+      throw new Error("Location not found");
     }
 
     const session = await Session.create({
@@ -290,6 +299,7 @@ const createSession = asyncHandler(async (req, res) => {
       maxAge: age[1],
       gender: gender,
       followUp: followUp,
+      coordinates: coordinates,
     });
 
     if (session) {

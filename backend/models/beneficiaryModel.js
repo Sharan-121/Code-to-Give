@@ -90,6 +90,11 @@ const beneficiarySchema = mongoose.Schema(
     childStudying: {
       type: Boolean,
     },
+
+    coordinates: {
+      type: Array,
+      required: true,
+    },
   },
   { timestamps: true }
 );

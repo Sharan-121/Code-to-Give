@@ -441,6 +441,24 @@ const Dashboard = () => {
                         </FormControl>
                     </Box>
 
+                    <Box className="filter-option" sx={{ minWidth: 120 }}>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Metric</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={metric}
+                                label="Metric"
+                                onChange={handleMetricChange}
+                            >
+
+                                <MenuItem value={"session"}>Session</MenuItem>
+                                <MenuItem value={"attendance"}>Attendance</MenuItem>
+
+                            </Select>
+                        </FormControl>
+                    </Box>
+
                     <Box className="filter-option" sx={{ minWidth: 120 }} style={{ display: "none" }}>
                         <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label">Month</InputLabel>
@@ -514,24 +532,6 @@ const Dashboard = () => {
                         </FormControl>
                     </Box>
 
-                    <Box className="filter-option" sx={{ minWidth: 120 }}>
-                        <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Metric</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={metric}
-                                label="Metric"
-                                onChange={handleMetricChange}
-                            >
-
-                                <MenuItem value={"session"}>Session</MenuItem>
-                                <MenuItem value={"attendance"}>Attendance</MenuItem>
-
-                            </Select>
-                        </FormControl>
-                    </Box>
-
                 </div>
 
                 <h4>{mainDashboardData["x-axis-title"]}</h4>
@@ -552,7 +552,7 @@ const Dashboard = () => {
                         ylabel={mainDashboardData["x-axis-title"]} />
                 }
 
-{
+                {
                     lineChart && isCompareToEnabled &&
                     <MainMultiLineChart
                         label={mainDashboardData.label}

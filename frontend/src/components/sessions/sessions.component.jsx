@@ -34,8 +34,8 @@ const ViewSessions = () => {
             field: 'date',
             headerName: 'Date',
             filter: true,
-            cellRenderer: (data) => {
-                return moment(data.date).format('MM/DD/YYYY HH:mm')
+            cellRenderer: (params) => {
+                return moment(params.value).format('MM/DD/YYYY HH:mm')
             }
         },
         { field: 'gender', filter: true },

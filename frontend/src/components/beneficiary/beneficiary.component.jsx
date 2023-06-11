@@ -37,8 +37,8 @@ const ViewBeneficiaries = () => {
             field: 'dob',
             headerName: 'Date of Birth',
             filter: true,
-            cellRenderer: (data) => {
-                return moment(data.date).format('MM/DD/YYYY HH:mm')
+            cellRenderer: (params) => {
+                return moment(params.value).format('MM/DD/YYYY')
             }
         },
         { field: 'gender', filter: true },
@@ -55,8 +55,8 @@ const ViewBeneficiaries = () => {
         {
             field: 'previousDoctorVisit',
             filter: true,
-            cellRenderer: (data) => {
-                return moment(data.previousDoctorVisit).format('MM/DD/YYYY HH:mm')
+            cellRenderer: (params) => {
+                return moment(params.value).format('MM/DD/YYYY HH:mm')
             }
         },
         { field: 'medicalHistory', filter: true },

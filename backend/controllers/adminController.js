@@ -87,7 +87,7 @@ const addCommunity = asyncHandler(async (req, res) => {
       throw new Error("Mandatory field(s) is/are missing");
     }
 
-    let community = await Community.findOne({ name: name, location: location });
+    let community = await Community.findOne({ name: name });
     if (community) {
       res.status(400);
       throw new Error("Community already exist");

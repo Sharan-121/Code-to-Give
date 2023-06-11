@@ -12,6 +12,7 @@ const SideBar = () => {
             <SideBarOption icon={<FontAwesomeIcon icon={faFire} />} title={"Sessions"} redirect={"sessions/view"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faCalendarPlus} />} title={"Attendance"} redirect={"attendance/add"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faLocationArrow} />} title={"Locations"} redirect={"locations/view"} />
+            <p className="horizontal-divider"></p>
             <SideBarOption icon={<FontAwesomeIcon icon={faDatabase} />} title={"Data Upload"} redirect={"download-data"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faImage} />} title={"Image to Text"} redirect={"image-to-text"} />
         </div>

@@ -61,8 +61,8 @@ select {
 }
 
 .horizontal-divider {
-  background-color: rgb(215, 215, 215);
-  height: 1px;
+  background-color: rgb(190, 190, 190);
+  height: 3px;
   width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;

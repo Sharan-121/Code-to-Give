@@ -19,6 +19,7 @@ import LineChart from '../charts/LineChart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTable, faList, faUser, faUsers, faPeopleCarry, faFire, faCalendarPlus, faMap, faDatabase, faImage } from '@fortawesome/fontawesome-free-solid'
 import MainColumnChart from '../charts/MainColumnChart';
+import MainMultiLineChart from '../charts/MainMultiLineChart';
 
 const Dashboard = () => {
 
@@ -551,8 +552,19 @@ const Dashboard = () => {
                         ylabel={mainDashboardData["x-axis-title"]} />
                 }
 
+{
+                    lineChart && isCompareToEnabled &&
+                    <MainMultiLineChart
+                        label={mainDashboardData.label}
+                        data={mainDashboardData.data}
+                        data1={mainDashboardData.data1}
+                        name1={year}
+                        name2={compareTo}
+                        ylabel={mainDashboardData["x-axis-title"]} />
+                }
+
                 {
-                    isCompareToEnabled &&
+                    !lineChart && isCompareToEnabled &&
                     <MainColumnChart
                         label={mainDashboardData.label}
                         data={mainDashboardData.data}

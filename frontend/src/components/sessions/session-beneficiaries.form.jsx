@@ -2,14 +2,16 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
 import axios from 'axios';
 import moment from 'moment';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 
 import defaultVariables from '../variables/variables';
 
-const ViewSessions = () => {
+const SessionBeneficiaries = (props) => {
+
+    let { sessionName } = useParams();
 
     const gridRef = useRef();
 
@@ -27,23 +29,38 @@ const ViewSessions = () => {
     const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
     const [rowData, setRowData] = useState();
     const [columnDefs, setColumnDefs] = useState([
-        { field: 'name', filter: true,
-        cellRenderer: LinkCellRenderer,
-        minWidth: 400 },
         {
-            field: 'date',
-            headerName: 'Date',
+            field: 'name', filter: true,
+            cellRenderer: LinkCellRenderer
+        },
+        {
+            field: 'dob',
+            headerName: 'Date of Birth',
+            filter: true,
+            cellRenderer: (params) => {
+                return moment(params.value).format('MM/DD/YYYY')
+            }
+        },
+        { field: 'gender', filter: true },
+        { field: 'community', filter: true },
+        { field: 'phoneNumber', filter: true },
+        { field: 'aadharNumber', filter: true },
+        { field: 'panNumber', filter: true },
+        { field: 'aadharPanLink', filter: true },
+        { field: 'address', filter: true },
+        { field: 'familyMembersCount', filter: true },
+        { field: 'employed', filter: true },
+        { field: 'annualIncome', filter: true },
+        { field: 'bankAccount', filter: true },
+        {
+            field: 'previousDoctorVisit',
             filter: true,
             cellRenderer: (params) => {
                 return moment(params.value).format('MM/DD/YYYY HH:mm')
             }
         },
-        { field: 'gender', filter: true },
-        { field: 'location', filter: true },
-        { field: 'minAge', filter: true },
-        { field: 'maxAge', filter: true },
-        { field: 'activityName', filter: true, cellRenderer: LinkCellRendererActivity, },
-        { field: 'communityName', filter: true, cellRenderer: LinkCellRendererCommunity, },
+        { field: 'medicalHistory', filter: true },
+        { field: 'childStudying', filter: true },
     ]);
     const autoGroupColumnDef = useMemo(() => {
         return {
@@ -67,37 +84,11 @@ const ViewSessions = () => {
 
     function LinkCellRenderer(props) {
         return (
-            <a
-            style = {{ color: "var(--font-color)" }}
-                rel="noopener noreferrer"
-                href={defaultVariables["frontend-url"] + "home/sessions/view/beneficiaries/view/" + props.value}
+            <b
+                style={{ color: "var(--font-color)" }}
             >
-            {props.value}
-            </a>
-        );
-    }
-
-    function LinkCellRendererActivity(props) {
-        return (
-            <a
-            style = {{ color: "var(--font-color)" }}
-                rel="noopener noreferrer"
-                href={defaultVariables["frontend-url"] + "home/activities/view/" + props.value}
-            >
-            {props.value}
-            </a>
-        );
-    }
-
-    function LinkCellRendererCommunity(props) {
-        return (
-            <a
-            style = {{ color: "var(--font-color)" }}
-                rel="noopener noreferrer"
-                href={defaultVariables["frontend-url"] + "home/communities/view/" + props.value}
-            >
-            {props.value}
-            </a>
+                {props.value}
+            </b>
         );
     }
 
@@ -134,12 +125,13 @@ const ViewSessions = () => {
     }
 
     const onGridReady = useCallback((params) => {
-        axios.get(defaultVariables['backend-url'] + "api/v1/admin/session",
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/session/attendances/" + sessionName,
             {
                 headers: headers
             })
             .then((res) => {
-                setRowData(res.data);
+                console.log(res.data.response);
+                setRowData(res.data.response);
             }).catch((err) => {
                 console.log(err);
             });
@@ -155,8 +147,8 @@ const ViewSessions = () => {
     };
 
     const navigate = useNavigate();
-    const navigateToAddSession = () => {
-        navigate("/home/sessions/view/add");
+    const navigateToAddBeneficiary = () => {
+        navigate("/home/beneficiary/view/add");
     }
 
     return (
@@ -164,9 +156,9 @@ const ViewSessions = () => {
 
             <div className='grid-options-div'>
 
-            <button
+                <button
                     className='button-top'
-                    onClick={navigateToAddSession}>
+                    onClick={navigateToAddBeneficiary}>
                     Add Data
                 </button>
 
@@ -193,7 +185,7 @@ const ViewSessions = () => {
                     pivotPanelShow={'always'}
                     pagination={true}
                     onGridReady={onGridReady}
-                    // onCellClicked={onCellClicked}
+                // onCellClicked={onCellClicked}
                 ></AgGridReact>
 
             </div>
@@ -202,4 +194,4 @@ const ViewSessions = () => {
 
 };
 
-export default ViewSessions;
+export default SessionBeneficiaries;

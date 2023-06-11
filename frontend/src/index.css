@@ -77,21 +77,21 @@ select {
   font-weight: 600;
 }
 
-.textarea{
-    width: 60%;
-    height: 200px;
-    font-size: 16px;
-    padding: 10px;
-    border: 3px solid rgb(200, 200, 200);
-    outline: none;
-    border-radius: 10px;
+.textarea {
+  width: 60%;
+  height: 200px;
+  font-size: 16px;
+  padding: 10px;
+  border: 3px solid rgb(200, 200, 200);
+  outline: none;
+  border-radius: 10px;
 }
 
-.textarea:focus{
+.textarea:focus {
   border-color: var(--font-color);
 }
 
-.header .logout-button{
+.header .logout-button {
   background: transparent;
   color: var(--font-color);
   font-size: 16px;
@@ -104,7 +104,7 @@ select {
   position: fixed;
 }
 
-.header .logout-button:hover{
+.header .logout-button:hover {
   background: var(--font-color);
   color: white;
 }
@@ -120,8 +120,9 @@ select {
   margin-right: 140px;
   right: 20px;
   position: fixed;
- 
+
 }
+
 .header .help-button:hover {
   background: var(--font-color);
   color: white;
@@ -141,7 +142,7 @@ select {
   font-family: "Montserrat";
 }
 
-#react-button:hover{
+#react-button:hover {
   background-color: var(--hover-color);
 }
 
@@ -164,7 +165,7 @@ select {
   object-fit: contain;
 }
 
-.footer{
+.footer {
   height: 50px;
   width: 100%;
   bottom: -1px;
@@ -175,7 +176,7 @@ select {
   z-index: 100;
 }
 
-.footer p{
+.footer p {
   flex: 1;
   font-size: 16px;
   line-height: 50px;
@@ -570,22 +571,26 @@ select {
   box-shadow: 2px 3px 5px rgb(235, 235, 235);
 }
 
-.form-div:hover{
-  border-color:#a4c9ef;
+.form-div:hover, .highlight-form-div {
+  border-color: #a4c9ef;
   box-shadow: 2px 3px 5px #a4c9ef;
 }
 
-.div-options{
+.div-options {
   padding: 20px;
 }
 
-.div-options .paragraph{
+.div-options .paragraph {
   font-size: 16px;
   font-weight: 600;
 }
 
-.div-options #react-button{
+.div-options #react-button {
   width: 200px;
+}
+
+.releasenotes-div {
+  margin-top: 30px;
 }
 
 @media (prefers-color-scheme: light) {}

@@ -49,7 +49,7 @@ const Faq = () => {
 
 	return (
 		<div className="faq">
-			<h1>Frequently asked Questions</h1>
+			<h1>Frequently Asked Questions</h1>
 			<div className="wrapper">
 
 				<div className="accordian">

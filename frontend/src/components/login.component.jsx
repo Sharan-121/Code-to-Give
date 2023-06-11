@@ -61,13 +61,13 @@ const Login = (props) =>{
 
 				<div className='login-categories'>
 					<div id='category-admin' className='login-category' onClick={() => setRole("admin")}
-					style={{ backgroundColor: role == "admin" ? 'lightblue': 'white', fontWeight: role == "admin" ? 'bold' :'normal' }}
+					style={{ backgroundColor: role == "admin" ? 'lightblue': 'white', fontWeight: role == "admin" ? 'bold' :'normal',cursor: 'pointer'}}
 					>
 						<img src={ avatarProfileIcon } />
 						<span>Admin</span>
 					</div>
 					<div id='category-staff' className='login-category' onClick={() => setRole("staff")}
-					style={{ backgroundColor: role == "staff" ? 'lightblue': 'white', fontWeight: role == "staff" ? 'bold' :'normal' }}
+					style={{ backgroundColor: role == "staff" ? 'lightblue': 'white', fontWeight: role == "staff" ? 'bold' :'normal', cursor: 'pointer'}}
 					>
 						<img src={ avatarProfileIcon } />
 						<span>Staff</span>

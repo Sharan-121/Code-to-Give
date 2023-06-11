@@ -29,6 +29,7 @@ const Dashboard = () => {
 
     const [month, setMonth] = useState('None');
     const [year, setYear] = useState(new Date().getFullYear());
+    const [compareTo, setCompareTo] = useState(new Date().getFullYear() - 1);
 
     const [mainDashboardData, setMainDashboardData] = useState({});
     const [loadMainDashboardData, setLoadMainDashboardData] = useState(false);
@@ -299,14 +300,19 @@ const Dashboard = () => {
         setAge(event.target.value);
     };
 
-    const handleMonthChange = (event) => {
-        setMonth(event.target.value);
-        changeMainDashboard(year, event.target.value, activity, community, metric);
-    };
-
     const handleYearChange = (event) => {
         setYear(event.target.value);
-        changeMainDashboard(event.target.value, month, activity, community, metric);
+        changeMainDashboard(event.target.value, compareTo, month, activity, community, metric);
+    };
+
+    const handleCompareToChange = (event) => {
+        setCompareTo(event.target.value);
+        changeMainDashboard(year, event.target.value, month, activity, community, metric);
+    };
+
+    const handleMonthChange = (event) => {
+        setMonth(event.target.value);
+        changeMainDashboard(year, compareTo, event.target.value, activity, community, metric);
     };
 
     const handleChartChange = (event) => {
@@ -315,17 +321,17 @@ const Dashboard = () => {
 
     const handleActivityChange = (event) => {
         setActivity(event.target.value);
-        changeMainDashboard(year, month, event.target.value, community, metric);
+        changeMainDashboard(year, compareTo, month, event.target.value, community, metric);
     };
 
     const handleCommunityChange = (event) => {
         setCommunity(event.target.value);
-        changeMainDashboard(year, month, activity, event.target.value, metric);
+        changeMainDashboard(year, compareTo, month, activity, event.target.value, metric);
     };
 
     const handleMetricChange = (event) => {
         setMetric(event.target.value);
-        changeMainDashboard(year, month, activity, community, event.target.value);
+        changeMainDashboard(year, compareTo, month, activity, community, event.target.value);
     };
 
     return (
@@ -392,6 +398,25 @@ const Dashboard = () => {
                                 value={year}
                                 label="Year"
                                 onChange={handleYearChange}
+                            >
+
+                                {yearArray.map(eachYear => (
+                                    <MenuItem value={eachYear}>{eachYear}</MenuItem>
+                                ))}
+
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+                    <Box className="filter-option" sx={{ minWidth: 120 }}>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Compare To</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={compareTo}
+                                label="Compare To"
+                                onChange={handleCompareToChange}
                             >
 
                                 {yearArray.map(eachYear => (

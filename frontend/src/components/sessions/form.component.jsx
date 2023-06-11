@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Alert, AlertTitle } from '@mui/material';
 import axios from 'axios';
 import defaultVariables from '../variables/variables';
 
@@ -25,6 +25,9 @@ const FormComponent = () => {
 
     const [communities, setCommunities] = useState([]);
     const [activities, setActivities] = useState([]);
+
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const headers = {
         'Content-Type': 'application/json',
@@ -135,7 +138,10 @@ const FormComponent = () => {
                 headers: headers
             })
             .then(response => {
-                alert("Added successfully.");
+                setSuccessMessage("Session Added Successfully");
+                setTimeout(() => {
+                    setSuccessMessage(null);
+                }, 3000);
                 setSessionName('');
                 setActivity('');
                 setCommunity('');
@@ -146,16 +152,21 @@ const FormComponent = () => {
                 setOther('');
             })
             .catch(error => {
-                alert(error.response.data.message)
-                alert("Failed to add the data.");
+                setErrorMessage(error.response.data.message);
+                setTimeout(() => {
+                    setErrorMessage(null);
+                },3000)
             });
     };
 
     return (
+        <div>
         <div className='form-div'>
             <br />
             <p className="heading-medium" style={{ textAlign: "left" }}>Session Form</p>
             <br />
+
+
             <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '50% 50%', gap: '10px' }}>
 
                 <Box sx={{ minWidth: 120 }}>
@@ -280,6 +291,24 @@ const FormComponent = () => {
                 </Button>
             </form>
         </div>
+        {successMessage && (
+        <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 9999 }}>
+          <Alert severity="success" onClose={() => setSuccessMessage(null)} variant="standard">
+            <AlertTitle>Success</AlertTitle>
+            <strong>{successMessage}</strong>
+          </Alert>
+        </div>
+      )}
+      {errorMessage && (
+        <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 9999 }}>
+          <Alert severity="error" onClose={() => setErrorMessage(null)} variant = "standard">
+            <AlertTitle>Error</AlertTitle>
+            <strong>{errorMessage}</strong>
+          </Alert>
+        </div>
+      )}
+        </div>
+
     );
 };
 

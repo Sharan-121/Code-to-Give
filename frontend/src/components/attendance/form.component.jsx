@@ -43,7 +43,7 @@ const FormComponent = () => {
         e.preventDefault();
 
     const phoneNumberRegex = /^\d{10}$/;
-    if (!phoneNumberRegex.test(phoneNumber)) {
+    if (!phoneNumberRegex.test(phone)) {
       setErrorMessage("Invalid phone number format. Please enter a 10-digit phone number.");
         setTimeout(() => {
             setErrorMessage(null);
@@ -53,7 +53,7 @@ const FormComponent = () => {
     }
 
     const aadharNumberRegex = /^\d{12}$/;
-    if (!aadharNumberRegex.test(aadharNumber)) {
+    if (!aadharNumberRegex.test(aadhaar)) {
       setErrorMessage("Invalid Aadhar number format. Please enter a 12-digit Aadhar number.");
       setTimeout(() => {
         setErrorMessage(null);

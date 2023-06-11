@@ -26,17 +26,17 @@ const Header = () => {
     const logoutIconStyle = {
         marginRight: '8px',
     };
-    const helpIconStyle = {
-        marginRight: '140px'
+    const helpIconStyle={
+        marginRight:'140px'
     }
 
     return (
         <div className="header" style={headerStyle}>
             <img src={organizationLogo} alt="Organization Logo" />
-            <button className="help-button" onClick={handleHelp} >
-                <FaQuestionCircle style={helpIconStyle} />
-
-            </button>
+           <button className="help-button" onClick={handleHelp} >
+          <FaQuestionCircle style={helpIconStyle} />
+        
+        </button>
             <button className='logout-button' onClick={handleLogout}>
                 <FaSignOutAlt style={logoutIconStyle} />
                 Logout

@@ -103,6 +103,12 @@ const addCommunity = asyncHandler(async (req, res) => {
     };
 
     try {
+      let apiData = await fetch(
+        "http://api.positionstack.com/v1/forward?access_key=cca1336cca299e49bcf5e61ee804c38c&query=" +
+          location
+      );
+      let jsonData = await apiData.json();
+      let coordinates = [jsonData.data[0].latitude, jsonData.data[0].longitude];
       await Community.create(newCommunity);
       let explore = await Explore.findOne({
         community: name,
@@ -118,12 +124,13 @@ const addCommunity = asyncHandler(async (req, res) => {
           community: name,
           location: location,
           isExplored: true,
+          coordinates: coordinates,
         });
       }
       res.status(201).json({ success: true });
     } catch {
       res.status(400);
-      throw new Error("Invalid data format");
+      throw new Error("Invalid data format or location not found");
     }
   } else {
     res.status(403);

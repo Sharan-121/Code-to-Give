@@ -133,9 +133,27 @@ const updateStatus = asyncHandler(async (req, res) => {
   }
 });
 
+const getSessionAttendance = asyncHandler(async (req, res) => {
+  if (req.user.role == "admin") {
+    const session = await Session.findOne({ name: req.params.name });
+    const attendances = await Attendance.find({ session_id: session._id });
+    let result = { response: [] };
+    for (const attendance of attendances) {
+      const beneficiary = await Beneficiary.findById(attendance.beneficiary_id);
+      result.response.push(beneficiary);
+    }
+
+    res.status(200).json(result);
+  } else {
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }
+});
+
 module.exports = {
   getAvailableSessions,
   getAttendedSessions,
   getAllBeneficiaries,
   updateStatus,
+  getSessionAttendance,
 };

@@ -91,10 +91,10 @@ const beneficiarySchema = mongoose.Schema(
       type: Boolean,
     },
 
-    coordinates: {
-      type: Array,
-      required: true,
-    },
+    // coordinates: {
+    //   type: Array,
+    //   required: true,
+    // },
   },
   { timestamps: true }
 );

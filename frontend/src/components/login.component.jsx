@@ -87,11 +87,11 @@ const Login = (props) =>{
 				<button className='form-button'>Log in</button>
 
 				<br />
-                <div className='form-text'>
-                    <center>
+                {/* <div className='form-text'> */}
+                    {/* <center>
                         Do you want to create new account? <a className='bold' href='/register'>Register</a>
-                    </center>
-                </div>
+                    </center> */}
+                {/* </div> */}
 
 			</form>
 

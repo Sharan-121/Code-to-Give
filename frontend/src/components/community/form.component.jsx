@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { TextField, Button, Box, Typography } from '@mui/material';
+import { TextField, Button, Box, Typography,Alert,AlertTitle } from '@mui/material';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -13,6 +13,9 @@ const FormComponent = () => {
   const [challenges, setChallenges] = useState('');
   const [healthcareFacilities, setHealthcareFacilities] = useState('');
   const [educationalInstitutions, setEducationalInstitution] = useState('');
+
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const headers = {
     'Content-Type': 'application/json',
@@ -34,7 +37,10 @@ const FormComponent = () => {
     axios.post(defaultVariables['backend-url'] + "api/v1/admin/community", community, {
       headers: headers
     }).then((res) => {
-      alert("Community added successfully")
+      setSuccessMessage("Community added successfully");
+      setTimeout(() => {
+        setSuccessMessage(null);
+      },3000)
       setName('');
       setLocation('');
       setTotalPopulation('');
@@ -42,12 +48,16 @@ const FormComponent = () => {
       setHealthcareFacilities('');
       setEducationalInstitution('');
     }).catch(err => {
-      alert(err.response.data.message);
+      setErrorMessage(err.response.data.message);
+      setTimeout(() => {
+        setErrorMessage(null);
+      },3000)
     })
     // Handle form submission logic here
   };
 
   return (
+    <div>
     <div className='form-div'>
       <br />
       <p className="heading-medium" style={{ textAlign: "left" }}>Community Registration</p>
@@ -125,6 +135,23 @@ const FormComponent = () => {
           Submit
         </Button>
       </form>
+    </div>
+    {successMessage && (
+        <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 9999 }}>
+          <Alert severity="success" onClose={() => setSuccessMessage(null)} variant="standard">
+            <AlertTitle>Success</AlertTitle>
+            <strong>{successMessage}</strong>
+          </Alert>
+        </div>
+      )}
+      {errorMessage && (
+        <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 9999 }}>
+          <Alert severity="error" onClose={() => setErrorMessage(null)} variant = "standard" width = {{sx : 300}}>
+            <AlertTitle>Error</AlertTitle>
+            <strong>{errorMessage}</strong>
+          </Alert>
+        </div>
+      )}
     </div>
   );
 };

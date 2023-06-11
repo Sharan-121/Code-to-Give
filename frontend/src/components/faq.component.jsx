@@ -41,8 +41,10 @@ const Faq = () =>{
 
   
   return(
+   <div className="faq">
+   <h1>Frequently asked Questions</h1>
     <div className="wrapper">
-
+         
       <div className="accordian">
          {
           data.map((item,i) =>(
@@ -57,6 +59,7 @@ const Faq = () =>{
                 <p>{item.answer}</p>
               </div>
               </div>
+     
           ))}
           
 
@@ -64,6 +67,7 @@ const Faq = () =>{
          
       </div>
     </div>
+  </div>
 
   );
 }

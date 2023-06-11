@@ -315,7 +315,7 @@ const createSession = asyncHandler(async (req, res) => {
 });
 
 const getAllSessions = asyncHandler(async (req, res) => {
-  if (req.user.role === "admin") {
+  if (req.user.role === "admin" || req.user.role === "staff") {
     const sessions = await Session.find();
     const result = [];
 

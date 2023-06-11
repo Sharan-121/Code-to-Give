@@ -267,6 +267,18 @@ const createSession = asyncHandler(async (req, res) => {
       );
     }
 
+    let locParts = location.split(",");
+    let coordinates = [];
+
+    for (let loc of locParts) {
+      let query = loc.trim();
+      let apiData = await fetch(
+        "http://api.positionstack.com/v1/forward?access_key=cca1336cca299e49bcf5e61ee804c38c&query=" +
+          location
+      );
+      let jsonData = await apiData.json();
+    }
+
     const session = await Session.create({
       name: name,
       activity_id: activity.id,

@@ -293,7 +293,7 @@ const Dashboard = () => {
                 json_data["x-axis-title"] = json["x-axis-title"];
                 json_data["label"] = json.label;
                 json_data["data"] = json.data;
-                json_data["data1"] = json.data;
+                json_data["data1"] = json.data1;
                 setMainDashboardData(json_data);
             })
             .catch((err) => {

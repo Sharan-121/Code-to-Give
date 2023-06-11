@@ -582,7 +582,7 @@ const Dashboard = () => {
                 {
                     loadGetSessions &&
                     <div className='chart' >
-                        <h4>Sessions-Communities</h4>
+                        <h4>Total Number of Sessions in each Community</h4>
                         <BarPlot className="chart"
                             options={{ horizontal: false }}
                             label={getSessions.label}
@@ -594,7 +594,7 @@ const Dashboard = () => {
                 {
                     loadGetBeneficiaryActivityCount &&
                     <div className='chart'>
-                        <h4>Beneficiary-Activity</h4>
+                        <h4>Total Participation of Beneficiaries across different Activities</h4>
                         <PieChart
                             data={getBeneficiaryActivityCount.data}
                             labels={getBeneficiaryActivityCount.label} />
@@ -604,7 +604,7 @@ const Dashboard = () => {
                 {
                     loadGetCommunityBeneficiary &&
                     <div className='chart'>
-                        <h4>Community-Beneficiary</h4>
+                        <h4>Total Number of Beneficiaries in each Community</h4>
                         <PieChart
                             data={getCommunityBeneficiary.data}
                             labels={getCommunityBeneficiary.label}
@@ -615,7 +615,7 @@ const Dashboard = () => {
                 {
                     loadGetCommunityActivity &&
                     <div className='chart'>
-                        <h4>Community-Activity</h4>
+                        <h4>Total Number of Activities in each Community</h4>
                         <DonutChart
                             data={getCommunityActivity.data}
                             labels={getCommunityActivity.label}

@@ -53,13 +53,13 @@ const ViewLocations = () => {
                 let myIconNotCovered = L.icon(customIconNotCovered);
 
                 let iconOptionsCovered = {
-                    title:"company name",
+                    title:"Location",
                     // draggable: true,
                     icon: myIconCovered
                 }
 
                 let iconOptionsNotCovered = {
-                    title:"company name",
+                    title:"Location",
                     // draggable: true,
                     icon: myIconNotCovered
                 }

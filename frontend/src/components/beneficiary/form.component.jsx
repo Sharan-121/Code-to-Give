@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { TextField, InputLabel, Button, Box, Typography } from "@mui/material";
+import { TextField, InputLabel, Button, Box, Typography,Alert, AlertTitle } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -46,6 +46,10 @@ const FormComponent = () => {
   const [childStudying, setChildStudying] = useState(false);
   const [gender, setGender] = useState("male");
 
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+
   const headers = {
     "Content-Type": "application/json",
     Authorization: "Bearer " + localStorage.getItem("token"),
@@ -57,24 +61,36 @@ const FormComponent = () => {
     let dobDate = getDate(dob);
 
     if (getAge(dobDate) < 0) {
-      alert("Invalid DOB");
+      setErrorMessage("Invalid date of birth");
+      setTimeout(() => {
+        setErrorMessage(null);
+      },3000)
       return;
     }
 
     if (aadharNumber.toString().length !== 12) {
-      alert("Invalid Aadhar Number");
+      setErrorMessage("Invalid Aadhar Number");
+      setTimeout(() => {
+        setErrorMessage(null);
+      },3000)
       return;
     } 
 
      const panNumberRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
     if (!panNumberRegex.test(panNumber)) {
-      alert("Invalid PAN number format. Please enter a valid PAN number.");
+      setErrorMessage("Invalid PAN number format. Please enter a valid PAN number.");
+      setTimeout(() => {
+        setErrorMessage(null);
+      },3000);
       return;
     }
 
     const phoneNumberRegex = /^\d{10}$/;
     if (!phoneNumberRegex.test(phoneNumber)) {
-      alert("Invalid phone number format. Please enter a 10-digit phone number.");
+      setErrorMessage("Invalid phone number format.Please enter a 10-digit phone number.");
+      setTimeout(() => {
+        setErrorMessage(null);
+      },3000)
       return;
     }
 
@@ -106,7 +122,11 @@ const FormComponent = () => {
         }
       )
       .then((res) => {
-        alert("Beneficiary added successfully");
+        setSuccessMessage("Beneficiary added successfully");
+        setTimeout(() => {
+          setSuccessMessage(null);
+
+        },3000)
         setName("");
         setDOB("");
         setAadharNumber("");
@@ -125,7 +145,10 @@ const FormComponent = () => {
         setGender("");
       })
       .catch((err) => {
-        alert(err.response.data.message);
+        setErrorMessage(err.response.data.message);
+        setTimeout(() => {
+          setErrorMessage(null);
+        },3000)
       });
   };
 
@@ -142,6 +165,7 @@ const FormComponent = () => {
   };
 
   return (
+    <div>
     <div className="form-div" style={{ marginBottom: "50px" }}>
       <br />
       <p className="heading-medium" style={{ textAlign: "left" }}>
@@ -383,6 +407,23 @@ const FormComponent = () => {
           Submit
         </Button>
       </form>
+    </div>
+    {successMessage && (
+        <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 9999 }}>
+          <Alert severity="success" onClose={() => setSuccessMessage(null)} variant="standard">
+            <AlertTitle>Success</AlertTitle>
+            <strong>{successMessage}</strong>
+          </Alert>
+        </div>
+      )}
+      {errorMessage && (
+        <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 9999 }}>
+          <Alert severity="error" onClose={() => setErrorMessage(null)} variant = "standard" sx = {{width : '300px'}}>
+            <AlertTitle>Error</AlertTitle>
+            <strong>{errorMessage}</strong>
+          </Alert>
+        </div>
+      )}
     </div>
   );
 };

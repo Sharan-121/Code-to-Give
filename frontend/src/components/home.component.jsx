@@ -21,6 +21,7 @@ import CommunityForm from './community/form.component'
 import ImageToText from './image-to-text/ImageToText';
 import DownloadData from './download/download.component';
 import Faq from './help/faq.component';
+import ReleaseNotes from './releasenotes.component';
 
 const Home = () =>{
 
@@ -51,6 +52,7 @@ const Home = () =>{
                 <Route exact path="/image-to-text" element={<ImageToText />} />
                 <Route exact path="/download-data" element={<DownloadData />} />
                 <Route exact path="/faq" element={<Faq />} />
+                <Route exact path="/releasenotes" element={<ReleaseNotes />} />
                 <Route exact path="*" element={<Dashboard />} />
             </Routes>
             </div>

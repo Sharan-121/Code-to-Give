@@ -8,7 +8,7 @@ import ViewBeneficiaries from './beneficiary.component';
 import BeneficiaryForm from '../beneficiary/form.component';
 import AttendanceForm from '../attendance/form.component';
 import Faq from '../help/faq.component';
-
+import ReleaseNotes from '../releasenotes.component';
 
 const Staff = () =>{
 
@@ -26,6 +26,7 @@ const Staff = () =>{
                 <Route exact path="/beneficiary/view/add" element={<BeneficiaryForm />} />
                 <Route exact path="/attendance/add" element={<AttendanceForm />} />
                 <Route exact path="/faq" element={<Faq />} />
+                 <Route exact path="/releasenotes" element={<ReleaseNotes />} />
             </Routes>
             </div>
         </div>

@@ -13,7 +13,7 @@ const explorationDetails = asyncHandler(async (req, res) => {
         coordinates: explore.coordinates,
       });
     }
-    res.status(200).json(result);
+    res.status(200).json(result.response);
   } else {
     res.status(403);
     throw new Error("You are not authorized to view this page");

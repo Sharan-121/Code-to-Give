@@ -28,11 +28,40 @@ const ViewLocations = () => {
                 // console.log(res.data);
 
                 var queries = [];
+                var isExplored = [];
+                var locationNames = [];
 
                 // console.log(res.data.response);
                 for (var data of res.data.response) {
                     // console.log(data.location);
+                    locationNames.push("<b>" + data[0] + "</b><br>" + data[1]);
+                    isExplored.push(data[2]);
                     queries.push(data[3]);
+                }
+
+                let customIconCovered = {
+                    iconUrl: window.location.origin + '/location_blue_icon.png',
+                    iconSize: [40, 40]
+                }
+
+                let customIconNotCovered = {
+                    iconUrl: window.location.origin + '/location_red_icon.png',
+                    iconSize: [40, 40]
+                }
+
+                let myIconCovered = L.icon(customIconCovered);
+                let myIconNotCovered = L.icon(customIconNotCovered);
+
+                let iconOptionsCovered = {
+                    title:"company name",
+                    draggable: true,
+                    icon: myIconCovered
+                }
+
+                let iconOptionsNotCovered = {
+                    title:"company name",
+                    draggable: true,
+                    icon: myIconNotCovered
                 }
 
                 const searchInput = document.getElementById('search');
@@ -68,11 +97,11 @@ const ViewLocations = () => {
                 // }
 
                 // console.log(queries);
-                for (var parsedResult of queries) {
-                    setResultList(parsedResult);
+                for (var i =0 ; i<queries.length; i++) {
+                    setResultList(queries[i], isExplored[i], locationNames[i]);
                 }
 
-                function setResultList(result) {
+                function setResultList(coordinates, explored, locationName) {
                     // map.flyTo(new L.LatLng(20.13847, 1.40625), 2);
                     // const li = document.createElement('li');
                     // li.classList.add('list-group-item', 'list-group-item-action');
@@ -90,10 +119,21 @@ const ViewLocations = () => {
                     //     const position = new L.LatLng(clickedData.lat, clickedData.lon);
                     //     map.flyTo(position, 10);
                     // })
-                    if (result.length == 2){
-                        const position = new L.LatLng(result[0], result[1]);
-                        currentMarkers.push(new L.marker(position).addTo(map));
-                    }                    
+                    if (coordinates.length == 2) {
+                        const position = new L.LatLng(coordinates[0], coordinates[1]);
+                        let marker;
+                        if(explored){
+                            marker = new L.Marker(position, iconOptionsCovered);
+                        }
+                        else{
+                            marker = new L.Marker(position, iconOptionsNotCovered);
+                        }
+                        marker.addTo(map);
+                        marker.bindPopup(locationName);
+                        // marker.bindPopup("content").openPopup();
+                        currentMarkers.push(marker);
+                        
+                    }
                     // resultList.appendChild(li);
                 }
 

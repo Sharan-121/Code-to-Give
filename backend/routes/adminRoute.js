@@ -17,7 +17,10 @@ const {
   getSessionNumber,
 } = require("../controllers/adminController");
 
-const { getAllBeneficiaries } = require("../controllers/beneficiaryController");
+const {
+  getAllBeneficiaries,
+  getSessionAttendance,
+} = require("../controllers/beneficiaryController");
 const {
   downloadFullDatabase,
   csvToDatabase,
@@ -69,7 +72,9 @@ const {
 const {
   getDashboardMetrics,
 } = require("../controllers/Dashboard/mainDashboard");
-const { getOverallMetrics } = require("../controllers/Dashboard/overallMetrics");
+const {
+  getOverallMetrics,
+} = require("../controllers/Dashboard/overallMetrics");
 const { explorationDetails } = require("../controllers/mapController");
 
 router.get("/map/exploration", validateToken, explorationDetails);
@@ -140,6 +145,7 @@ router.get("/community", validateToken, getAllCommunities);
 router.post("/community", validateToken, addCommunity);
 router.get("/session", validateToken, getAllSessions);
 router.post("/session", validateToken, createSession);
+router.get("/session/attendances/:name", validateToken, getSessionAttendance);
 router.get("/session/number/:name", validateToken, getSessionNumber);
 router.get(
   "/community/metrics/gender/:name",
@@ -175,6 +181,6 @@ router.get("/beneficiary", validateToken, getAllBeneficiaries);
 
 router.post("/dashboard/metrics", validateToken, getDashboardMetrics);
 
-router.get("/dashboard/metrics/overall",validateToken,getOverallMetrics)
+router.get("/dashboard/metrics/overall", validateToken, getOverallMetrics);
 
 module.exports = router;

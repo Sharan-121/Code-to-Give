@@ -6,7 +6,11 @@ const explorationDetails = asyncHandler(async (req, res) => {
     const explores = await Explore.find();
     let result = { response: [] };
     for (const explore of explores) {
-      result.response.push([explore.location, explore.isExplored]);
+      result.response.push([
+        explore.community,
+        explore.location,
+        explore.isExplored,
+      ]);
     }
     res.status(200).json(result);
   } else {

@@ -9,34 +9,93 @@ const ViewLocations = () => {
 
     const functionSetType = (event) => {
         setType(event.target.value);
+
+        searchInput = document.getElementById('search');
+        resultList = document.getElementById('result-list');
+        mapContainer = document.getElementById('map-container');
+
+        mapContainer.innerHTML = "";
+
+        container = L.DomUtil.get("map-container");
+        if (container != null) {
+            container._leaflet_id = null;
+        }
+        map = L.map(mapContainer).setView([20.13847, 1.40625], 2);
+
+        functionLoadMap(event.target.value);
     }
+
+    let searchInput;
+    let resultList;
+    let mapContainer;
+    let container;
+    let map;
+
+    let currentMarkers = [];
+
+    useEffect(() => {
+
+        searchInput = document.getElementById('search');
+        resultList = document.getElementById('result-list');
+        mapContainer = document.getElementById('map-container');
+
+        container = L.DomUtil.get("map-container");
+        if (container != null) {
+            container._leaflet_id = null;
+        }
+        map = L.map(mapContainer).setView([20.13847, 1.40625], 2);
+
+        functionLoadMap("sessions");
+
+    }, []);
+
 
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem("token")
     }
 
-    useEffect(() => {
-
+    const functionLoadMap = (dataToLoad) => {
+        let url = "";
+        if (dataToLoad == "sessions") {
+            url = defaultVariables['backend-url'] + "api/v1/admin/session";
+        }
+        else if (dataToLoad == "beneficiaries") {
+            url = defaultVariables['backend-url'] + "api/v1/admin/beneficiary";
+        }
+        else if (dataToLoad == "communities") {
+            url = defaultVariables['backend-url'] + "api/v1/admin/map/exploration";
+        }
+        else {
+            url = defaultVariables['backend-url'] + "api/v1/admin/map/exploration";
+        }
         // axios.get(defaultVariables['backend-url'] + "api/v1/admin/session",
-        axios.get(defaultVariables['backend-url'] + "api/v1/admin/map/exploration",
+        axios.get(url,
             {
                 headers: headers
             })
             .then((res) => {
-
-                // console.log(res.data);
-
                 var queries = [];
                 var isExplored = [];
                 var locationNames = [];
-
-                // console.log(res.data.response);
-                for (var data of res.data.response) {
-                    // console.log(data.location);
-                    locationNames.push("<b>" + data[0] + "</b><br>" + data[1]);
-                    isExplored.push(data[2]);
-                    queries.push(data[3]);
+                for (var data of res.data) {
+                    if (dataToLoad == "sessions") {
+                        locationNames.push("<b>" + data.name + "</b><br>" + data.location);
+                        isExplored.push(true);
+                    }
+                    else if (dataToLoad == "beneficiaries") {
+                        locationNames.push("<b>" + data.name + "</b><br>" + data.address);
+                        isExplored.push(true);
+                    }
+                    else if (dataToLoad == "communities") {
+                        locationNames.push("<b>" + data.community + "</b><br>" + data.location);
+                        isExplored.push(data.isExplored);
+                    }
+                    else {
+                        locationNames.push("<b>" + data.community + "</b><br>" + data.location);
+                        isExplored.push(true);
+                    }
+                    queries.push(data.coordinates);
                 }
 
                 let customIconCovered = {
@@ -53,94 +112,48 @@ const ViewLocations = () => {
                 let myIconNotCovered = L.icon(customIconNotCovered);
 
                 let iconOptionsCovered = {
-                    title:"Location",
+                    title: "Location",
                     // draggable: true,
                     icon: myIconCovered
                 }
 
                 let iconOptionsNotCovered = {
-                    title:"Location",
-                    // draggable: true,
+                    title: "Location",
                     icon: myIconNotCovered
                 }
 
-                const searchInput = document.getElementById('search');
-                const resultList = document.getElementById('result-list');
-                const mapContainer = document.getElementById('map-container');
-                const currentMarkers = [];
-
-                var container = L.DomUtil.get("map-container");
-
-                if (container != null) {
-                    container._leaflet_id = null;
-                }
-
-                const map = L.map(mapContainer).setView([20.13847, 1.40625], 2);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(map);
-
-
                 for (const marker of currentMarkers) {
                     map.removeLayer(marker);
                 }
-
-                // const queries = ["PSG tech", "Anna nagar, chennai"];
-
-                // resultList.innerHTML = "";
-                // for (let query of queries) {
-                //     fetch('https://nominatim.openstreetmap.org/search?format=json&polygon=1&addressdetails=1&q=' + query)
-                //         .then(result => result.json())
-                //         .then(parsedResult => {
-                //             setResultList(parsedResult);
-                //         });
-                // }
-
-                // console.log(queries);
-                for (var i =0 ; i<queries.length; i++) {
+                for (var i = 0; i < queries.length; i++) {
                     setResultList(queries[i], isExplored[i], locationNames[i]);
                 }
 
                 function setResultList(coordinates, explored, locationName) {
-                    // map.flyTo(new L.LatLng(20.13847, 1.40625), 2);
-                    // const li = document.createElement('li');
-                    // li.classList.add('list-group-item', 'list-group-item-action');
-                    // li.innerHTML = JSON.stringify({
-                    //     displayName: result.display_name,
-                    //     lat: result.lat,
-                    //     lon: result.lon
-                    // }, undefined, 2);
-                    // li.addEventListener('click', (event) => {
-                    //     for (const child of resultList.children) {
-                    //         child.classList.remove('active');
-                    //     }
-                    //     event.target.classList.add('active');
-                    //     const clickedData = JSON.parse(event.target.innerHTML);
-                    //     const position = new L.LatLng(clickedData.lat, clickedData.lon);
-                    //     map.flyTo(position, 10);
-                    // })
                     if (coordinates.length == 2) {
                         const position = new L.LatLng(coordinates[0], coordinates[1]);
                         let marker;
-                        if(explored){
+                        if (explored) {
                             marker = new L.Marker(position, iconOptionsCovered);
                         }
-                        else{
+                        else {
                             marker = new L.Marker(position, iconOptionsNotCovered);
                         }
                         marker.addTo(map);
                         marker.bindPopup(locationName);
                         // marker.bindPopup("content").openPopup();
                         currentMarkers.push(marker);
-                        
+
                     }
-                    // resultList.appendChild(li);
                 }
 
             }).catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }
 
     return (
         <>

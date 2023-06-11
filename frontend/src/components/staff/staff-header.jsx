@@ -27,7 +27,7 @@ const StaffHeader = () => {
         marginRight: '8px',
     };
     const helpIconStyle = {
-        marginRight: '140px'
+        marginRight: '8px'
     }
 
     return (
@@ -35,7 +35,7 @@ const StaffHeader = () => {
             <img src={organizationLogo} alt="Organization Logo" />
             <button className="help-button" onClick={handleHelp} >
                 <FaQuestionCircle style={helpIconStyle} />
-
+                Help
             </button>
             <button className='logout-button' onClick={handleLogout}>
                 <FaSignOutAlt style={logoutIconStyle} />

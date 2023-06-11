@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
-import Header from '../header';
+import StaffHeader from './staff-header';
 import Footer from '../footer';
 import StaffSideBar from './staff-sidebar';
 import ViewBeneficiaries from './beneficiary.component';
@@ -16,7 +16,7 @@ const Staff = () =>{
 	
     return (
         <>
-        <Header />
+        <StaffHeader />
         <div className='outer-container'>
             <StaffSideBar />
             <div className='inner-container'>

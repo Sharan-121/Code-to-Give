@@ -50,8 +50,8 @@ const Home = () =>{
                 <Route exact path="/locations/view" element={<ViewLocations />} />
                 <Route exact path="/image-to-text" element={<ImageToText />} />
                 <Route exact path="/download-data" element={<DownloadData />} />
-                <Route exact path="*" element={<Dashboard />} />
                 <Route exact path="/faq" element={<Faq />} />
+                <Route exact path="*" element={<Dashboard />} />
             </Routes>
             </div>
         </div>

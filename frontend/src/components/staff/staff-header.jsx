@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import organizationLogo from '../assets/organization_logo.svg';
+import organizationLogo from '../../assets/organization_logo.svg';
 import { FaSignOutAlt, FaQuestionCircle } from 'react-icons/fa';
 
-const Header = () => {
+const StaffHeader = () => {
     const navigate = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem("id");
@@ -13,7 +13,7 @@ const Header = () => {
     };
 
     const handleHelp = () => {
-        navigate('/home/faq')
+        navigate('/staff/faq')
     };
 
     const headerStyle = {
@@ -45,4 +45,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default StaffHeader;

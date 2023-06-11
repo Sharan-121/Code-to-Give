@@ -1,0 +1,53 @@
+.wrapper {
+    display: flex;
+    margin-top: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.accordian {
+    margin-top: 30px;
+    width: 90%;
+}
+
+.item {
+    margin-top: 10px;
+    background-color: rgb(240, 240, 240);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.title {
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding-bottom: 5px;
+    font-size: 16px;
+}
+
+.content {
+    max-height: 0;
+    overflow: hidden;
+    font-size: 14px;
+    text-align: justify;
+    transition: all 0.5 cubic-bezier(0, 1, 0, 1);
+}
+
+.content.show {
+    height: auto;
+    max-height: fit-content;
+    transition: all 0.5 cubic-bezier(0, 1, 0, 1);
+}
+
+.button-show{
+    font-size: 30px;
+    margin-right: 10px;
+    font-weight: 700;
+}
+
+.item img{
+    height: 350px;
+    object-fit: contain;
+}

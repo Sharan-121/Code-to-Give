@@ -20,7 +20,7 @@ import ActivityForm from './activities/form.component'
 import CommunityForm from './community/form.component'
 import ImageToText from './image-to-text/ImageToText';
 import DownloadData from './download/download.component';
-import Faq from './faq.component';
+import Faq from './help/faq.component';
 
 const Home = () =>{
 

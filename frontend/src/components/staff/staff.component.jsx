@@ -7,7 +7,7 @@ import StaffSideBar from './staff-sidebar';
 import ViewBeneficiaries from './beneficiary.component';
 import BeneficiaryForm from '../beneficiary/form.component';
 import AttendanceForm from '../attendance/form.component';
-import Faq from '../faq.component';
+import Faq from '../help/faq.component';
 
 
 const Staff = () =>{

@@ -54,13 +54,13 @@ const ViewLocations = () => {
 
                 let iconOptionsCovered = {
                     title:"company name",
-                    draggable: true,
+                    // draggable: true,
                     icon: myIconCovered
                 }
 
                 let iconOptionsNotCovered = {
                     title:"company name",
-                    draggable: true,
+                    // draggable: true,
                     icon: myIconNotCovered
                 }
 

@@ -10,6 +10,7 @@ const explorationDetails = asyncHandler(async (req, res) => {
         explore.community,
         explore.location,
         explore.isExplored,
+        explore.coordinates,
       ]);
     }
     res.status(200).json(result);

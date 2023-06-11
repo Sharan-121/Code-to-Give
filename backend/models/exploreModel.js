@@ -16,6 +16,11 @@ const exploreSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+
+    coordinates: {
+      type: Array,
+      required: true,
+    },
   },
   { timestamps: true }
 );

@@ -278,7 +278,7 @@ const createSession = asyncHandler(async (req, res) => {
             query
         );
         let jsonData = await apiData.json();
-        coordinates = [jsonData.data[0].latitude, jsonData.data[0].latitude];
+        coordinates = [jsonData.data[0].latitude, jsonData.data[0].longitude];
         break;
       } catch (err) {
         err = err;

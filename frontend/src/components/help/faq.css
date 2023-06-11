@@ -13,9 +13,14 @@
 .item {
     margin-top: 10px;
     background-color: rgb(240, 240, 240);
-    padding: 10px;
-    border-radius: 10px;
+    padding: 20px;
+    border-radius: 20px;
 }
+
+.item:hover{
+    border-color:#a4c9ef;
+    box-shadow: 2px 3px 5px #a4c9ef;
+  }
 
 .title {
     font-weight: bold;
@@ -24,13 +29,13 @@
     align-items: center;
     cursor: pointer;
     padding-bottom: 5px;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .content {
     max-height: 0;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 16px;
     text-align: justify;
     transition: all 0.5 cubic-bezier(0, 1, 0, 1);
 }

@@ -16,14 +16,15 @@ const Faq = () => {
 		{
 			question: 'How to add a new beneficiary?',
 			answer:
-				"Navigate to the left corner of the application.\
-      			You can see the sidebar over there. \
-				Select the option Beneficiaries from the sidebar. \
+				"To get started, let's explore the left corner of the application. In the left corner, you will find the sidebar, which contains various options and features. Locate the sidebar and look for the option labeled 'Beneficiaries.' Once you have identified it, select the Beneficiaries option from the sidebar.\
+				After selecting Beneficiaries, a new screen will appear.\
 				<br /><br /><center><img src='/beneficiary1.jpg' ></center><br /><br /> \
-				Click on the add beneficiary button at the top of the screen. \
+				At the top of the screen, there will be an 'Add Beneficiary' button. Click on this button to begin the beneficiary addition process. \
+				Once you click the 'Add Beneficiary' button, a form will be presented.\
 				<br /><br /><center><img src='/beneficiary2.jpg' ></center><br /><br /> \
-				Fill the necessary details of the beneficiary\
-				and Click on the submit button to add the beneficiary."
+				This form will require you to fill in the necessary details of the beneficiary. Please ensure you provide accurate and complete information to avoid any complications later on. \
+				After filling in all the necessary details, review the information to confirm its accuracy. Once you are satisfied with the entered details, locate the 'Submit' button on the screen and click on it to add the beneficiary to your account. \
+				By following these steps, you will successfully navigate to the left corner of the application, select the Beneficiaries option, click on the add beneficiary button, fill in the necessary details, and finally, submit the information to add the beneficiary."
 		},
 
 		{

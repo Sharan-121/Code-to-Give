@@ -20,6 +20,7 @@ import ActivityForm from './activities/form.component'
 import CommunityForm from './community/form.component'
 import ImageToText from './image-to-text/ImageToText';
 import DownloadData from './download/download.component';
+import Faq from './faq.component';
 
 const Home = () =>{
 
@@ -50,6 +51,7 @@ const Home = () =>{
                 <Route exact path="/image-to-text" element={<ImageToText />} />
                 <Route exact path="/download-data" element={<DownloadData />} />
                 <Route exact path="*" element={<Dashboard />} />
+                <Route exact path="/faq" element={<Faq />} />
             </Routes>
             </div>
         </div>

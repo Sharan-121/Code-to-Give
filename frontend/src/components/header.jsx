@@ -13,7 +13,7 @@ const Header = () => {
     };
 
     const handleHelp = () =>{
-        navigate('/')
+        navigate('/faq')
     };
 
     const headerStyle = {

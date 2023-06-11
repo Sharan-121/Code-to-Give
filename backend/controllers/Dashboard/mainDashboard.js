@@ -7,15 +7,20 @@ const Community = require("../../models/communityModel");
 
 const getDashboardMetrics = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
-    const { year, activity, community, metric } = req.body;
+    const { year, activity, community, metric, compareTo } = req.body;
 
-    if (!year || !activity || !community || !metric) {
+    if (!year || !activity || !community || !metric || !compareTo) {
       res.status(400);
       throw new Error("Please fill all the fields");
     }
 
     if (metric === "session") {
-      if (year !== "None" && activity === "None" && community === "None") {
+      if (
+        year !== "None" &&
+        activity === "None" &&
+        community === "None" &&
+        compareTo !== "None"
+      ) {
         const pipeline = [
           {
             $match: {
@@ -37,9 +42,35 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
             },
           },
         ];
+        const pipeline1 = [
+          {
+            $match: {
+              date: {
+                $gte: new Date(compareTo, 0, 1),
+                $lt: new Date(compareTo, 11, 31),
+              },
+            },
+          },
+          {
+            $group: {
+              _id: { $month: "$date" },
+              count: { $sum: 1 },
+            },
+          },
+          {
+            $sort: {
+              _id: 1,
+            },
+          },
+        ];
+
         const result = await Session.aggregate(pipeline);
+
+  
+        const result3 = await Session.aggregate(pipeline1);
+
         let result2 = {
-          "x-axis-title": `Number of sessions conducted in ${parseInt(year)}`,
+          "x-axis-title": `Number of sessions conducted in ${parseInt(year)} and ${parseInt(compareTo)}`,
           label: [
             "January",
             "February",
@@ -55,9 +86,13 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
             "December",
           ],
           data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          data1: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         };
         for (const temp of result) {
           result2.data[temp._id - 1] += temp.count;
+        }
+        for (const temp of result3) {
+          result2.data1[temp._id - 1] += temp.count;
         }
 
         res.status(200).json(result2);
@@ -325,7 +360,7 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
         res.status(200).json(result2);
       }
     }
-    if(year !== "None" && activity === "None" && community !== "None"){
+    if (year !== "None" && activity === "None" && community !== "None") {
       let result2 = {
         "x-axis-title": `Total Number of Attendees in ${parseInt(
           year
@@ -359,20 +394,20 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
         session_id: { $in: sessionIds },
       });
 
-      for(const attendance of attendances){
+      for (const attendance of attendances) {
         const sessionId = attendance.session_id;
-        const session = await Session.findOne({_id: sessionId});
+        const session = await Session.findOne({ _id: sessionId });
         const yearOfSession = session.date.getFullYear();
         const monthOfSession = session.date.getMonth();
-        if(yearOfSession === parseInt(year)){
+        if (yearOfSession === parseInt(year)) {
           result2.data[monthOfSession] += 1;
         }
       }
 
       res.status(200).json(result2);
-    };
+    }
 
-    if(year !== "None" && activity !== "None" && community !== "None"){
+    if (year !== "None" && activity !== "None" && community !== "None") {
       let result2 = {
         "x-axis-title": `Total Number of Attendees in ${parseInt(
           year
@@ -405,22 +440,19 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
 
       const attendances = await Attendance.find({
         session_id: { $in: sessionIds },
-      })
+      });
 
-      for(const attendance of attendances){
+      for (const attendance of attendances) {
         const sessionId = attendance.session_id;
-        const session = await Session.findOne({_id: sessionId});
+        const session = await Session.findOne({ _id: sessionId });
         const yearOfSession = session.date.getFullYear();
         const monthOfSession = session.date.getMonth();
-        if(yearOfSession === parseInt(year)){
+        if (yearOfSession === parseInt(year)) {
           result2.data[monthOfSession] += 1;
         }
       }
 
       res.status(200).json(result2);
-
-
-
     }
   }
 });

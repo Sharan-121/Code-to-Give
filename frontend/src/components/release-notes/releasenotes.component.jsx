@@ -3,7 +3,7 @@ const ReleaseNotes = () => {
 
     return (
         <div className="releasenotes-div">
-            <p className="heading-medium">Releases</p>
+            <p className="heading-medium">Release Notes</p>
 
             <div className="form-div highlight-form-div" style={{ textAlign: "left" }}>
                 <p className="heading-small">Version 1.0.3</p>

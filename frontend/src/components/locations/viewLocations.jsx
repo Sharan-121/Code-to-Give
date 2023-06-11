@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Box, InputLabel, MenuItem, FormControl, Select } from '@mui/material';
 import defaultVariables from '../variables/variables';
 
 const ViewLocations = () => {
+
+    const [type, setType] = useState('sessions');
+
+    const functionSetType = (event) => {
+        setType(event.target.value);
+    }
 
     const headers = {
         'Content-Type': 'application/json',
@@ -97,6 +104,24 @@ const ViewLocations = () => {
             <div >
                 <ul id="result-list" style={{ display: "none" }}>
                 </ul>
+
+                <Box className="filter-option" sx={{ minWidth: 120 }} style={{ width: "200px", marginLeft:"auto", marginRight: "auto", marginTop: "10px", marginBottom: "10px" }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={type}
+                            label="Type"
+                            onChange={functionSetType}
+                        >
+                            <MenuItem value={"sessions"}>Sessions</MenuItem>
+                            <MenuItem value={"beneficiaries"}>Beneficiaries</MenuItem>
+                            <MenuItem value={"communities"}>Communities</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+
                 <div id="map-container" style={{ height: "75vh", width: "100%" }} ></div>
             </div>
         </>

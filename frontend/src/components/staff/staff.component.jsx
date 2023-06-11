@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import Header from '../header';
 import Footer from '../footer';
 import StaffSideBar from './staff-sidebar';
-import ViewBeneficiaries from '../beneficiary/beneficiary.component';
+import ViewBeneficiaries from './beneficiary.component';
 import BeneficiaryForm from '../beneficiary/form.component';
 import AttendanceForm from '../attendance/form.component';
 

@@ -100,3 +100,4 @@ const beneficiarySchema = mongoose.Schema(
 );
 
 module.exports = mongoose.model("Beneficiary", beneficiarySchema);
+

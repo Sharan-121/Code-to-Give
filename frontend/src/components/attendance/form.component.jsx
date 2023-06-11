@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Alert, AlertTitle } from '@mui/material';
 import axios from 'axios';
 import defaultVariables from '../variables/variables';
 
@@ -14,6 +14,9 @@ const FormComponent = () => {
     const [session, setSession] = useState('');
     const [aadhaar, setAadhaar] = useState('');
     const [phone, setPhone] = useState('');
+
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const [sessions, setSessions] = useState([]);
 
@@ -41,13 +44,20 @@ const FormComponent = () => {
 
     const phoneNumberRegex = /^\d{10}$/;
     if (!phoneNumberRegex.test(phoneNumber)) {
-      alert("Invalid phone number format. Please enter a 10-digit phone number.");
-      return;
+      setErrorMessage("Invalid phone number format. Please enter a 10-digit phone number.");
+        setTimeout(() => {
+            setErrorMessage(null);
+
+        },3000);
+        return;
     }
 
     const aadharNumberRegex = /^\d{12}$/;
     if (!aadharNumberRegex.test(aadharNumber)) {
-      alert("Invalid Aadhar number format. Please enter a 12-digit Aadhar number.");
+      setErrorMessage("Invalid Aadhar number format. Please enter a 12-digit Aadhar number.");
+      setTimeout(() => {
+        setErrorMessage(null);
+      },3000)
       return;
     }
         
@@ -63,18 +73,25 @@ const FormComponent = () => {
             headers : headers
         }).then((res) => {
             
-            alert("Attendance marked successfully");
+            setSuccessMessage("Attendance marked successfully");
+            setTimeout(() => {
+                setSuccessMessage(null);
+            },3000)
             setName('');
             setSession('');
             setAadhaar('');
             setPhone('');
         }).catch((err) => {
-            alert(err.response.data.message);
+            setErrorMessage(err.response.data.message);
+            setTimeout(() => {
+                setErrorMessage(null);
+            },3000)
         })
     }
     
 
     return (
+        <div>
         <div className='form-div'>
             <br />
             <p className="heading-medium" style={{ textAlign: "left" }}>Attendance Form</p>
@@ -142,6 +159,23 @@ const FormComponent = () => {
                     Submit
                 </Button>
             </form>
+        </div>
+        {successMessage && (
+        <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 9999 }}>
+          <Alert severity="success" onClose={() => setSuccessMessage(null)} variant="standard">
+            <AlertTitle>Success</AlertTitle>
+            <strong>{successMessage}</strong>
+          </Alert>
+        </div>
+      )}
+      {errorMessage && (
+        <div style={{ position: 'fixed', top: '60px', right: '20px', zIndex: 9999 }}>
+          <Alert severity="error" onClose={() => setErrorMessage(null)} variant = "standard" sx = {{width : '250px'}}>
+            <AlertTitle>Error</AlertTitle>
+            <strong>{errorMessage}</strong>
+          </Alert>
+        </div>
+      )}
         </div>
     );
 };                   

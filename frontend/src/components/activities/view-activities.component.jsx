@@ -129,7 +129,7 @@ const ViewActivities = () => {
                 <button
                     className='button-top'
                     onClick={navigateToAddActivity}>
-                    Add Data
+                    Add Activity
                 </button>
 
                 <button

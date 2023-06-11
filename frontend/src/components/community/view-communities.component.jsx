@@ -130,7 +130,7 @@ const ViewCommunities = () => {
                 <button
                     className='button-top'
                     onClick={navigateToAddCommunity}>
-                    Add Data
+                    Add Community
                 </button>
 
                 <button

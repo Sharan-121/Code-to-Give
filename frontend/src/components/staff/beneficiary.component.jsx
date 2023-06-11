@@ -158,7 +158,7 @@ const ViewBeneficiaries = () => {
                 <button
                     className='button-top'
                     onClick={navigateToAddBeneficiary}>
-                    Add Data
+                    Add Beneficiary
                 </button>
 
                 <button

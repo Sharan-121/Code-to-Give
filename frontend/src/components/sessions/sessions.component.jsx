@@ -167,7 +167,7 @@ const ViewSessions = () => {
             <button
                     className='button-top'
                     onClick={navigateToAddSession}>
-                    Add Data
+                    Add Session
                 </button>
 
                 <button

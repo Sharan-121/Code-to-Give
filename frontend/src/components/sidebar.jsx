@@ -1,6 +1,6 @@
 import SideBarOption from "./sidebar-option";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComment, faLocationArrow, faTable, faList, faUser, faPeopleCarry, faFire, faCalendarPlus, faMap, faDatabase, faImage } from '@fortawesome/fontawesome-free-solid'
+import { faHandshake, faComment, faLocationArrow, faTable, faList, faUser, faPeopleCarry, faFire, faCalendarPlus, faMap, faDatabase, faImage } from '@fortawesome/fontawesome-free-solid'
 
 const SideBar = () => {
     return (
@@ -13,6 +13,7 @@ const SideBar = () => {
             <SideBarOption icon={<FontAwesomeIcon icon={faCalendarPlus} />} title={"Attendance"} redirect={"attendance/add"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faComment} />} title={"Feedback"} redirect={"feedback/add"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faLocationArrow} />} title={"Locations"} redirect={"locations/view"} />
+            <SideBarOption icon={<FontAwesomeIcon icon={faHandshake} />} title={"Staffs"} redirect={"staffs/view"} />
             <p className="horizontal-divider"></p>
             <SideBarOption icon={<FontAwesomeIcon icon={faDatabase} />} title={"Data Upload"} redirect={"download-data"} />
             <SideBarOption icon={<FontAwesomeIcon icon={faImage} />} title={"Image to Text"} redirect={"image-to-text"} />

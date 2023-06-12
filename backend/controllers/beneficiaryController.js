@@ -140,10 +140,16 @@ const getSessionAttendance = asyncHandler(async (req, res) => {
     let result = { response: [] };
     for (const attendance of attendances) {
       const beneficiary = await Beneficiary.findById(attendance.beneficiary_id);
-      result.response.push(beneficiary);
+
+      const beneficiaryJSON = {
+        ...beneficiary._doc,
+        feedback: attendance.feedback,
+      };
+
+      result.response.push(beneficiaryJSON);
     }
 
-    res.status(200).json(result);
+    res.status(200).send(result);
   } else {
     res.status(403);
     throw new Error("You are not authorized to view this page");

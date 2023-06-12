@@ -63,10 +63,9 @@ const FeedbackForm = () => {
         }
 
         const parameters = {
-            name: name,
             sessionName: session,
             aadharNumber: aadhaar,
-            phoneNumber: phone
+            feedback: feedback
         }
 
         axios.post(defaultVariables['backend-url'] + "api/v1/staff/attendance", parameters,

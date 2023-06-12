@@ -76,6 +76,7 @@ const {
   getOverallMetrics,
 } = require("../controllers/Dashboard/overallMetrics");
 const { explorationDetails } = require("../controllers/mapController");
+const {createStaff} = require("../controllers/adminController");
 
 router.get("/map/exploration", validateToken, explorationDetails);
 router.get("/activity", validateToken, getActivities);
@@ -182,5 +183,7 @@ router.get("/beneficiary", validateToken, getAllBeneficiaries);
 router.post("/dashboard/metrics", validateToken, getDashboardMetrics);
 
 router.get("/dashboard/metrics/overall", validateToken, getOverallMetrics);
+
+router.post("/staff", validateToken, createStaff);
 
 module.exports = router;

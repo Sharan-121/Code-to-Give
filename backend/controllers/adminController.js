@@ -3,6 +3,7 @@ const Activity = require("../models/activityModel");
 const Community = require("../models/communityModel");
 const Session = require("../models/sessionModel");
 const Explore = require("../models/exploreModel");
+const User = require("../models/userModel");
 
 const getActivities = asyncHandler(async (req, res) => {
   if (req.user.role === "admin") {
@@ -369,6 +370,31 @@ const getSessionNumber = asyncHandler(async (req, res) => {
   }
 });
 
+const createStaff = asyncHandler(async (req, res) => {
+  const { username, phone, role } = req.body;
+  if (!username || !phone || !role) {
+    res.status(400);
+    throw new Error("Please fill all the fields");
+  }
+
+  const staff = await User.findOne({ username: username });
+  if (staff) {
+    res.status(400);
+    throw new Error("Staff already exists");
+  }
+  const newStaff = await User.create({
+    username: username,
+    password: phone,
+    role: role,
+  });
+  if (newStaff) {
+    res.status(201).send(newStaff);
+  } else {
+    res.status(400);
+    throw new Error("Invalid staff data");
+  }
+});
+
 module.exports = {
   getActivities,
   getActivityByName,
@@ -379,4 +405,5 @@ module.exports = {
   createSession,
   getAllSessions,
   getSessionNumber,
+  createStaff
 };

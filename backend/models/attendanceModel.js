@@ -18,6 +18,10 @@ const attendanceSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    feedback : {
+      type: String,
+      default: "No Feedback",
+    }
   },
   { timestamps: true }
 );

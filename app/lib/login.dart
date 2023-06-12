@@ -349,7 +349,7 @@ class _InputFieldState extends State<InputField> {
           hoverColor: Colors.black,
           focusColor: Colors.black,
           iconColor: Colors.black,
-          border: null,
+          border:   null,
           labelStyle: const TextStyle(
             fontFamily: 'Montserrat',
             color: Colors.black,

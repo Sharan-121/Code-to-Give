@@ -156,10 +156,39 @@ const getSessionAttendance = asyncHandler(async (req, res) => {
   }
 });
 
+const qrAttendance = asyncHandler(async (req, res) => {
+  if (req.user.role == "beneficiary") {
+    const aadharNumber = req.user.aadharNumber;
+    const session = await Session.findOne({ name: req.params.name });
+    const beneficiary = await Beneficiary.findOne({
+      aadharNumber: aadharNumber,
+    });
+    const attendanceExist = await Attendance.findOne({
+      beneficiary_id: beneficiary._id,
+      session_id: session._id,
+    });
+
+    if (attendanceExist) {
+      res.status(400);
+      throw new Error("Already attendance registered");
+    } else {
+      await Beneficiary.create({
+        beneficiary_id: beneficiary._id,
+        session_id: session._id,
+      });
+      res.status(200).json({ success: true });
+    }
+  } else {
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }
+});
+
 module.exports = {
   getAvailableSessions,
   getAttendedSessions,
   getAllBeneficiaries,
   updateStatus,
   getSessionAttendance,
+  qrAttendance,
 };

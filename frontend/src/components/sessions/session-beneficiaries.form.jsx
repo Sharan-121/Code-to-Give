@@ -62,6 +62,7 @@ const SessionBeneficiaries = (props) => {
         { field: 'medicalHistory', filter: true },
         { field: 'childStudying', filter: true },
         { field: 'feedback', filter: true },
+        { field: 'followUp_status', filter: true },
     ]);
     const autoGroupColumnDef = useMemo(() => {
         return {

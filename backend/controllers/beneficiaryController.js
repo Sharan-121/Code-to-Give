@@ -144,6 +144,7 @@ const getSessionAttendance = asyncHandler(async (req, res) => {
       const beneficiaryJSON = {
         ...beneficiary._doc,
         feedback: attendance.feedback,
+        followUp_status: attendance.followUp_status,
       };
 
       result.response.push(beneficiaryJSON);

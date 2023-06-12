@@ -1,3 +1,4 @@
+import 'package:app/scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -276,6 +277,39 @@ class _SessionsPageState extends State<SessionsPage> {
                     );
                   },
                   child: const Icon(Icons.done_all_sharp)),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color(0xFF1C4E80),
+                      elevation: 0),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        transitionDuration: const Duration(milliseconds: 0),
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            QRCodeScannerPage(
+                          widget.userToken,
+                          widget.language,
+                        ),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          var begin = const Offset(1.0, 0.0);
+                          var end = Offset.zero;
+                          var curve = Curves.ease;
+
+                          var tween = Tween(begin: begin, end: end)
+                              .chain(CurveTween(curve: curve));
+
+                          return SlideTransition(
+                            position: animation.drive(tween),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  child: const Icon(Icons.qr_code_scanner_sharp)),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,

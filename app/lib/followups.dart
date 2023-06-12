@@ -19,6 +19,59 @@ Future<String?> translate(String text) async {
   }
 }
 
+Future<void> sendFeedback(TextEditingController controller, Map userToken,
+    String sessionId, String language) async {
+  if (controller.text.trim().length < 10) {
+    Fluttertoast.showToast(
+        msg: language == "English"
+            ? "Provide more content"
+            : "अधिक सामग्री प्रदान करें",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+    return;
+  } else {
+    final url = Uri.parse('http://127.0.0.1:5010/api/v1/beneficiary/feedback');
+    final postData = {
+      "feedback": controller.text.trim(),
+      "sessionId": sessionId
+    };
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${userToken["token"]}'
+      },
+      body: jsonEncode(postData),
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      controller.text = "";
+      Fluttertoast.showToast(
+          msg: language == "English"
+              ? "Feedback updated"
+              : "फ़ीडबैक अपडेट किया गया",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.blue[900],
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: language == "English" ? "Login again" : "फिर से लॉगिन करें",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+}
+
 Future<bool> updateStatus(
     String sessionId, Map userToken, String language) async {
   final url =
@@ -66,6 +119,7 @@ class FollowUpPage extends StatefulWidget {
 }
 
 class _FollowUpPageState extends State<FollowUpPage> {
+  TextEditingController feedbackController = TextEditingController();
   bool isLoading = true;
   Map data = {};
 
@@ -208,6 +262,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
             ? const LoadingView()
             : SingleChildScrollView(
                 child: Session(
+                    feedbackController,
                     widget.session,
                     containerHeight,
                     widget.session["sessionId"],
@@ -231,6 +286,7 @@ final ButtonStyle flatButtonStyle = TextButton.styleFrom(
 );
 
 class Session extends StatefulWidget {
+  final TextEditingController feedbackController;
   final Map session;
   final double height;
   final String sessionId;
@@ -246,6 +302,7 @@ class Session extends StatefulWidget {
   final String followUp;
   bool status;
   Session(
+      this.feedbackController,
       this.session,
       this.height,
       this.sessionId,
@@ -414,12 +471,76 @@ class _SessionState extends State<Session> {
                       style: const TextStyle(
                           fontFamily: 'Montserrat', fontSize: 16),
                     )),
+                widget.status
+                    ? CompletedContainer(widget.language)
+                    : CompletedButton(
+                        widget.language, widget.session, widget.userToken),
               ],
             ),
-            widget.status
-                ? CompletedContainer(widget.language)
-                : CompletedButton(
-                    widget.language, widget.session, widget.userToken),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: TextField(
+                    style: const TextStyle(
+                        fontFamily: 'Montserrat', color: Colors.black),
+                    cursorColor: Colors.black,
+                    maxLines: null,
+                    controller: widget.feedbackController,
+                    decoration: InputDecoration(
+                      labelText: widget.language == "English"
+                          ? 'Feedback'
+                          : 'प्रतिक्रिया',
+                      hintText: widget.language == "English"
+                          ? 'Enter your feedback for the session'
+                          : 'सत्र के लिए अपनी प्रतिक्रिया दर्ज करें',
+                      hoverColor: Colors.black,
+                      focusColor: Colors.black,
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      labelStyle: const TextStyle(
+                        fontFamily: 'Montserrat',
+                        color: Colors.black,
+                      ),
+                      hintStyle: const TextStyle(
+                          fontFamily: 'Montserrat', color: Colors.black),
+                    ),
+                  ),
+                ),
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 4, 5, 0),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            foregroundColor:
+                                const Color.fromRGBO(235, 235, 235, 1),
+                            backgroundColor: const Color(0xFF1C4E80),
+                            elevation: 0),
+                        onPressed: () async {
+                          await sendFeedback(
+                              widget.feedbackController,
+                              widget.userToken,
+                              widget.sessionId,
+                              widget.language);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(7.0),
+                          child: Text(
+                            widget.language == "English"
+                                ? "Submit"
+                                : "जमा करना",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
+                        ))),
+              ],
+            ),
           ],
         ),
       ),
@@ -442,7 +563,7 @@ class _CompletedButtonState extends State<CompletedButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(4.5, 0, 4.5, 0),
+      padding: const EdgeInsets.fromLTRB(4.5, 10, 4.5, 0),
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               foregroundColor: const Color.fromRGBO(235, 235, 235, 1),
@@ -561,7 +682,7 @@ class _CompletedContainerState extends State<CompletedContainer> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(4.5, 0, 4.5, 0),
+      padding: const EdgeInsets.fromLTRB(4.5, 10, 4.5, 0),
       child: Container(
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 59, 114, 168),

@@ -13,7 +13,6 @@ const FeedbackForm = () => {
     const [name, setName] = useState('');
     const [session, setSession] = useState('');
     const [aadhaar, setAadhaar] = useState('');
-    const [phone, setPhone] = useState('');
     const [feedback, setFeedback] = useState('');
 
     const [successMessage, setSuccessMessage] = useState(null);
@@ -42,16 +41,6 @@ const FeedbackForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        const phoneNumberRegex = /^\d{10}$/;
-        if (!phoneNumberRegex.test(phone)) {
-            setErrorMessage("Invalid phone number format. Please enter a 10-digit phone number.");
-            setTimeout(() => {
-                setErrorMessage(null);
-
-            }, 3000);
-            return;
-        }
 
         const aadharNumberRegex = /^\d{12}$/;
         if (!aadharNumberRegex.test(aadhaar)) {

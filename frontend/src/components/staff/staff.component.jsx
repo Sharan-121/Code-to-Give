@@ -10,6 +10,8 @@ import AttendanceForm from '../attendance/form.component';
 import FeedbackForm from '../feedback/form.component';
 import Faq from '../help/faq.component';
 import ReleaseNotes from '../release-notes/releasenotes.component';
+import ViewSessions from './sessions.component';
+import SessionBeneficiaries from './session-beneficiaries.form';
 
 const Staff = () =>{
 
@@ -27,6 +29,8 @@ const Staff = () =>{
                 <Route exact path="/beneficiary/view/add" element={<BeneficiaryForm />} />
                 <Route exact path="/attendance/add" element={<AttendanceForm />} />
                 <Route exact path="/feedback/add" element={<FeedbackForm />} />
+                <Route exact path="/sessions/view" element={<ViewSessions />} />
+                <Route exact path="/sessions/view/beneficiaries/view/:sessionName" element={<SessionBeneficiaries />} />
                 <Route exact path="/faq" element={<Faq />} />
                  <Route exact path="/releasenotes" element={<ReleaseNotes />} />
             </Routes>

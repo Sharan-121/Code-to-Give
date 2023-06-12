@@ -185,6 +185,26 @@ const qrAttendance = asyncHandler(async (req, res) => {
   }
 });
 
+const createBeneficiaryFeedback = asyncHandler(async (req, res) => {
+  if (req.user.role == "beneficiary") {
+    const aadharNumber = req.user.aadharNumber;
+    const { id, feedback } = req.body;
+    const session = await Session.findOne({ _id: id });
+    const beneficiary = await Beneficiary.findOne({
+      aadharNumber: aadharNumber,
+    });
+    const attendance = await Attendance.findOneAndUpdate({
+      beneficiary_id: beneficiary._id,
+      session_id: session._id,
+    }, { feedback: feedback }, { new: true });
+
+    res.status(200).json(attendance);
+  } else {
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }
+});
+
 module.exports = {
   getAvailableSessions,
   getAttendedSessions,
@@ -192,4 +212,5 @@ module.exports = {
   updateStatus,
   getSessionAttendance,
   qrAttendance,
+  createBeneficiaryFeedback,
 };

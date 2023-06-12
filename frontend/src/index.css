@@ -207,6 +207,7 @@ select {
   height: calc(100vh - 60px);
   /* border: 2px solid rgb(235,235, 235); */
   background-color: rgb(240, 240, 240);
+  overflow-y: scroll;
   flex: 2;
 }
 

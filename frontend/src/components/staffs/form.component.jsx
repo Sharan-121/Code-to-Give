@@ -34,10 +34,6 @@ const StaffsForm = () => {
         })
     })
 
-    const handleSessionChange = (e) => {
-        setSession(e.target.value);
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -54,8 +50,8 @@ const StaffsForm = () => {
 
         const parameters = {
             name: name,
-            phoneNumber: phone,
-            password: password
+            password: phone,
+            role: "staff"
         }
 
         axios.post(defaultVariables['backend-url'] + "api/v1/staff/attendance", parameters,
@@ -105,16 +101,6 @@ const StaffsForm = () => {
                             e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 10)
                         }}
                         onChange={(e) => setPhone(e.target.value)}
-                        fullWidth
-                        margin="normal"
-                    />
-
-                    <TextField
-                        label="Password"
-                        variant="outlined"
-                        value={password}
-                        type='text'
-                        onChange={(e) => setPassword(e.target.value)}
                         fullWidth
                         margin="normal"
                     />

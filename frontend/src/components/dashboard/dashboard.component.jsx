@@ -266,14 +266,19 @@ const Dashboard = () => {
                 headers: headers
             })
             .then((res) => {
-                console.log(res);
-                // let json = res.data;
-                // let json_data = {}
-                // json_data["x-axis-title"] = json["x-axis-title"];
-                // json_data["label"] = json.label;
-                // json_data["data"] = json.data;
-                // json_data["data1"] = json.data1;
-                // setMainDashboardData(json_data);
+                let json = res.data;
+                let json_data = {}
+                json_data["x-axis-title"] = json["x-axis-title"];
+                json_data["label"] = json.label;
+                json_data["data"] = json.data;
+                if(json.data1){
+                    json_data["data1"] = json.data1;
+                }
+                else{
+                    json_data["data1"] = [];
+                }
+                setMainDashboardData(json_data);
+                setLoadMainDashboardData(true);
             })
             .catch((err) => {
                 console.log(err);
@@ -516,14 +521,14 @@ const Dashboard = () => {
                 <h4>{mainDashboardData["x-axis-title"]}</h4>
 
                 {
-                    lineChart && !isCompareToEnabled &&
+                    loadMainDashboardData && lineChart && !isCompareToEnabled &&
                     <LineChart label={mainDashboardData.label}
                         data={mainDashboardData.data}
                         ytitle={mainDashboardData["x-axis-title"]} />
                 }
 
                 {
-                    !lineChart && !isCompareToEnabled &&
+                    loadMainDashboardData && !lineChart && !isCompareToEnabled &&
                     <BarPlot
                         options={{ horizontal: false }}
                         label={mainDashboardData.label}
@@ -532,7 +537,7 @@ const Dashboard = () => {
                 }
 
                 {
-                    lineChart && isCompareToEnabled &&
+                    loadMainDashboardData && lineChart && isCompareToEnabled &&
                     <MainMultiLineChart
                         label={mainDashboardData.label}
                         data={mainDashboardData.data}
@@ -543,7 +548,7 @@ const Dashboard = () => {
                 }
 
                 {
-                    !lineChart && isCompareToEnabled &&
+                    loadMainDashboardData && !lineChart && isCompareToEnabled &&
                     <MainColumnChart
                         label={mainDashboardData.label}
                         data={mainDashboardData.data}

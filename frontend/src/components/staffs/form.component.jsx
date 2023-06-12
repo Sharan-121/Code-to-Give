@@ -54,7 +54,7 @@ const StaffsForm = () => {
             role: "staff"
         }
 
-        axios.post(defaultVariables['backend-url'] + "api/v1/staff/attendance", parameters,
+        axios.post(defaultVariables['backend-url'] + "api/v1/admin/staff", parameters,
             {
                 headers: headers
             }).then((res) => {

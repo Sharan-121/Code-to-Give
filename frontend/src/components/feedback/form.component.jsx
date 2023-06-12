@@ -69,7 +69,6 @@ const FeedbackForm = () => {
                 setName('');
                 setSession('');
                 setAadhaar('');
-                setPhone('');
                 setFeedback('');
             }).catch((err) => {
                 setErrorMessage(err.response.data.message);

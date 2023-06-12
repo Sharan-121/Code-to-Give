@@ -61,6 +61,7 @@ const SessionBeneficiaries = (props) => {
         },
         { field: 'medicalHistory', filter: true },
         { field: 'childStudying', filter: true },
+        { field: 'feedback', filter: true },
     ]);
     const autoGroupColumnDef = useMemo(() => {
         return {
@@ -130,7 +131,7 @@ const SessionBeneficiaries = (props) => {
                 headers: headers
             })
             .then((res) => {
-                console.log(res.data.response);
+                // console.log(res.data.response);
                 setRowData(res.data.response);
             }).catch((err) => {
                 console.log(err);

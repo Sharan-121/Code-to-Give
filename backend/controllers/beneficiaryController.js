@@ -22,16 +22,21 @@ const getAvailableSessions = asyncHandler(async (req, res) => {
     const sessions = await Session.find({ community_id: community.id });
     let availableSessions = [];
     for (const session of sessions) {
+      const attendance = await Attendance.findOne({
+        session_id: session._id,
+        beneficiary_id: beneficiary._id,
+      });
       if (
         session.date >=
-        new Date(
-          new Date().getFullYear(),
-          new Date().getMonth(),
-          new Date().getDate(),
-          0,
-          0,
-          0
-        )
+          new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate(),
+            0,
+            0,
+            0
+          ) &&
+        !attendance
       ) {
         let activity = await Activity.findById(session.activity_id);
 
@@ -158,7 +163,7 @@ const getSessionAttendance = asyncHandler(async (req, res) => {
 });
 
 const qrAttendance = asyncHandler(async (req, res) => {
-  if (req.user.role == "beneficiary") {
+  if (req.user.role === "beneficiary") {
     const aadharNumber = req.user.aadharNumber;
     const session = await Session.findOne({ name: req.params.name });
     const beneficiary = await Beneficiary.findOne({
@@ -173,7 +178,7 @@ const qrAttendance = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error("Already attendance registered");
     } else {
-      await Beneficiary.create({
+      await Attendance.create({
         beneficiary_id: beneficiary._id,
         session_id: session._id,
       });
@@ -193,10 +198,14 @@ const createBeneficiaryFeedback = asyncHandler(async (req, res) => {
     const beneficiary = await Beneficiary.findOne({
       aadharNumber: aadharNumber,
     });
-    const attendance = await Attendance.findOneAndUpdate({
-      beneficiary_id: beneficiary._id,
-      session_id: session._id,
-    }, { feedback: feedback }, { new: true });
+    const attendance = await Attendance.findOneAndUpdate(
+      {
+        beneficiary_id: beneficiary._id,
+        session_id: session._id,
+      },
+      { feedback: feedback },
+      { new: true }
+    );
 
     res.status(200).json(attendance);
   } else {

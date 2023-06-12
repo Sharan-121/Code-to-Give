@@ -1,6 +1,29 @@
 import 'package:app/sessions.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+
+Future<int> markAttendance(Map userToken, String? session) async {
+  final url = Uri.parse(
+      'http://127.0.0.1:5010/api/v1/beneficiary/attendance/${session!}');
+  final response = await http.post(
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${userToken["token"]}'
+    },
+  );
+  if (response.statusCode == 200) {
+    return 1;
+  } else if (response.statusCode == 400) {
+    return 2;
+  } else if (response.statusCode == 403) {
+    return 3;
+  } else {
+    return 4;
+  }
+}
 
 class QRCodeScannerPage extends StatefulWidget {
   final Map userToken;
@@ -31,7 +54,7 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
               Navigator.pushReplacement(
                 context,
                 PageRouteBuilder(
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(milliseconds: 0),
                   pageBuilder: (context, animation, secondaryAnimation) =>
                       SessionsPage(widget.userToken, widget.language),
                   transitionsBuilder:
@@ -69,8 +92,109 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
+      setState(() async {
         result = scanData;
+        int res = await markAttendance(widget.userToken, result!.code);
+        if (res == 1) {
+          Fluttertoast.showToast(
+              msg: widget.language == "English"
+                  ? "Attendance added"
+                  : "उपस्थिति जोड़ी गई",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.blue[900],
+              textColor: Colors.white,
+              fontSize: 16.0);
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              transitionDuration: const Duration(milliseconds: 0),
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  SessionsPage(widget.userToken, widget.language),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                var begin = const Offset(1.0, 0.0);
+                var end = Offset.zero;
+                var curve = Curves.ease;
+
+                var tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+
+                return SlideTransition(
+                  position: animation.drive(tween),
+                  child: child,
+                );
+              },
+            ),
+          );
+        } else if (res == 2) {
+          Fluttertoast.showToast(
+              msg: widget.language == "English"
+                  ? "Attendance exist"
+                  : "हाजिरी होती है",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              transitionDuration: const Duration(milliseconds: 0),
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  SessionsPage(widget.userToken, widget.language),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                var begin = const Offset(1.0, 0.0);
+                var end = Offset.zero;
+                var curve = Curves.ease;
+
+                var tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+
+                return SlideTransition(
+                  position: animation.drive(tween),
+                  child: child,
+                );
+              },
+            ),
+          );
+        } else if (res == 3) {
+          Fluttertoast.showToast(
+              msg: widget.language == "English"
+                  ? "Login again"
+                  : "फिर से लॉगिन करें",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              transitionDuration: const Duration(milliseconds: 0),
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  SessionsPage(widget.userToken, widget.language),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                var begin = const Offset(1.0, 0.0);
+                var end = Offset.zero;
+                var curve = Curves.ease;
+
+                var tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+
+                return SlideTransition(
+                  position: animation.drive(tween),
+                  child: child,
+                );
+              },
+            ),
+          );
+        }
       });
     });
   }

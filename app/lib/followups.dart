@@ -34,11 +34,9 @@ Future<void> sendFeedback(TextEditingController controller, Map userToken,
         fontSize: 16.0);
     return;
   } else {
-    final url = Uri.parse('http://127.0.0.1:5010/api/v1/beneficiary/feedback');
-    final postData = {
-      "feedback": controller.text.trim(),
-      "sessionId": sessionId
-    };
+    final url = Uri.parse(
+        'http://127.0.0.1:5010/api/v1/beneficiary/feedbackBeneficiary');
+    final postData = {"feedback": controller.text.trim(), "id": sessionId};
     final response = await http.post(
       url,
       headers: {

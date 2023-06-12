@@ -395,6 +395,20 @@ const createStaff = asyncHandler(async (req, res) => {
   }
 });
 
+const getAllStaffs = asyncHandler(async (req, res) => {
+  if (req.user.role === "admin") {
+    const staffs = await User.find({ role: "staff" });
+    const result = [];
+    for (const staff of staffs) {
+      result.push({"username": staff.username, "phone": staff.password, "role": staff.role});
+    }
+    res.status(200).send(result);
+  } else {
+    res.status(403);
+    throw new Error("You are not authorized to view this page");
+  }  
+})
+
 module.exports = {
   getActivities,
   getActivityByName,
@@ -405,5 +419,6 @@ module.exports = {
   createSession,
   getAllSessions,
   getSessionNumber,
-  createStaff
+  createStaff,
+  getAllStaffs
 };

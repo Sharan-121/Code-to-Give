@@ -15,6 +15,7 @@ const {
   createSession,
   getAllSessions,
   getSessionNumber,
+  getAllStaffs,
 } = require("../controllers/adminController");
 
 const {
@@ -185,5 +186,6 @@ router.post("/dashboard/metrics", validateToken, getDashboardMetrics);
 router.get("/dashboard/metrics/overall", validateToken, getOverallMetrics);
 
 router.post("/staff", validateToken, createStaff);
+router.get("/staff", validateToken, getAllStaffs);
 
 module.exports = router;

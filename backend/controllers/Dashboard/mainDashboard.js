@@ -15,12 +15,7 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
     }
 
     if (metric === "session") {
-      if (
-        year !== "None" &&
-        activity === "None" &&
-        community === "None" &&
-        compareTo !== "None"
-      ) {
+      if (year !== "None" && activity === "None" && community === "None") {
         const pipeline = [
           {
             $match: {
@@ -42,35 +37,11 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
             },
           },
         ];
-        const pipeline1 = [
-          {
-            $match: {
-              date: {
-                $gte: new Date(compareTo, 0, 1),
-                $lt: new Date(compareTo, 11, 31),
-              },
-            },
-          },
-          {
-            $group: {
-              _id: { $month: "$date" },
-              count: { $sum: 1 },
-            },
-          },
-          {
-            $sort: {
-              _id: 1,
-            },
-          },
-        ];
 
         const result = await Session.aggregate(pipeline);
 
-  
-        const result3 = await Session.aggregate(pipeline1);
-
         let result2 = {
-          "x-axis-title": `Number of sessions conducted in ${parseInt(year)} and ${parseInt(compareTo)}`,
+          "x-axis-title": `Number of sessions conducted in ${parseInt(year)}`,
           label: [
             "January",
             "February",
@@ -86,17 +57,14 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
             "December",
           ],
           data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          data1: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         };
         for (const temp of result) {
           result2.data[temp._id - 1] += temp.count;
         }
-        for (const temp of result3) {
-          result2.data1[temp._id - 1] += temp.count;
-        }
 
         res.status(200).json(result2);
       }
+
       if (year !== "None" && activity !== "None" && community === "None") {
         const activityVal = await Activity.findOne({ name: activity });
         const pipeline = [
@@ -252,7 +220,8 @@ const getDashboardMetrics = asyncHandler(async (req, res) => {
 
         res.status(200).json(result2);
       }
-    } else if (metric === "attendance") {
+    }
+     else if (metric === "attendance") {
       if (year !== "None" && activity === "None" && community === "None") {
         const pipleline = [
           {

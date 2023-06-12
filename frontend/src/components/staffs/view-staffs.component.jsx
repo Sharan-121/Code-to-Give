@@ -105,7 +105,7 @@ const ViewStaffs = () => {
 
     const navigate = useNavigate();
     const navigateToAddBeneficiary = () => {
-        navigate("/home/beneficiary/view/add");
+        navigate("/home/staffs/view/add");
     }
 
     return (

@@ -24,6 +24,7 @@ import DownloadData from './download/download.component';
 import Faq from './help/faq.component';
 import ReleaseNotes from './release-notes/releasenotes.component';
 import ViewStaffs from './staffs/view-staffs.component';
+import StaffsForm from './staffs/form.component';
 
 const Home = () =>{
 
@@ -40,6 +41,7 @@ const Home = () =>{
                 <Route exact path="/dashboard" element={<Dashboard />} />
                 <Route exact path="/beneficiary/view" element={<ViewBeneficiaries />} />
                 <Route exact path="/staffs/view" element={<ViewStaffs />} />
+                <Route exact path="/staffs/view/add" element={<StaffsForm />} />
                 <Route exact path="/beneficiary/view/add" element={<BeneficiaryForm />} />
                 <Route exact path="/sessions/view/add" element={<SessionForm />} />
                 <Route exact path="/sessions/view" element={<ViewSessions />} />

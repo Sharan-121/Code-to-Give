@@ -17,7 +17,7 @@ const ViewStaffs = () => {
     const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
     const [rowData, setRowData] = useState();
     const [columnDefs, setColumnDefs] = useState([
-        {field: 'name', filter: true,},
+        {field: 'username', filter: true,},
         { field: 'phone', filter: true },
     ]);
     const autoGroupColumnDef = useMemo(() => {
@@ -83,7 +83,7 @@ const ViewStaffs = () => {
     }
 
     const onGridReady = useCallback((params) => {
-        axios.get(defaultVariables['backend-url'] + "api/v1/admin/beneficiary",
+        axios.get(defaultVariables['backend-url'] + "api/v1/admin/staff",
             {
                 headers: headers
             })

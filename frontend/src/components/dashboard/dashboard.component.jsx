@@ -110,31 +110,7 @@ const Dashboard = () => {
                 console.log(err);
             });
 
-        let parameters = {
-            year: year,
-            month: month,
-            activity: activity,
-            community: community,
-            metric: metric
-        };
-
-        // Dashboard Metrics
-        axios.post(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics",
-            parameters,
-            {
-                headers: headers
-            })
-            .then((res) => {
-                let json = res.data;
-                let json_data = {}
-                json_data["x-axis-title"] = json["x-axis-title"];
-                json_data["label"] = json.label;
-                json_data["data"] = json.data;
-                setMainDashboardData(json_data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        changeMainDashboard(year, compareTo, month, activity, community, metric);
 
         // session-community
         axios.get(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics/cs/",
@@ -281,6 +257,8 @@ const Dashboard = () => {
             metric: metricVal
         };
 
+        console.log(parameters);
+
         // Dashboard Metrics
         await axios.post(defaultVariables['backend-url'] + "api/v1/admin/dashboard/metrics",
             parameters,
@@ -288,13 +266,14 @@ const Dashboard = () => {
                 headers: headers
             })
             .then((res) => {
-                let json = res.data;
-                let json_data = {}
-                json_data["x-axis-title"] = json["x-axis-title"];
-                json_data["label"] = json.label;
-                json_data["data"] = json.data;
-                json_data["data1"] = json.data1;
-                setMainDashboardData(json_data);
+                console.log(res);
+                // let json = res.data;
+                // let json_data = {}
+                // json_data["x-axis-title"] = json["x-axis-title"];
+                // json_data["label"] = json.label;
+                // json_data["data"] = json.data;
+                // json_data["data1"] = json.data1;
+                // setMainDashboardData(json_data);
             })
             .catch((err) => {
                 console.log(err);

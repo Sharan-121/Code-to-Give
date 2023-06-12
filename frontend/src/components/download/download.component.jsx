@@ -58,6 +58,7 @@ const DownloadData = () => {
             headers: headers
         })
             .then((response) => {
+                alert("Uploaded successfully");
                 console.log(response.data);
             })
             .catch((error) => {

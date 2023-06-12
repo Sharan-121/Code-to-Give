@@ -68,7 +68,7 @@ const FeedbackForm = () => {
             feedback: feedback
         }
 
-        axios.post(defaultVariables['backend-url'] + "api/v1/staff/attendance", parameters,
+        axios.post(defaultVariables['backend-url'] + "api/v1/beneficiary/feedback", parameters,
             {
                 headers: headers
             }).then((res) => {
@@ -81,6 +81,7 @@ const FeedbackForm = () => {
                 setSession('');
                 setAadhaar('');
                 setPhone('');
+                setFeedback('');
             }).catch((err) => {
                 setErrorMessage(err.response.data.message);
                 setTimeout(() => {
